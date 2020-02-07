@@ -6,6 +6,7 @@
   "author": "KimmyLeo",
   "license": "MIT",
   "dependencies": {
-    "puppeteer-core": "^2.1.1"
+    "node-fetch": "^2.6.0",
+    "node-html-parser": "^1.2.4"
   }
 }

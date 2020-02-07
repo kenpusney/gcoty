@@ -1,35 +1,38 @@
-const puppeteer = require('puppeteer-core');
+const fetch = require("node-fetch");
+
+const htmlParser = require("node-html-parser");
+
+const fs = require('fs');
+
 
 (async () => {
-    const browser = await puppeteer.launch({
-        executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-        headless: false
-    });
+    const response = await fetch("https://www.gameinformer.com/2020");
 
-    const page = await browser.newPage();
-    await page.goto("https://www.gameinformer.com/2020", {
-        timeout: 5 * 60 * 1000
-    });
-    const data = await page.evaluate(() => {
-        const asArray = (list) => {
-            return Array.prototype.slice.apply(list)
-        };
-        const calender_entries = asArray(document.querySelectorAll(".calendar_entry"));
+    const body = await response.text()
 
-        return calender_entries.map(it => {
-            const link = it.querySelector("a");
-            const title = it.innerText;
-            const url = link.href;
-            let releaseDate;
-            if (it.querySelector('time')) {
-                releaseDate = it.querySelector('time').innerText;
-            }
-            const platforms = asArray(it.querySelectorAll("em")).map(tag => tag.innerText);
+    const root = htmlParser.parse(body);
 
-            return {
-                title, url, releaseDate, platforms
-            }
-        })
-    });
-    console.log(data);
+    const asArray = (list) => {
+        return Array.prototype.slice.apply(list)
+    };
+    const calender_entries = root.querySelectorAll(".calendar_entry");
+
+    const result = calender_entries.map(it => {
+        const link = it.querySelector("a");
+        const title = link.text;
+        const url = link.attributes['href'];
+        let releaseDate;
+        if (it.querySelector('time')) {
+            releaseDate = it.querySelector('time').text;
+        }
+        const platforms = it.querySelectorAll("em")
+                .map(tag => tag.text.split(", "))
+                .reduce((a, b) => a.concat(b), []);
+
+        return {
+            title, url, releaseDate, platforms
+        }
+    })
+
+    fs.writeFileSync("data.json", JSON.stringify(result));
 })();
