@@ -1,0 +1,34 @@
+name: "Update from GameInformer"
+
+on:
+  schedule:
+    - cron: "0 0 * * 5"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - run: node index.js
+    - name: Commit files
+      continue-on-error: true
+      run: |
+        git config --local user.email "tinikimi@qq.com"
+        git config --local user.name "TiniKimi"
+        git commit -m "Update data" -a
+    - name: Push changes
+      continue-on-error: true
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
