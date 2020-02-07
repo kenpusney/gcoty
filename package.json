@@ -1,8 +1,8 @@
 {
-  "name": "goty",
+  "name": "gcoty",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "github.com/kenpusney/goty",
+  "repository": "github.com/kenpusney/gcoty",
   "author": "KimmyLeo",
   "license": "MIT",
   "dependencies": {
