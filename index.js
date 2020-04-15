@@ -4,6 +4,10 @@ const htmlParser = require("node-html-parser");
 
 const fs = require('fs');
 
+const {
+    renderGameList,
+    renderHTMLPage
+} = require("./render");
 
 (async () => {
     const response = await fetch("https://www.gameinformer.com/2020");
@@ -33,6 +37,9 @@ const fs = require('fs');
             title, url, releaseDate, platforms
         }
     })
+
+
+    fs.writeFileSync("index.html", renderHTMLPage(renderGameList(result)));
 
     fs.writeFileSync("data.json", JSON.stringify(result));
 })();
