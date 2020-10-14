@@ -1,0 +1,12 @@
+{
+  "name": "gcoty",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "github.com/kenpusney/gcoty",
+  "author": "KimmyLeo",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "node-html-parser": "^1.2.4"
+  }
+}
