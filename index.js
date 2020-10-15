@@ -70,6 +70,7 @@ async function render(year = "2020", htmlFile = "public/index.html", dataFile = 
                 uid: sha1(`${title}-${releaseDate}-${platforms.join("-")}`),
                 allDay: true,
                 summary: title,
+                location: platforms.join(", "),
                 description: gameEventDescription(platforms, `https://www.gameinformer.com${url}`),
                 url: `https://www.gameinformer.com${url}`
             });
