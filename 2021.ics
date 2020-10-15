@@ -1,0 +1,123 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//sebbo.net//ical-generator//EN
+NAME:Game Calendar of the Year
+X-WR-CALNAME:Game Calendar of the Year
+TIMEZONE-ID:Asia/Shanghai
+X-WR-TIMEZONE:Asia/Shanghai
+BEGIN:VEVENT
+UID:ec5676ae347e3128949e978d13d1f7e2c0dd2af3@kimleo.net
+SEQUENCE:0
+DTSTAMP:20201015T065915Z
+DTSTART;VALUE=DATE:20210120
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Hitman 3
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, Stadia\, PC\nUrl: https://www.gameinformer.com/product/hitman-
+ 3\n
+URL;VALUE=URI:https://www.gameinformer.com/product/hitman-3
+END:VEVENT
+BEGIN:VEVENT
+UID:a7fba83586fec7611d79370f7f8bc47276fd7b07@kimleo.net
+SEQUENCE:0
+DTSTAMP:20201015T065915Z
+DTSTART;VALUE=DATE:20210121
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Prince Of Persia: The Sands Of Time Remake
+DESCRIPTION:\nPlatforms: PlayStation 4\, Xbox One\, PC\nUrl: https://www.g
+ ameinformer.com/product/prince-of-persia-the-sands-of-time-remake\n
+URL;VALUE=URI:https://www.gameinformer.com/product/prince-of-persia-the-sa
+ nds-of-time-remake
+END:VEVENT
+BEGIN:VEVENT
+UID:dd99a2b9f15e364132314b0d96ec7fe9ec953feb@kimleo.net
+SEQUENCE:0
+DTSTAMP:20201015T065915Z
+DTSTART;VALUE=DATE:20210126
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Stronghold: Warlords
+DESCRIPTION:\nPlatforms: PC\nUrl: https://www.gameinformer.com/product/str
+ onghold-warlords\n
+URL;VALUE=URI:https://www.gameinformer.com/product/stronghold-warlords
+END:VEVENT
+BEGIN:VEVENT
+UID:9713536560f2f794e10f0759c773f8ca0bece6c8@kimleo.net
+SEQUENCE:0
+DTSTAMP:20201015T065915Z
+DTSTART;VALUE=DATE:20210202
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Outriders
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/outriders\n
+URL;VALUE=URI:https://www.gameinformer.com/product/outriders
+END:VEVENT
+BEGIN:VEVENT
+UID:194353a526d78afa77181dfc69957d2dbc085a7a@kimleo.net
+SEQUENCE:0
+DTSTAMP:20201015T065915Z
+DTSTART;VALUE=DATE:20210204
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Werewolf: The Apocalypse - Earthblood
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/werewolf-the-apo
+ calypse-earthblood\n
+URL;VALUE=URI:https://www.gameinformer.com/product/werewolf-the-apocalypse
+ -earthblood
+END:VEVENT
+BEGIN:VEVENT
+UID:d0bd4302609016ce5cf143bac31a58557a705db4@kimleo.net
+SEQUENCE:0
+DTSTAMP:20201015T065915Z
+DTSTART;VALUE=DATE:20210211
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Little Nightmares II
+DESCRIPTION:\nPlatforms: PlayStation 4\, Xbox One\, Switch\, PC\nUrl: http
+ s://www.gameinformer.com/product/little-nightmares-ii\n
+URL;VALUE=URI:https://www.gameinformer.com/product/little-nightmares-ii
+END:VEVENT
+BEGIN:VEVENT
+UID:bffdba56feca30e27457260f9d8dbdf4a8e52af2@kimleo.net
+SEQUENCE:0
+DTSTAMP:20201015T065915Z
+DTSTART;VALUE=DATE:20210212
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Super Mario 3D World + Bowser's Fury
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /super-mario-3d-world-bowsers-fury\n
+URL;VALUE=URI:https://www.gameinformer.com/product/super-mario-3d-world-bo
+ wsers-fury
+END:VEVENT
+BEGIN:VEVENT
+UID:b8e7fb167fdbb32a31876ad250af387c607f7312@kimleo.net
+SEQUENCE:0
+DTSTAMP:20201015T065915Z
+DTSTART;VALUE=DATE:20210218
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Far Cry 6
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, Stadia\, PC\, Mac\nUrl: https://www.gameinformer.com/product/f
+ ar-cry-6\n
+URL;VALUE=URI:https://www.gameinformer.com/product/far-cry-6
+END:VEVENT
+BEGIN:VEVENT
+UID:4d9118d96a5e3b14a290817a7996977051895f0b@kimleo.net
+SEQUENCE:0
+DTSTAMP:20201015T065915Z
+DTSTART;VALUE=DATE:20210225
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Riders Republic
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, Stadia\, PC\nUrl: https://www.gameinformer.com/product/riders-
+ republic\n
+URL;VALUE=URI:https://www.gameinformer.com/product/riders-republic
+END:VEVENT
+END:VCALENDAR
