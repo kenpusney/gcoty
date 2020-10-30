@@ -6,24 +6,24 @@ X-WR-CALNAME:Game Calendar of the Year
 TIMEZONE-ID:Asia/Shanghai
 X-WR-TIMEZONE:Asia/Shanghai
 BEGIN:VEVENT
-UID:ec5676ae347e3128949e978d13d1f7e2c0dd2af3@kimleo.net
+UID:51d9436915370cdf4e033d0d3f36568e005a986d@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210120
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
 SUMMARY:Hitman 3
-LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Stad
- ia\, PC
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Swit
+ ch\, Stadia\, PC
 DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
-  Xbox One\, Stadia\, PC\nUrl: https://www.gameinformer.com/index.php/produ
- ct/hitman-3\n
-URL;VALUE=URI:https://www.gameinformer.com/index.php/product/hitman-3
+  Xbox One\, Switch\, Stadia\, PC\nUrl: https://www.gameinformer.com/produc
+ t/hitman-3\n
+URL;VALUE=URI:https://www.gameinformer.com/product/hitman-3
 END:VEVENT
 BEGIN:VEVENT
 UID:a7fba83586fec7611d79370f7f8bc47276fd7b07@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210121
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
@@ -38,7 +38,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:dd99a2b9f15e364132314b0d96ec7fe9ec953feb@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210126
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
@@ -51,79 +51,62 @@ END:VEVENT
 BEGIN:VEVENT
 UID:9713536560f2f794e10f0759c773f8ca0bece6c8@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210202
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
 SUMMARY:Outriders
 LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, PC
 DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
-  Xbox One\, PC\nUrl: https://www.gameinformer.com/index.php/product/outrid
- ers\n
-URL;VALUE=URI:https://www.gameinformer.com/index.php/product/outriders
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/outriders\n
+URL;VALUE=URI:https://www.gameinformer.com/product/outriders
 END:VEVENT
 BEGIN:VEVENT
 UID:194353a526d78afa77181dfc69957d2dbc085a7a@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210204
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
 SUMMARY:Werewolf: The Apocalypse - Earthblood
 LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, PC
 DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
-  Xbox One\, PC\nUrl: https://www.gameinformer.com/index.php/product/werewo
- lf-the-apocalypse-earthblood\n
-URL;VALUE=URI:https://www.gameinformer.com/index.php/product/werewolf-the-
- apocalypse-earthblood
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/werewolf-the-apo
+ calypse-earthblood\n
+URL;VALUE=URI:https://www.gameinformer.com/product/werewolf-the-apocalypse
+ -earthblood
 END:VEVENT
 BEGIN:VEVENT
 UID:d0bd4302609016ce5cf143bac31a58557a705db4@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210211
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
 SUMMARY:Little Nightmares II
 LOCATION:PlayStation 4\, Xbox One\, Switch\, PC
 DESCRIPTION:\nPlatforms: PlayStation 4\, Xbox One\, Switch\, PC\nUrl: http
- s://www.gameinformer.com/index.php/product/little-nightmares-ii\n
-URL;VALUE=URI:https://www.gameinformer.com/index.php/product/little-nightm
- ares-ii
+ s://www.gameinformer.com/product/little-nightmares-ii\n
+URL;VALUE=URI:https://www.gameinformer.com/product/little-nightmares-ii
 END:VEVENT
 BEGIN:VEVENT
 UID:bffdba56feca30e27457260f9d8dbdf4a8e52af2@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210212
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
 SUMMARY:Super Mario 3D World + Bowser's Fury
 LOCATION:Switch
-DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/index.p
- hp/product/super-mario-3d-world-bowsers-fury\n
-URL;VALUE=URI:https://www.gameinformer.com/index.php/product/super-mario-3
- d-world-bowsers-fury
-END:VEVENT
-BEGIN:VEVENT
-UID:b8e7fb167fdbb32a31876ad250af387c607f7312@kimleo.net
-SEQUENCE:0
-DTSTAMP:20201023T005751Z
-DTSTART;VALUE=DATE:20210218
-X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
-X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
-SUMMARY:Far Cry 6
-LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Stad
- ia\, PC\, Mac
-DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
-  Xbox One\, Stadia\, PC\, Mac\nUrl: https://www.gameinformer.com/index.php
- /product/far-cry-6\n
-URL;VALUE=URI:https://www.gameinformer.com/index.php/product/far-cry-6
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /super-mario-3d-world-bowsers-fury\n
+URL;VALUE=URI:https://www.gameinformer.com/product/super-mario-3d-world-bo
+ wsers-fury
 END:VEVENT
 BEGIN:VEVENT
 UID:4d9118d96a5e3b14a290817a7996977051895f0b@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210225
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
@@ -136,9 +119,22 @@ DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
 URL;VALUE=URI:https://www.gameinformer.com/product/riders-republic
 END:VEVENT
 BEGIN:VEVENT
+UID:7ee330e084729091ecaf72df1b3d7406e24ba542@kimleo.net
+SEQUENCE:0
+DTSTAMP:20201030T003527Z
+DTSTART;VALUE=DATE:20210226
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Bravely Default II
+LOCATION:Switch
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /bravely-default-ii\n
+URL;VALUE=URI:https://www.gameinformer.com/product/bravely-default-ii
+END:VEVENT
+BEGIN:VEVENT
 UID:533d7848ce1700fa3278cf074244f280e8e8c4eb@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210302
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
@@ -150,9 +146,23 @@ URL;VALUE=URI:https://www.gameinformer.com/index.php/product/yakuza-like-a
  -dragon
 END:VEVENT
 BEGIN:VEVENT
+UID:ddc5d5f2f965d5e1a807fd01942a1e29e4d2e24f@kimleo.net
+SEQUENCE:0
+DTSTAMP:20201030T003527Z
+DTSTART;VALUE=DATE:20210323
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Story of Seasons: Pioneers of Olive Town
+LOCATION:Switch
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /story-of-seasons-pioneers-of-olive-town\n
+URL;VALUE=URI:https://www.gameinformer.com/product/story-of-seasons-pionee
+ rs-of-olive-town
+END:VEVENT
+BEGIN:VEVENT
 UID:951fc2eafb404a8b3835a9a1f6c43b08619f1a79@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210326
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
@@ -160,37 +170,35 @@ SUMMARY:Balan Wonderworld
 LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Swit
  ch\, PC
 DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
-  Xbox One\, Switch\, PC\nUrl: https://www.gameinformer.com/index.php/produ
- ct/balan-wonderworld\n
-URL;VALUE=URI:https://www.gameinformer.com/index.php/product/balan-wonderw
- orld
+  Xbox One\, Switch\, PC\nUrl: https://www.gameinformer.com/product/balan-w
+ onderworld\n
+URL;VALUE=URI:https://www.gameinformer.com/product/balan-wonderworld
 END:VEVENT
 BEGIN:VEVENT
 UID:c820eec9e95372b177648d0df7d05a1861bd82a5@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210326
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
 SUMMARY:Monster Hunter Rise
 LOCATION:Switch
-DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/index.p
- hp/product/monster-hunter-rise\n
-URL;VALUE=URI:https://www.gameinformer.com/index.php/product/monster-hunte
- r-rise
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /monster-hunter-rise\n
+URL;VALUE=URI:https://www.gameinformer.com/product/monster-hunter-rise
 END:VEVENT
 BEGIN:VEVENT
 UID:f9a5b6b38dc7bebcda5591cfc583e13968750879@kimleo.net
 SEQUENCE:0
-DTSTAMP:20201023T005751Z
+DTSTAMP:20201030T003527Z
 DTSTART;VALUE=DATE:20210423
 X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
 X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
 SUMMARY:Nier Replicant ver. 1.22474487139
 LOCATION:PlayStation 4\, Xbox One\, PC
 DESCRIPTION:\nPlatforms: PlayStation 4\, Xbox One\, PC\nUrl: https://www.g
- ameinformer.com/index.php/product/nier-replicant-ver-122474487139\n
-URL;VALUE=URI:https://www.gameinformer.com/index.php/product/nier-replican
- t-ver-122474487139
+ ameinformer.com/product/nier-replicant-ver-122474487139\n
+URL;VALUE=URI:https://www.gameinformer.com/product/nier-replicant-ver-1224
+ 74487139
 END:VEVENT
 END:VCALENDAR
