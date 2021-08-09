@@ -15,7 +15,7 @@ function renderHTMLPage(body, year = "2020") {
         <small>Author: <a href="http://kimleo.net">KimmyLeo</a>.</small>
         <small>Generated using Game Informer's data, updated every week.</small>
         </p>
-    
+
         ${body}
     </body>
     </html>
