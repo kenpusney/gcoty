@@ -1,0 +1,714 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//sebbo.net//ical-generator//EN
+NAME:Game Calendar of the Year
+X-WR-CALNAME:Game Calendar of the Year
+TIMEZONE-ID:Asia/Shanghai
+X-WR-TIMEZONE:Asia/Shanghai
+BEGIN:VEVENT
+UID:abff7217fad8f8e94e148a0f193e030c93f064ab@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220104
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Deep Rock Galactic
+LOCATION:PlayStation 5\, PlayStation 4
+DESCRIPTION:\nPlatforms: PlayStation 5\, PlayStation 4\nUrl: https://www.g
+ ameinformer.com/product/deep-rock-galactic\n
+URL;VALUE=URI:https://www.gameinformer.com/product/deep-rock-galactic
+END:VEVENT
+BEGIN:VEVENT
+UID:92f97f01eb8b614f375da718bebd5a108b8a8c5d@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220112
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Monster Hunter Rise
+LOCATION:PC
+DESCRIPTION:\nPlatforms: PC\nUrl: https://www.gameinformer.com/product/mon
+ ster-hunter-rise\n
+URL;VALUE=URI:https://www.gameinformer.com/product/monster-hunter-rise
+END:VEVENT
+BEGIN:VEVENT
+UID:0c3c3085dbbe8a543be7dad3c3d00e92c780113a@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220113
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Astroneer
+LOCATION:Switch
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /astroneer\n
+URL;VALUE=URI:https://www.gameinformer.com/product/astroneer
+END:VEVENT
+BEGIN:VEVENT
+UID:e3c56fce0012e12e5629b7c2b81dd2b3b327facd@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220114
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:God Of War
+LOCATION:PC
+DESCRIPTION:\nPlatforms: PC\nUrl: https://www.gameinformer.com/product/god
+ -of-war\n
+URL;VALUE=URI:https://www.gameinformer.com/product/god-of-war
+END:VEVENT
+BEGIN:VEVENT
+UID:54a4dd6da4f5fc04155522c967c4e61b7f0cee8b@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220118
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Nobody Saves the World
+LOCATION:Xbox Series X/S\, Xbox One\, PC
+DESCRIPTION:\nPlatforms: Xbox Series X/S\, Xbox One\, PC\nUrl: https://www
+ .gameinformer.com/product/nobody-saves-the-world\n
+URL;VALUE=URI:https://www.gameinformer.com/product/nobody-saves-the-world
+END:VEVENT
+BEGIN:VEVENT
+UID:ddadc415f20c597e7c375cfcd1242deb8dbc2c50@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220120
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Rainbow Six Extraction
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Stad
+ ia\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, Stadia\, PC\nUrl: https://www.gameinformer.com/product/rainbow
+ -six-extraction\n
+URL;VALUE=URI:https://www.gameinformer.com/product/rainbow-six-extraction
+END:VEVENT
+BEGIN:VEVENT
+UID:8f8fc65a385cc428fd37683a40cabeec927bc3ea@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220120
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Windjammers 2
+LOCATION:PlayStation 5\, PlayStation 4\, Xbox One\, Switch\, Stadia\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, PlayStation 4\, Xbox One\, Switch
+ \, Stadia\, PC\nUrl: https://www.gameinformer.com/product/windjammers-2\n
+URL;VALUE=URI:https://www.gameinformer.com/product/windjammers-2
+END:VEVENT
+BEGIN:VEVENT
+UID:661e02a7c0308391fed6fa391948dcc06644b4d9@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220121
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Baby Storm
+LOCATION:Switch
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /baby-storm\n
+URL;VALUE=URI:https://www.gameinformer.com/product/baby-storm
+END:VEVENT
+BEGIN:VEVENT
+UID:bafbf86ab20c1c9552b4c2f9a6de6a8145a360c2@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220127
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Circuit Superstars
+LOCATION:PlayStation 4
+DESCRIPTION:\nPlatforms: PlayStation 4\nUrl: https://www.gameinformer.com/
+ product/circuit-superstars\n
+URL;VALUE=URI:https://www.gameinformer.com/product/circuit-superstars
+END:VEVENT
+BEGIN:VEVENT
+UID:931dccb8d6bd629e2a050ed1c55f68ac64ff465b@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220128
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Pokémon Legends: Arceus
+LOCATION:Switch
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /pokemon-legends-arceus\n
+URL;VALUE=URI:https://www.gameinformer.com/product/pokemon-legends-arceus
+END:VEVENT
+BEGIN:VEVENT
+UID:d450c5e2d2938214c76538fb8fab132560f3d989@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220128
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Uncharted: Legacy of Thieves Collection 
+LOCATION:PlayStation 5\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, PC\nUrl: https://www.gameinformer
+ .com/product/uncharted-legacy-of-thieves-collection\n
+URL;VALUE=URI:https://www.gameinformer.com/product/uncharted-legacy-of-thi
+ eves-collection
+END:VEVENT
+BEGIN:VEVENT
+UID:d1938c841051274a8c30ddc704debf6bdda6f782@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220201
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Life is Strange Remastered Collection
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Swit
+ ch\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, Switch\, PC\nUrl: https://www.gameinformer.com/product/life-is
+ -strange-remastered-collection\n
+URL;VALUE=URI:https://www.gameinformer.com/product/life-is-strange-remaste
+ red-collection
+END:VEVENT
+BEGIN:VEVENT
+UID:207d73a2dd721074647f7b45196a5b0fd4a29b3f@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220202
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:The Waylanders
+LOCATION:PC
+DESCRIPTION:\nPlatforms: PC\nUrl: https://www.gameinformer.com/product/the
+ -waylanders\n
+URL;VALUE=URI:https://www.gameinformer.com/product/the-waylanders
+END:VEVENT
+BEGIN:VEVENT
+UID:b57355a20d9e3c259aad09db5a16d61d57680f1c@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220204
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Dying Light 2 Stay Human
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Swit
+ ch\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, Switch\, PC\nUrl: https://www.gameinformer.com/product/dying-l
+ ight-2-stay-human\n
+URL;VALUE=URI:https://www.gameinformer.com/product/dying-light-2-stay-huma
+ n
+END:VEVENT
+BEGIN:VEVENT
+UID:15862b54161cc3d350da1e553ed1522186f07423@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220208
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:OlliOlli World
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Swit
+ ch\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, Switch\, PC\nUrl: https://www.gameinformer.com/product/ollioll
+ i-world\n
+URL;VALUE=URI:https://www.gameinformer.com/product/olliolli-world
+END:VEVENT
+BEGIN:VEVENT
+UID:99e5a8c3181e350b3b670462cbaa232b551b9538@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220208
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Sifu
+LOCATION:PlayStation 5\, PlayStation 4\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, PlayStation 4\, PC\nUrl: https://
+ www.gameinformer.com/product/sifu\n
+URL;VALUE=URI:https://www.gameinformer.com/product/sifu
+END:VEVENT
+BEGIN:VEVENT
+UID:344551b1995c5ab6bfaa19e369b2a738cecc16c0@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220210
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:CrossfireX
+LOCATION:Xbox Series X/S\, Xbox One
+DESCRIPTION:\nPlatforms: Xbox Series X/S\, Xbox One\nUrl: https://www.game
+ informer.com/product/crossfirex\n
+URL;VALUE=URI:https://www.gameinformer.com/product/crossfirex
+END:VEVENT
+BEGIN:VEVENT
+UID:ce6d982880c3ede1b6f93fafe4bed75f35cace35@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220210
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Edge of Eternity
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\nUrl: https://www.gameinformer.com/product/edge-of-eternity\n
+URL;VALUE=URI:https://www.gameinformer.com/product/edge-of-eternity
+END:VEVENT
+BEGIN:VEVENT
+UID:b327f3bfbaf067c257242e25203b79255472fa29@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220210
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Know By Heart
+LOCATION:PC
+DESCRIPTION:\nPlatforms: PC\nUrl: https://www.gameinformer.com/product/kno
+ w-by-heart\n
+URL;VALUE=URI:https://www.gameinformer.com/product/know-by-heart
+END:VEVENT
+BEGIN:VEVENT
+UID:ce9e46dde2dc9f178347ef2bda43c03afe21243e@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220211
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Lost Ark
+LOCATION:PC
+DESCRIPTION:\nPlatforms: PC\nUrl: https://www.gameinformer.com/product/los
+ t-ark\n
+URL;VALUE=URI:https://www.gameinformer.com/product/lost-ark
+END:VEVENT
+BEGIN:VEVENT
+UID:48029c996b9aab2eafa847652f4838b970045217@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220215
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Dynasty Warriors 9 Empires
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Swit
+ ch\, Stadia\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, Switch\, Stadia\, PC\nUrl: https://www.gameinformer.com/produc
+ t/dynasty-warriors-9-empires\n
+URL;VALUE=URI:https://www.gameinformer.com/product/dynasty-warriors-9-empi
+ res
+END:VEVENT
+BEGIN:VEVENT
+UID:6fd6f00f1c1a841c044f53221c7917c5bf425c42@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220217
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:The King of Fighters XV
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  PC\nUrl: https://www.gameinformer.com/product/the-king-of-fighters-xv\n
+URL;VALUE=URI:https://www.gameinformer.com/product/the-king-of-fighters-xv
+END:VEVENT
+BEGIN:VEVENT
+UID:c38b531f3f0eb2fe3937218b2ceeff1a36e8e47b@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220217
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Total War: Warhammer III
+LOCATION:PC
+DESCRIPTION:\nPlatforms: PC\nUrl: https://www.gameinformer.com/product/tot
+ al-war-warhammer-iii\n
+URL;VALUE=URI:https://www.gameinformer.com/product/total-war-warhammer-iii
+END:VEVENT
+BEGIN:VEVENT
+UID:a0ccced0768cb526165b5b5235695a5162d49437@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220218
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Horizon Forbidden West
+LOCATION:PlayStation 5\, PlayStation 4
+DESCRIPTION:\nPlatforms: PlayStation 5\, PlayStation 4\nUrl: https://www.g
+ ameinformer.com/product/horizon-forbidden-west\n
+URL;VALUE=URI:https://www.gameinformer.com/product/horizon-forbidden-west
+END:VEVENT
+BEGIN:VEVENT
+UID:033181a85d030a0e6e902d822f974f02f6d6cd52@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220222
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Destiny 2: The Witch Queen
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Stad
+ ia\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, Stadia\, PC\nUrl: https://www.gameinformer.com/product/destiny
+ -2-the-witch-queen\n
+URL;VALUE=URI:https://www.gameinformer.com/product/destiny-2-the-witch-que
+ en
+END:VEVENT
+BEGIN:VEVENT
+UID:5f9a7dd6a35fa503fa3be4d99ab0861065cdffbe@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220222
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Monark
+LOCATION:PlayStation 5\, PlayStation 4\, Switch\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, PlayStation 4\, Switch\, PC\nUrl:
+  https://www.gameinformer.com/product/monark\n
+URL;VALUE=URI:https://www.gameinformer.com/product/monark
+END:VEVENT
+BEGIN:VEVENT
+UID:e57c0da8ba86eb78b6cb6dcff1ad14333c811376@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220223
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Edge of Eternity
+LOCATION:Switch
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /edge-of-eternity\n
+URL;VALUE=URI:https://www.gameinformer.com/product/edge-of-eternity
+END:VEVENT
+BEGIN:VEVENT
+UID:a95c90be4e59817269409d8820771bf504b4b9d6@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220224
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Martha Is Dead
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/martha-is-dead\n
+URL;VALUE=URI:https://www.gameinformer.com/product/martha-is-dead
+END:VEVENT
+BEGIN:VEVENT
+UID:4f2d28a566f7e5c0c7bab26d077e36ac1a26a9f3@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220225
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Elden Ring
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/elden-ring\n
+URL;VALUE=URI:https://www.gameinformer.com/product/elden-ring
+END:VEVENT
+BEGIN:VEVENT
+UID:b66d55c71da9d54d80f7178b1c0f2fb29935b200@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220225
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Grid Legends
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/grid-legends\n
+URL;VALUE=URI:https://www.gameinformer.com/product/grid-legends
+END:VEVENT
+BEGIN:VEVENT
+UID:8f28055b9cfd8f5d15ac9ae02f711e1d8f03ee1d@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220301
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Elex II
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/elex-ii\n
+URL;VALUE=URI:https://www.gameinformer.com/product/elex-ii
+END:VEVENT
+BEGIN:VEVENT
+UID:cdf460223a3fa6a498471975a31c12cc296a1493@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220301
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Pathfinder: Wrath of the Righteous
+LOCATION:PlayStation 4\, Xbox One
+DESCRIPTION:\nPlatforms: PlayStation 4\, Xbox One\nUrl: https://www.gamein
+ former.com/product/pathfinder-wrath-of-the-righteous\n
+URL;VALUE=URI:https://www.gameinformer.com/product/pathfinder-wrath-of-the
+ -righteous
+END:VEVENT
+BEGIN:VEVENT
+UID:030e83e90fafd29b4c3fd5a00074650a07734fb3@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220303
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Babylon's Fall
+LOCATION:PlayStation 5\, PlayStation 4\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, PlayStation 4\, PC\nUrl: https://
+ www.gameinformer.com/product/babylons-fall\n
+URL;VALUE=URI:https://www.gameinformer.com/product/babylons-fall
+END:VEVENT
+BEGIN:VEVENT
+UID:5b0fed798bcac220a61f0c93e12ba5d1d0d07fed@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220304
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Gran Turismo 7
+LOCATION:PlayStation 5\, PlayStation 4
+DESCRIPTION:\nPlatforms: PlayStation 5\, PlayStation 4\nUrl: https://www.g
+ ameinformer.com/product/gran-turismo-7\n
+URL;VALUE=URI:https://www.gameinformer.com/product/gran-turismo-7
+END:VEVENT
+BEGIN:VEVENT
+UID:11f02225b61ea9b13b09e059decdf2ef25b8b4c8@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220304
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Triangle Strategy
+LOCATION:Switch
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /triangle-strategy\n
+URL;VALUE=URI:https://www.gameinformer.com/product/triangle-strategy
+END:VEVENT
+BEGIN:VEVENT
+UID:0ed29cfeebc865c5201caf945d5129f618572ab1@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220308
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:SpellForce III Reforced
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\nUrl: https://www.gameinformer.com/product/spellforce-iii-reforc
+ ed\n
+URL;VALUE=URI:https://www.gameinformer.com/product/spellforce-iii-reforced
+END:VEVENT
+BEGIN:VEVENT
+UID:7ea535b313214541701e5a954428e60c78f276dd@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220310
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Chocobo GP
+LOCATION:Switch
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /chocobo-gp\n
+URL;VALUE=URI:https://www.gameinformer.com/product/chocobo-gp
+END:VEVENT
+BEGIN:VEVENT
+UID:da699d6b5e09497eda93d8a3d6843f480ff0ca10@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220316
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Tunic
+LOCATION:Xbox Series X/S\, Xbox One\, PC
+DESCRIPTION:\nPlatforms: Xbox Series X/S\, Xbox One\, PC\nUrl: https://www
+ .gameinformer.com/product/tunic\n
+URL;VALUE=URI:https://www.gameinformer.com/product/tunic
+END:VEVENT
+BEGIN:VEVENT
+UID:0c6d855ca110f5ff40faf23f7d6c49a09d863e75@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220317
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Persona 4 Arena Ultimax
+LOCATION:PlayStation 4\, Switch\, PC
+DESCRIPTION:\nPlatforms: PlayStation 4\, Switch\, PC\nUrl: https://www.gam
+ einformer.com/product/persona-4-arena-ultimax\n
+URL;VALUE=URI:https://www.gameinformer.com/product/persona-4-arena-ultimax
+END:VEVENT
+BEGIN:VEVENT
+UID:0e06e7f2de5da4ea33788d50af77112dceef823c@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220318
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Stranger Of Paradise Final Fantasy Origin
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/stranger-of-para
+ dise-final-fantasy-origin\n
+URL;VALUE=URI:https://www.gameinformer.com/product/stranger-of-paradise-fi
+ nal-fantasy-origin
+END:VEVENT
+BEGIN:VEVENT
+UID:b8482e1a7522e3b585cf1789dec3fbcf73a7dbd2@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220322
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Rune Factory 5
+LOCATION:Switch
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /rune-factory-5\n
+URL;VALUE=URI:https://www.gameinformer.com/product/rune-factory-5
+END:VEVENT
+BEGIN:VEVENT
+UID:95d65acbaffa6d5ca01abf63a3fe81c5c482d245@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220325
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Tiny Tina's Wonderlands
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/tiny-tinas-wonde
+ rlands\n
+URL;VALUE=URI:https://www.gameinformer.com/product/tiny-tinas-wonderlands
+END:VEVENT
+BEGIN:VEVENT
+UID:24aa202149d0da5d1c5bcbb85f1b84050d14aafb@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220331
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Starship Troopers - Terran Command
+LOCATION:PC
+DESCRIPTION:\nPlatforms: PC\nUrl: https://www.gameinformer.com/product/sta
+ rship-troopers-terran-command\n
+URL;VALUE=URI:https://www.gameinformer.com/product/starship-troopers-terra
+ n-command
+END:VEVENT
+BEGIN:VEVENT
+UID:8fb4f821500039d19a516ea1e536cdb03980505c@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220331
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Weird West
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/weird-west\n
+URL;VALUE=URI:https://www.gameinformer.com/product/weird-west
+END:VEVENT
+BEGIN:VEVENT
+UID:b8ec752b43d9b8b416329fbd9c400615631c1be2@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220412
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:13 Sentinels: Aegis Rim
+LOCATION:Switch
+DESCRIPTION:\nPlatforms: Switch\nUrl: https://www.gameinformer.com/product
+ /13-sentinels-aegis-rim\n
+URL;VALUE=URI:https://www.gameinformer.com/product/13-sentinels-aegis-rim
+END:VEVENT
+BEGIN:VEVENT
+UID:2dcf0d68e49f75268fbec619470c6cac25d803eb@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220428
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:S.T.A.L.K.E.R. 2: Heart of Chernobyl
+LOCATION:Xbox Series X/S\, PC
+DESCRIPTION:\nPlatforms: Xbox Series X/S\, PC\nUrl: https://www.gameinform
+ er.com/product/stalker-2-heart-of-chernobyl\n
+URL;VALUE=URI:https://www.gameinformer.com/product/stalker-2-heart-of-cher
+ nobyl
+END:VEVENT
+BEGIN:VEVENT
+UID:c080837d2ecd562823be1c9f96744d6453cabfce@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220519
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Vampire: The Masquerade - Swansong
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Swit
+ ch\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, Switch\, PC\nUrl: https://www.gameinformer.com/product/vampire
+ -the-masquerade-swansong\n
+URL;VALUE=URI:https://www.gameinformer.com/product/vampire-the-masquerade-
+ swansong
+END:VEVENT
+BEGIN:VEVENT
+UID:5b0ba084115a3bd4249c2506b0c366c47c82c86b@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220520
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Sons of the Forest
+LOCATION:PC
+DESCRIPTION:\nPlatforms: PC\nUrl: https://www.gameinformer.com/product/son
+ s-of-the-forest\n
+URL;VALUE=URI:https://www.gameinformer.com/product/sons-of-the-forest
+END:VEVENT
+BEGIN:VEVENT
+UID:80f7b612b510d66b92233c21b9cfa85287edadd6@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220524
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Forspoken
+LOCATION:PlayStation 5\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, PC\nUrl: https://www.gameinformer
+ .com/product/forspoken\n
+URL;VALUE=URI:https://www.gameinformer.com/product/forspoken
+END:VEVENT
+BEGIN:VEVENT
+UID:55f1e6e1ab49924c607cb92e2cb15a7e375734f2@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220823
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Saints Row
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, PC\nUrl: https://www.gameinformer.com/product/saints-row\n
+URL;VALUE=URI:https://www.gameinformer.com/product/saints-row
+END:VEVENT
+BEGIN:VEVENT
+UID:e5535a39b973f8453c9d74b123370cf7a5cdcd23@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20220922
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Test Drive Unlimited Solar Crown
+LOCATION:PlayStation 5\, Xbox Series X/S\, PlayStation 4\, Xbox One\, Swit
+ ch\, PC
+DESCRIPTION:\nPlatforms: PlayStation 5\, Xbox Series X/S\, PlayStation 4\,
+  Xbox One\, Switch\, PC\nUrl: https://www.gameinformer.com/product/test-dr
+ ive-unlimited-solar-crown\n
+URL;VALUE=URI:https://www.gameinformer.com/product/test-drive-unlimited-so
+ lar-crown
+END:VEVENT
+BEGIN:VEVENT
+UID:ae7241b61dd906284be10778d5b07e78d4682077@kimleo.net
+SEQUENCE:0
+DTSTAMP:20220106T112619Z
+DTSTART;VALUE=DATE:20221111
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
+X-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:TRUE
+SUMMARY:Starfield
+LOCATION:Xbox Series X/S\, PC
+DESCRIPTION:\nPlatforms: Xbox Series X/S\, PC\nUrl: https://www.gameinform
+ er.com/product/starfield\n
+URL;VALUE=URI:https://www.gameinformer.com/product/starfield
+END:VEVENT
+END:VCALENDAR
