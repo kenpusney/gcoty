@@ -1,10 +1,8 @@
 node_modules/
 package-lock.json
 
-public/2021.*
-
 public/data.json
 public/index.html
-
+public/2022.*
 
 !public/.gitkeep
