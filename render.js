@@ -55,8 +55,11 @@ function renderGameList(data, year = "2020") {
         }
         html += `<dd><ul>`
         games[date].forEach(game => {
-            html += (`<li><b>${game.title}</b> <i>${game.platforms.join(", ")}</i>` +
-                    `&nbsp;|&nbsp;<a href="https://www.gameinformer.com${game.url}">gameinformer.com</a></li>`)
+            html += (`<li><b>${game.title}</b> <i>${game.platforms.join(", ")}</i>`) 
+            if (game.url) {
+                html += (`&nbsp;|&nbsp;<a href="https://www.gameinformer.com${game.url}">gameinformer.com</a>`)
+            }
+            html += `</li>`
         })
 
         html += `</ul></dd>`
