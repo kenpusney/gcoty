@@ -3,6 +3,6 @@ package-lock.json
 
 public/data.json
 public/index.html
-public/2022.*
+public/2023.*
 
 !public/.gitkeep
