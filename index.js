@@ -90,5 +90,6 @@ async function render(year = "2020", htmlFile = "public/index.html", dataFile = 
 
 (async() => {
     // await render("2020", "public/2020.html", "public/2020.json", "public/2020.ics");
-    await render("2022", "public/index.html", "public/index.json", "public/2022.ics");
+    // await render("2022", "public/2022.html", "public/2022.json", "public/2022.ics");
+    await render("2023", "public/index.html", "public/index.json", "public/2023.ics");
 })();
