@@ -1,19 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Game release calendar for 2027 (144 games tracked) from Game Informer.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Game Calendar">
+<meta property="og:title" content="Game Calendar 2027">
+<meta property="og:description" content="Game release calendar for 2027 (144 games tracked) from Game Informer.">
+<meta property="og:url" content="https://kenpusney.github.io/gcoty/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Game Calendar 2027">
+<meta name="twitter:description" content="Game release calendar for 2027 (144 games tracked) from Game Informer.">
+<title>Game Calendar 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+:root {
+  --fg: #1f2430; --muted: #6b7280; --line: #e5e7eb; --bg: #fafafa;
+  --accent: #2563eb; --accent-soft: #dbeafe;
+  --released: #16a34a; --upcoming: #f59e0b; --tba: #9ca3af;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Newsreader", Georgia, "Times New Roman", serif; color: var(--fg); background: var(--bg); line-height: 1.45; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Game Calendar of 2027 by Kimmy</title>
-    </head>
-    <body>
-        <h1>Game Calendar 2027</h1>
-        <a href="#upcoming-release">Upcoming</a>
-        <p>
-        <small>Author: <a href="http://kimleo.net">Kimmy</a>.</small>
-        <small>Generated using Game Informer's data, updated every week.</small>
-        </p>
+.site-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 20px; background: var(--card); border-bottom: 1px solid var(--line); }
+.site-header .brand { font-weight: 700; font-size: 1.1rem; color: var(--fg); }
+.site-header nav { display: flex; gap: 14px; }
+.site-header nav a { color: var(--muted); }
+.site-header nav a.active { color: var(--accent); font-weight: 600; }
 
-        <dl><dt id="upcoming-release">January 7</dt><dd><ul><li><b>Armatus</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/armatus">gameinformer.com</a></li></ul></dd><dt>January 15</dt><dd><ul><li><b>Ananta</b> <i>PlayStation 5, PC, iOS, Android</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/ananta">gameinformer.com</a></li><li><b>Stranger Than Heaven</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/stranger-than-heaven">gameinformer.com</a></li><li><b>TankRat</b> <i>PlayStation 5, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/tankrat">gameinformer.com</a></li></ul></dd><dt>January 21</dt><dd><ul><li><b>Wandering Sword</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, Switch</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/wandering-sword">gameinformer.com</a></li></ul></dd><dt>February 12</dt><dd><ul><li><b>Tomb Raider: Legacy of Atlantis</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/tomb-raider-legacy-of-atlantis">gameinformer.com</a></li></ul></dd><dt>February 16</dt><dd><ul><li><b>God of War Laufey</b> <i>PlayStation 5</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/god-of-war-laufey">gameinformer.com</a></li></ul></dd><dt>February 18</dt><dd><ul><li><b>Persona 4 Revival</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/persona-4-revival">gameinformer.com</a></li></ul></dd><dt>February 23</dt><dd><ul><li><b>Fable</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/fable">gameinformer.com</a></li></ul></dd><dt>March 4</dt><dd><ul><li><b>Trine 6: Together in Time</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, Switch, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/trine-6-together-in-time">gameinformer.com</a></li></ul></dd><dt>March 11</dt><dd><ul><li><b>Road Kings</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/road-kings">gameinformer.com</a></li></ul></dd><dt>April 7</dt><dd><ul><li><b>Exodus</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/exodus">gameinformer.com</a></li></ul></dd><dt>April 27</dt><dd><ul><li><b>Mariachi Legends</b> <i>PlayStation 5, Xbox Series X/S, Switch, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/mariachi-legends">gameinformer.com</a></li><li><b>Pony Island 2: Panda Circus</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/pony-island-2-panda-circus">gameinformer.com</a></li></ul></dd><dt>unconfirmed</dt><dd><ul><li><b>Acornia: Mirror Worlds</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/acornia-mirror-worlds">gameinformer.com</a></li><li><b>Age Twisters</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/age-twisters">gameinformer.com</a></li><li><b>Agni: Village of Calamity</b> <i>Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/agni-village-of-calamity">gameinformer.com</a></li><li><b>Alien Deathstorm</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/alien-deathstorm">gameinformer.com</a></li><li><b>Anima: Song from the Abyss</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/anima-song-from-the-abyss">gameinformer.com</a></li><li><b>Artificial Detective</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/artificial-detective">gameinformer.com</a></li><li><b>Atelier Karia: The Night Kingdom & the Guide of Memories</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/atelier-karia-the-night-kingdom-the-guide-of-memories">gameinformer.com</a></li><li><b>Bad Magpie</b> <i>Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/bad-magpie">gameinformer.com</a></li><li><b>Barbie: Horse Ride & Rescue</b> <i>  (Switch 2, PC)</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/barbie-horse-ride-rescue">gameinformer.com</a></li><li><b>Beastieball</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/beastieball">gameinformer.com</a></li><li><b>Bub</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/bub">gameinformer.com</a></li><li><b>Chrono Odyssey</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/chrono-odyssey">gameinformer.com</a></li><li><b>City of None</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/city-of-none">gameinformer.com</a></li><li><b>Clockwork Revolution</b> <i>Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/clockwork-revolution">gameinformer.com</a></li><li><b>Clutch</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/clutch">gameinformer.com</a></li><li><b>Crazy Taxi: World Tour</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/crazy-taxi-world-tour">gameinformer.com</a></li><li><b>Danganronpa 2x2</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, Switch, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/danganronpa-2x2">gameinformer.com</a></li><li><b>Death the Guitar</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/death-the-guitar">gameinformer.com</a></li><li><b>Demi and the Fractured Dream</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, Switch, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/demi-and-the-fractured-dream">gameinformer.com</a></li><li><b>Dracula: The Disciple</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/dracula-the-disciple">gameinformer.com</a></li><li><b>Dragon Ball Xenoverse 3</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/dragon-ball-xenoverse-3">gameinformer.com</a></li><li><b>Dungeons & Dragons: Long Rest Tavern</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/dungeons-dragons-long-rest-tavern">gameinformer.com</a></li><li><b>El Paso, Elsewhere 2</b> <i>Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/el-paso-elsewhere-2">gameinformer.com</a></li><li><b>Elta: Defy All Gods</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/elta-defy-all-gods">gameinformer.com</a></li><li><b>Enshrouded</b> <i>  (Xbox Series X/S)</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/enshrouded">gameinformer.com</a></li><li><b>Erosion</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/erosion">gameinformer.com</a></li><li><b>Everbloom</b> <i>Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/everbloom">gameinformer.com</a></li><li><b>Everwind (Early Access)</b> <i>  (PlayStation 5, Xbox Series X/S)</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/everwind-early-access">gameinformer.com</a></li><li><b>Everything is Gun!</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/everything-is-gun">gameinformer.com</a></li><li><b>Final Fantasy VII Revelation</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/final-fantasy-vii-revelation">gameinformer.com</a></li><li><b>Final Fantasy XIV: Evercold</b> <i>PlayStation 5, Xbox Series X/S, PlayStation 4, Xbox One, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/final-fantasy-xiv-evercold">gameinformer.com</a></li><li><b>Forge of the Fae</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/forge-of-the-fae">gameinformer.com</a></li><li><b>Frostpunk 1886</b> <i></i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/frostpunk-1886">gameinformer.com</a></li><li><b>Game of Thrones: War For Westeros</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/game-of-thrones-war-for-westeros">gameinformer.com</a></li><li><b>Godzilla Defense Force: X</b> <i>iOS, Android</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/godzilla-defense-force-x">gameinformer.com</a></li><li><b>Gravity Circuit 2</b> <i>PlayStation 5, Switch, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/gravity-circuit-2">gameinformer.com</a></li><li><b>Graytail</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/graytail">gameinformer.com</a></li><li><b>Guardians of the Wild Sky (Early Access)</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/guardians-of-the-wild-sky-early-access">gameinformer.com</a></li><li><b>Gundam Rogue Orbit</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/gundam-rogue-orbit">gameinformer.com</a></li><li><b>Haex (Early Access)</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/haex-early-access">gameinformer.com</a></li><li><b>Hello Again</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/hello-again">gameinformer.com</a></li><li><b>Heroes of Might and Magic III Remake</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/heroes-of-might-and-magic-iii-remake">gameinformer.com</a></li><li><b>Hitman Classic Trilogy Remastered</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/hitman-classic-trilogy-remastered">gameinformer.com</a></li><li><b>Humankind 2</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/humankind-2">gameinformer.com</a></li><li><b>Hunter: The Reckoning – Deathwish</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/hunter-the-reckoning-deathwish">gameinformer.com</a></li><li><b>Hyperdrop</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/hyperdrop">gameinformer.com</a></li><li><b>I Have No Change</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/i-have-no-change">gameinformer.com</a></li><li><b>Ill</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/ill">gameinformer.com</a></li><li><b>Into the Dead: Our Darkest Days</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/into-the-dead-our-darkest-days">gameinformer.com</a></li><li><b>Into the Unwell</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/into-the-unwell">gameinformer.com</a></li><li><b>Inzoi (Early Access)</b> <i>  (PlayStation 5)</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/inzoi-early-access">gameinformer.com</a></li><li><b>Join Us</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/join-us">gameinformer.com</a></li><li><b>Kemuri</b> <i>PlayStation 5, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/kemuri">gameinformer.com</a></li><li><b>Kingdom Hearts IV</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/kingdom-hearts-iv">gameinformer.com</a></li><li><b>Kumarn: The Wandering Spirit</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/kumarn-the-wandering-spirit">gameinformer.com</a></li><li><b>Last Ditch Effort</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/last-ditch-effort">gameinformer.com</a></li><li><b>Lazy River (Early Access)</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/lazy-river-early-access">gameinformer.com</a></li><li><b>Long Gone</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/long-gone">gameinformer.com</a></li><li><b>Lords of the Fallen II</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/lords-of-the-fallen-ii">gameinformer.com</a></li><li><b>Magicians: The Devil's Deal</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/magicians-the-devils-deal">gameinformer.com</a></li><li><b>Mega Man: Dual Override</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PlayStation 4, Xbox One, Switch, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/mega-man-dual-override">gameinformer.com</a></li><li><b>Metro 2039</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/metro-2039">gameinformer.com</a></li><li><b>Militsioner</b> <i>Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/militsioner">gameinformer.com</a></li><li><b>Moosa: Dirty Fate</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/moosa-dirty-fate">gameinformer.com</a></li><li><b>Murals</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/murals">gameinformer.com</a></li><li><b>Muramasa: Revenant Blades</b> <i>PlayStation 5, Switch 2, Switch, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/muramasa-revenant-blades">gameinformer.com</a></li><li><b>My Arms Are Longer Now</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PlayStation 4, Xbox One, Switch, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/my-arms-are-longer-now">gameinformer.com</a></li><li><b>My Time at Evershine</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/my-time-at-evershine">gameinformer.com</a></li><li><b>N Plus Infinity Times Two</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/n-plus-infinity-times-two">gameinformer.com</a></li><li><b>Nekome: Nazi Hunter</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/nekome-nazi-hunter">gameinformer.com</a></li><li><b>Ninjala 2: The Uncharted Planet</b> <i>Switch 2</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/ninjala-2-the-uncharted-planet">gameinformer.com</a></li><li><b>Nirvana Noir</b> <i>Xbox Series X/S, Xbox One, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/nirvana-noir">gameinformer.com</a></li><li><b>No Law</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/no-law">gameinformer.com</a></li><li><b>Ontos</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/ontos">gameinformer.com</a></li><li><b>Out of Words</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/out-of-words">gameinformer.com</a></li><li><b>Outward 2 (Early Access)</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/outward-2-early-access">gameinformer.com</a></li><li><b>Over the Hill</b> <i>  (PlayStation 5, Xbox Series X/S, Switch 2)</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/over-the-hill">gameinformer.com</a></li><li><b>Phasmophobia</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PlayStation VR2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/phasmophobia">gameinformer.com</a></li><li><b>Pikuniku 2</b> <i>Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/pikuniku-2">gameinformer.com</a></li><li><b>Please, Watch the Artwork</b> <i>Switch, PC, iOS, Android</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/please-watch-the-artwork">gameinformer.com</a></li><li><b>Pokémon Waves</b> <i>Switch 2</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/pokemon-waves">gameinformer.com</a></li><li><b>Pokémon Winds</b> <i>Switch 2</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/pokemon-winds">gameinformer.com</a></li><li><b>Prehistoric Kingdom</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/prehistoric-kingdom">gameinformer.com</a></li><li><b>Project Evilbane</b> <i>  (PC), </i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/project-evilbane">gameinformer.com</a></li><li><b>Project Evilbane</b> <i>  (PC),  (Xbox Series X/S)</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/project-evilbane">gameinformer.com</a></li><li><b>Project TAL</b> <i>PlayStation 5, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/project-tal">gameinformer.com</a></li><li><b>Resident Evil Veronica</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/resident-evil-veronica">gameinformer.com</a></li><li><b>Rover's Tale</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/rovers-tale">gameinformer.com</a></li><li><b>Sea of Remnants</b> <i>PlayStation 5, Xbox Series X/S, PC, iOS, Android</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/sea-of-remnants">gameinformer.com</a></li><li><b>Senua</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/senua">gameinformer.com</a></li><li><b>Silent Planet - Elegy of a Dying World</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/silent-planet-elegy-of-a-dying-world">gameinformer.com</a></li><li><b>Slap Out of It!</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/slap-out-of-it">gameinformer.com</a></li><li><b>Spine</b> <i>  (PlayStation 5, Xbox Series X/S, PC), </i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/spine">gameinformer.com</a></li><li><b>Spyro: A Realm Beyond</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/spyro-a-realm-beyond">gameinformer.com</a></li><li><b>Star Trek: Shadow Frontier</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/star-trek-shadow-frontier">gameinformer.com</a></li><li><b>State of Decay 3</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/state-of-decay-3">gameinformer.com</a></li><li><b>Terranigma</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PlayStation 4, Xbox One, Switch, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/terranigma">gameinformer.com</a></li><li><b>The Expanse: Osiris Reborn</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/the-expanse-osiris-reborn">gameinformer.com</a></li><li><b>The Free Shepherd</b> <i>PlayStation 5, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/the-free-shepherd">gameinformer.com</a></li><li><b>The Lift</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/the-lift">gameinformer.com</a></li><li><b>The Lost Wild</b> <i>PlayStation 5, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/the-lost-wild">gameinformer.com</a></li><li><b>The Pines</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/the-pines">gameinformer.com</a></li><li><b>The Sinking City 2</b> <i>  (Switch 2)</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/the-sinking-city-2">gameinformer.com</a></li><li><b>The Talos Principle III</b> <i>PlayStation 5, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/the-talos-principle-iii">gameinformer.com</a></li><li><b>The Witcher 3: Wild Hunt – Songs of the Past</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/the-witcher-3-wild-hunt-songs-of-the-past">gameinformer.com</a></li><li><b>The Wolf Among Us 2</b> <i>PlayStation 5, Xbox Series X/S, PlayStation 4, Xbox One, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/the-wolf-among-us-2">gameinformer.com</a></li><li><b>Thief: The Dark Project Remastered</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PlayStation 4, Xbox One, Switch, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/thief-the-dark-project-remastered">gameinformer.com</a></li><li><b>Tiny Metal 2</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/tiny-metal-2">gameinformer.com</a></li><li><b>Tom Clancy’s Rainbow Six Tactics</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/tom-clancys-rainbow-six-tactics">gameinformer.com</a></li><li><b>Tomb Raider: Catalyst</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/tomb-raider-catalyst">gameinformer.com</a></li><li><b>Trivia Murder Party III (Early Access)</b> <i>  (PlayStation 5, Xbox Series X/S, Switch 2)</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/trivia-murder-party-iii-early-access">gameinformer.com</a></li><li><b>Tsarevna: Age of Tales</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/tsarevna-age-of-tales">gameinformer.com</a></li><li><b>Turok: Origins</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/turok-origins">gameinformer.com</a></li><li><b>Until Dawn 2</b> <i>PlayStation 5</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/until-dawn-2">gameinformer.com</a></li><li><b>Untitled Shantae Game</b> <i></i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/untitled-shantae-game">gameinformer.com</a></li><li><b>Vaewolf</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/vaewolf">gameinformer.com</a></li><li><b>Virtua Fighter Crossroads</b> <i></i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/virtua-fighter-crossroads">gameinformer.com</a></li><li><b>Vivarium</b> <i>Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/vivarium">gameinformer.com</a></li><li><b>Warhammer Age of Sigmar: Deathmaster</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/warhammer-age-of-sigmar-deathmaster">gameinformer.com</a></li><li><b>Warlock: Dungeons & Dragons</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/warlock-dungeons-dragons">gameinformer.com</a></li><li><b>Waterful</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/waterful">gameinformer.com</a></li><li><b>Werewolf: The Apocalypse – Rageborn</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/werewolf-the-apocalypse-rageborn">gameinformer.com</a></li><li><b>Westlanders (Early Access)</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/westlanders-early-access">gameinformer.com</a></li><li><b>Wilderings: The Lost Spring</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/wilderings-the-lost-spring">gameinformer.com</a></li><li><b>Wo Long 2: Wings of Ember</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/wo-long-2-wings-of-ember">gameinformer.com</a></li><li><b>Wolcen 2 (Early Access)</b> <i>PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/wolcen-2-early-access">gameinformer.com</a></li><li><b>Worms: Galactic Tactics</b> <i>PlayStation 5, Xbox Series X/S, Switch 2, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/worms-galactic-tactics">gameinformer.com</a></li><li><b>Xenoblade Genesis</b> <i>Switch 2</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/xenoblade-genesis">gameinformer.com</a></li><li><b>Yakoh Shinobi Ops</b> <i>PlayStation 5, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/yakoh-shinobi-ops">gameinformer.com</a></li><li><b>Zoopunk</b> <i>PlayStation 5, Xbox Series X/S, PC</i>&nbsp;|&nbsp;<a href="https://www.gameinformer.com/product/zoopunk">gameinformer.com</a></li></ul></dd></dl>
-    </body>
-    </html>
+main { max-width: 1080px; margin: 0 auto; padding: 24px 20px 48px; }
+footer { max-width: 1080px; margin: 0 auto; padding: 12px 20px 32px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); }
+h1 { margin: 8px 0 4px; }
+h2 { margin: 28px 0 10px; }
+.sub { color: var(--muted); margin: 0 0 18px; }
+
+/* --- overview cards --- */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 18px 0 26px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+.card .num { font-size: 1.7rem; font-weight: 700; line-height: 1.1; }
+.card .lbl { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: .04em; }
+.card.released .num { color: var(--released); }
+.card.upcoming .num { color: var(--upcoming); }
+.card.tba .num { color: var(--tba); }
+.card.total .num { color: var(--fg); }
+
+/* --- year timeline (index.html) --- */
+.tl-wrap { position: relative; margin: 26px 0; }
+.tl-track { display: flex; gap: 14px; overflow-x: auto; padding: 10px 2px 16px; scroll-snap-type: x proximity; scrollbar-width: thin; }
+.tl-item { flex: 0 0 auto; scroll-snap-align: start; width: 118px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px; color: var(--fg); text-align: center; transition: transform .12s, box-shadow .12s; }
+.tl-item:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,.08); text-decoration: none; }
+.tl-item .year { font-size: 1.5rem; font-weight: 700; }
+.tl-item .counts { margin: 6px 0; font-size: .78rem; color: var(--muted); }
+.tl-item .counts b { color: var(--fg); }
+.tl-item.current { outline: 2px solid var(--accent); background: var(--accent-soft); }
+.tl-item .bar { height: 6px; border-radius: 3px; background: #eef0f3; overflow: hidden; margin-top: 8px; }
+.tl-item .bar > i { display: block; height: 100%; background: var(--released); }
+.tl-scroll { display: flex; justify-content: space-between; margin-top: 8px; gap: 10px; }
+.tl-scroll button { flex: 1; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-size: .9rem; cursor: pointer; }
+.tl-scroll button:hover { border-color: var(--accent); color: var(--accent); }
+.tl-legend { margin: 6px 0 0; font-size: .82rem; color: var(--muted); }
+.tl-legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 4px 0 12px; vertical-align: -1px; }
+
+/* --- month calendar (year pages) --- */
+.month-nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 16px 0 20px; }
+.month-nav .years { display: flex; gap: 8px; }
+.month-nav .months { display: flex; flex-wrap: wrap; gap: 6px; }
+.month-nav a.year-link { padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-weight: 600; white-space: nowrap; }
+.month-nav a.year-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.month-nav .year-link.disabled { opacity: .4; pointer-events: none; }
+.month-nav a.month-link { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--fg); font-size: .85rem; }
+.month-nav a.month-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.month-nav a.month-link.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.show-all-btn { padding: 6px 12px; border: 1px dashed var(--line); border-radius: 999px; background: transparent; color: var(--muted); font-size: .85rem; cursor: pointer; font-family: inherit; }
+.show-all-btn:hover { border-color: var(--accent); color: var(--accent); }
+body.show-all .show-all-btn { border-style: solid; color: var(--accent); border-color: var(--accent); }
+
+/* exactly one month is shown; the month links above act as filters.
+   body.show-all (toggle button) reveals every month. */
+.month { display: none; }
+.month.active { display: block; }
+body.show-all .month { display: block; }
+
+.month h3 { margin: 0 0 2px; }
+.month .mstats { color: var(--muted); font-size: .85rem; margin: 0 0 10px; }
+.month .mstats .rel { color: var(--released); }
+.month .mstats .upc { color: var(--upcoming); }
+.month .mstats .tba { color: var(--tba); }
+
+.calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 26px; }
+.cal-header { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); text-align: center; padding: 4px 0; }
+.day-cell { position: relative; min-height: 96px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 6px; overflow: hidden; }
+.day-cell.empty { background: transparent; border-color: transparent; }
+.day-cell.today { outline: 2px solid var(--accent); }
+.day-num { display: inline-block; font-size: .78rem; font-weight: 600; color: var(--muted); padding: 1px 6px; border-radius: 999px; }
+.day-cell.has-games .day-num { background: var(--accent-soft); color: var(--accent); }
+.day-cell.today .day-num { background: var(--accent); color: #fff; }
+.day-cell .games { list-style: none; margin: 4px 0 0; padding: 0; font-size: .7rem; max-height: 72px; overflow-y: auto; }
+.day-cell .games li { padding: 2px 0; border-top: 1px dashed var(--line); }
+.day-cell .games li:first-child { border-top: none; }
+.day-cell .games .plats { display: block; color: var(--muted); }
+
+/* calendars: exactly one .month.active is displayed; see .month rules above */
+
+/* --- release-count dots on day cells (gradient by count) --- */
+.count-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-left: 6px; vertical-align: middle; }
+.count-dot.d1 { background: #e3f5e9; }
+.count-dot.d2 { background: #b8e7cb; }
+.count-dot.d3 { background: #7ed3a0; }
+.count-dot.d4 { background: #46b574; }
+.count-dot.d5 { background: #209254; }
+.count-dot.d6 { background: #0f6638; }
+
+/* --- platform brand icons (Bootstrap Icons), merged per family --- */
+.platform-icons { margin-left: 6px; white-space: nowrap; }
+.platform-icons i.bi { font-size: .78rem; color: #4b5563; margin-left: 3px; cursor: help; }
+.platform-icons .plat-txt { font-size: .7rem; color: var(--tba); }
+
+/* --- stats page --- */
+.filter-row { display: flex; align-items: center; gap: 8px; margin: 12px 0 4px; }
+.filter-row select { padding: 6px 10px; font-family: inherit; font-size: .9rem; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); }
+.chart { height: 420px; margin: 18px 0 30px; }
+.chart-sm { height: 520px; }
+.note { color: var(--muted); font-size: .82rem; }
+@media (max-width: 720px) {
+  .calendar { gap: 4px; }
+  .day-cell { min-height: 74px; padding: 4px; }
+  .day-cell .games { max-height: 56px; }
+  .site-header { flex-direction: column; align-items: flex-start; }
+}
+</style>
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html">Game Calendar</a>
+  <nav><a href="index.html">Years</a><a href="stats.html">Stats</a></nav>
+</header>
+<main>
+
+<h1>Game Calendar 2027</h1>
+<p class="sub">144 games &middot; 0 released &middot; 14 upcoming &middot; 130 TBA</p>
+
+<nav class="month-nav">
+  <span class="years"><a class="year-link prev" href="2026.html">&#8249; 2026</a></span>
+  <span class="months"><a class="month-link" href="#january">January</a><a class="month-link" href="#february">February</a><a class="month-link" href="#march">March</a><a class="month-link" href="#april">April</a><a class="month-link" href="#may">May</a><a class="month-link" href="#june">June</a><a class="month-link" href="#july">July</a><a class="month-link" href="#august">August</a><a class="month-link" href="#september">September</a><a class="month-link" href="#october">October</a><a class="month-link" href="#november">November</a><a class="month-link" href="#december">December</a></span>
+  <span class="years"><span class="year-link disabled next">&#8250;</span></span>
+  <button type="button" class="show-all-btn" id="show-all">Show all months</button>
+</nav>
+<noscript><p class="note">JavaScript is needed to switch months; the default month (January) is shown below.</p></noscript>
+
+<section class="month active" id="january" data-month="1">
+    <h3>January</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">5 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-1-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-1-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-1-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell" data-date="2027-1-4">
+      <span class="day-num">4</span>
+      
+    </div><div class="day-cell" data-date="2027-1-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-1-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell has-games" data-date="2027-1-7">
+      <span class="day-num">7<span class="count-dot d1" title="1 game"></span></span>
+      <ul class="games"><li><a href="https://www.gameinformer.com/product/armatus">Armatus</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-nintendo-switch" title="Switch 2"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+    </div><div class="day-cell" data-date="2027-1-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-1-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-1-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell" data-date="2027-1-11">
+      <span class="day-num">11</span>
+      
+    </div><div class="day-cell" data-date="2027-1-12">
+      <span class="day-num">12</span>
+      
+    </div><div class="day-cell" data-date="2027-1-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-1-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell has-games" data-date="2027-1-15">
+      <span class="day-num">15<span class="count-dot d3" title="3 games"></span></span>
+      <ul class="games"><li><a href="https://www.gameinformer.com/product/ananta">Ananta</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-pc-display" title="PC"></i><i class="bi bi-apple" title="iOS"></i><i class="bi bi-android" title="Android"></i></span></li><li><a href="https://www.gameinformer.com/product/stranger-than-heaven">Stranger Than Heaven</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li><a href="https://www.gameinformer.com/product/tankrat">TankRat</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+    </div><div class="day-cell" data-date="2027-1-16">
+      <span class="day-num">16</span>
+      
+    </div><div class="day-cell" data-date="2027-1-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell" data-date="2027-1-18">
+      <span class="day-num">18</span>
+      
+    </div><div class="day-cell" data-date="2027-1-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-1-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell has-games" data-date="2027-1-21">
+      <span class="day-num">21<span class="count-dot d1" title="1 game"></span></span>
+      <ul class="games"><li><a href="https://www.gameinformer.com/product/wandering-sword">Wandering Sword</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-nintendo-switch" title="Switch 2, Switch"></i></span></li></ul>
+    </div><div class="day-cell" data-date="2027-1-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell" data-date="2027-1-23">
+      <span class="day-num">23</span>
+      
+    </div><div class="day-cell" data-date="2027-1-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-1-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-1-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell" data-date="2027-1-27">
+      <span class="day-num">27</span>
+      
+    </div><div class="day-cell" data-date="2027-1-28">
+      <span class="day-num">28</span>
+      
+    </div><div class="day-cell" data-date="2027-1-29">
+      <span class="day-num">29</span>
+      
+    </div><div class="day-cell" data-date="2027-1-30">
+      <span class="day-num">30</span>
+      
+    </div><div class="day-cell" data-date="2027-1-31">
+      <span class="day-num">31</span>
+      
+    </div></div>
+  </section><section class="month" id="february" data-month="2">
+    <h3>February</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">4 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-2-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-2-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-2-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell" data-date="2027-2-4">
+      <span class="day-num">4</span>
+      
+    </div><div class="day-cell" data-date="2027-2-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-2-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell" data-date="2027-2-7">
+      <span class="day-num">7</span>
+      
+    </div><div class="day-cell" data-date="2027-2-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-2-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-2-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell" data-date="2027-2-11">
+      <span class="day-num">11</span>
+      
+    </div><div class="day-cell has-games" data-date="2027-2-12">
+      <span class="day-num">12<span class="count-dot d1" title="1 game"></span></span>
+      <ul class="games"><li><a href="https://www.gameinformer.com/product/tomb-raider-legacy-of-atlantis">Tomb Raider: Legacy of Atlantis</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-nintendo-switch" title="Switch 2"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+    </div><div class="day-cell" data-date="2027-2-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-2-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell" data-date="2027-2-15">
+      <span class="day-num">15</span>
+      
+    </div><div class="day-cell has-games" data-date="2027-2-16">
+      <span class="day-num">16<span class="count-dot d1" title="1 game"></span></span>
+      <ul class="games"><li><a href="https://www.gameinformer.com/product/god-of-war-laufey">God of War Laufey</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i></span></li></ul>
+    </div><div class="day-cell" data-date="2027-2-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell has-games" data-date="2027-2-18">
+      <span class="day-num">18<span class="count-dot d1" title="1 game"></span></span>
+      <ul class="games"><li><a href="https://www.gameinformer.com/product/persona-4-revival">Persona 4 Revival</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+    </div><div class="day-cell" data-date="2027-2-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-2-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell" data-date="2027-2-21">
+      <span class="day-num">21</span>
+      
+    </div><div class="day-cell" data-date="2027-2-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell has-games" data-date="2027-2-23">
+      <span class="day-num">23<span class="count-dot d1" title="1 game"></span></span>
+      <ul class="games"><li><a href="https://www.gameinformer.com/product/fable">Fable</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+    </div><div class="day-cell" data-date="2027-2-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-2-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-2-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell" data-date="2027-2-27">
+      <span class="day-num">27</span>
+      
+    </div><div class="day-cell" data-date="2027-2-28">
+      <span class="day-num">28</span>
+      
+    </div></div>
+  </section><section class="month" id="march" data-month="3">
+    <h3>March</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">2 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-3-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-3-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-3-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell has-games" data-date="2027-3-4">
+      <span class="day-num">4<span class="count-dot d1" title="1 game"></span></span>
+      <ul class="games"><li><a href="https://www.gameinformer.com/product/trine-6-together-in-time">Trine 6: Together in Time</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-nintendo-switch" title="Switch 2, Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+    </div><div class="day-cell" data-date="2027-3-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-3-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell" data-date="2027-3-7">
+      <span class="day-num">7</span>
+      
+    </div><div class="day-cell" data-date="2027-3-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-3-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-3-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell has-games" data-date="2027-3-11">
+      <span class="day-num">11<span class="count-dot d1" title="1 game"></span></span>
+      <ul class="games"><li><a href="https://www.gameinformer.com/product/road-kings">Road Kings</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+    </div><div class="day-cell" data-date="2027-3-12">
+      <span class="day-num">12</span>
+      
+    </div><div class="day-cell" data-date="2027-3-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-3-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell" data-date="2027-3-15">
+      <span class="day-num">15</span>
+      
+    </div><div class="day-cell" data-date="2027-3-16">
+      <span class="day-num">16</span>
+      
+    </div><div class="day-cell" data-date="2027-3-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell" data-date="2027-3-18">
+      <span class="day-num">18</span>
+      
+    </div><div class="day-cell" data-date="2027-3-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-3-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell" data-date="2027-3-21">
+      <span class="day-num">21</span>
+      
+    </div><div class="day-cell" data-date="2027-3-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell" data-date="2027-3-23">
+      <span class="day-num">23</span>
+      
+    </div><div class="day-cell" data-date="2027-3-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-3-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-3-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell" data-date="2027-3-27">
+      <span class="day-num">27</span>
+      
+    </div><div class="day-cell" data-date="2027-3-28">
+      <span class="day-num">28</span>
+      
+    </div><div class="day-cell" data-date="2027-3-29">
+      <span class="day-num">29</span>
+      
+    </div><div class="day-cell" data-date="2027-3-30">
+      <span class="day-num">30</span>
+      
+    </div><div class="day-cell" data-date="2027-3-31">
+      <span class="day-num">31</span>
+      
+    </div></div>
+  </section><section class="month" id="april" data-month="4">
+    <h3>April</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">3 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-4-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-4-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-4-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell" data-date="2027-4-4">
+      <span class="day-num">4</span>
+      
+    </div><div class="day-cell" data-date="2027-4-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-4-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell has-games" data-date="2027-4-7">
+      <span class="day-num">7<span class="count-dot d1" title="1 game"></span></span>
+      <ul class="games"><li><a href="https://www.gameinformer.com/product/exodus">Exodus</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+    </div><div class="day-cell" data-date="2027-4-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-4-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-4-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell" data-date="2027-4-11">
+      <span class="day-num">11</span>
+      
+    </div><div class="day-cell" data-date="2027-4-12">
+      <span class="day-num">12</span>
+      
+    </div><div class="day-cell" data-date="2027-4-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-4-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell" data-date="2027-4-15">
+      <span class="day-num">15</span>
+      
+    </div><div class="day-cell" data-date="2027-4-16">
+      <span class="day-num">16</span>
+      
+    </div><div class="day-cell" data-date="2027-4-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell" data-date="2027-4-18">
+      <span class="day-num">18</span>
+      
+    </div><div class="day-cell" data-date="2027-4-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-4-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell" data-date="2027-4-21">
+      <span class="day-num">21</span>
+      
+    </div><div class="day-cell" data-date="2027-4-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell" data-date="2027-4-23">
+      <span class="day-num">23</span>
+      
+    </div><div class="day-cell" data-date="2027-4-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-4-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-4-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell has-games" data-date="2027-4-27">
+      <span class="day-num">27<span class="count-dot d2" title="2 games"></span></span>
+      <ul class="games"><li><a href="https://www.gameinformer.com/product/mariachi-legends">Mariachi Legends</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li><a href="https://www.gameinformer.com/product/pony-island-2-panda-circus">Pony Island 2: Panda Circus</a><span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+    </div><div class="day-cell" data-date="2027-4-28">
+      <span class="day-num">28</span>
+      
+    </div><div class="day-cell" data-date="2027-4-29">
+      <span class="day-num">29</span>
+      
+    </div><div class="day-cell" data-date="2027-4-30">
+      <span class="day-num">30</span>
+      
+    </div></div>
+  </section><section class="month" id="may" data-month="5">
+    <h3>May</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-5-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-5-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-5-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell" data-date="2027-5-4">
+      <span class="day-num">4</span>
+      
+    </div><div class="day-cell" data-date="2027-5-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-5-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell" data-date="2027-5-7">
+      <span class="day-num">7</span>
+      
+    </div><div class="day-cell" data-date="2027-5-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-5-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-5-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell" data-date="2027-5-11">
+      <span class="day-num">11</span>
+      
+    </div><div class="day-cell" data-date="2027-5-12">
+      <span class="day-num">12</span>
+      
+    </div><div class="day-cell" data-date="2027-5-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-5-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell" data-date="2027-5-15">
+      <span class="day-num">15</span>
+      
+    </div><div class="day-cell" data-date="2027-5-16">
+      <span class="day-num">16</span>
+      
+    </div><div class="day-cell" data-date="2027-5-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell" data-date="2027-5-18">
+      <span class="day-num">18</span>
+      
+    </div><div class="day-cell" data-date="2027-5-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-5-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell" data-date="2027-5-21">
+      <span class="day-num">21</span>
+      
+    </div><div class="day-cell" data-date="2027-5-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell" data-date="2027-5-23">
+      <span class="day-num">23</span>
+      
+    </div><div class="day-cell" data-date="2027-5-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-5-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-5-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell" data-date="2027-5-27">
+      <span class="day-num">27</span>
+      
+    </div><div class="day-cell" data-date="2027-5-28">
+      <span class="day-num">28</span>
+      
+    </div><div class="day-cell" data-date="2027-5-29">
+      <span class="day-num">29</span>
+      
+    </div><div class="day-cell" data-date="2027-5-30">
+      <span class="day-num">30</span>
+      
+    </div><div class="day-cell" data-date="2027-5-31">
+      <span class="day-num">31</span>
+      
+    </div></div>
+  </section><section class="month" id="june" data-month="6">
+    <h3>June</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-6-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-6-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-6-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell" data-date="2027-6-4">
+      <span class="day-num">4</span>
+      
+    </div><div class="day-cell" data-date="2027-6-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-6-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell" data-date="2027-6-7">
+      <span class="day-num">7</span>
+      
+    </div><div class="day-cell" data-date="2027-6-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-6-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-6-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell" data-date="2027-6-11">
+      <span class="day-num">11</span>
+      
+    </div><div class="day-cell" data-date="2027-6-12">
+      <span class="day-num">12</span>
+      
+    </div><div class="day-cell" data-date="2027-6-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-6-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell" data-date="2027-6-15">
+      <span class="day-num">15</span>
+      
+    </div><div class="day-cell" data-date="2027-6-16">
+      <span class="day-num">16</span>
+      
+    </div><div class="day-cell" data-date="2027-6-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell" data-date="2027-6-18">
+      <span class="day-num">18</span>
+      
+    </div><div class="day-cell" data-date="2027-6-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-6-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell" data-date="2027-6-21">
+      <span class="day-num">21</span>
+      
+    </div><div class="day-cell" data-date="2027-6-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell" data-date="2027-6-23">
+      <span class="day-num">23</span>
+      
+    </div><div class="day-cell" data-date="2027-6-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-6-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-6-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell" data-date="2027-6-27">
+      <span class="day-num">27</span>
+      
+    </div><div class="day-cell" data-date="2027-6-28">
+      <span class="day-num">28</span>
+      
+    </div><div class="day-cell" data-date="2027-6-29">
+      <span class="day-num">29</span>
+      
+    </div><div class="day-cell" data-date="2027-6-30">
+      <span class="day-num">30</span>
+      
+    </div></div>
+  </section><section class="month" id="july" data-month="7">
+    <h3>July</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-7-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-7-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-7-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell" data-date="2027-7-4">
+      <span class="day-num">4</span>
+      
+    </div><div class="day-cell" data-date="2027-7-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-7-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell" data-date="2027-7-7">
+      <span class="day-num">7</span>
+      
+    </div><div class="day-cell" data-date="2027-7-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-7-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-7-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell" data-date="2027-7-11">
+      <span class="day-num">11</span>
+      
+    </div><div class="day-cell" data-date="2027-7-12">
+      <span class="day-num">12</span>
+      
+    </div><div class="day-cell" data-date="2027-7-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-7-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell" data-date="2027-7-15">
+      <span class="day-num">15</span>
+      
+    </div><div class="day-cell" data-date="2027-7-16">
+      <span class="day-num">16</span>
+      
+    </div><div class="day-cell" data-date="2027-7-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell" data-date="2027-7-18">
+      <span class="day-num">18</span>
+      
+    </div><div class="day-cell" data-date="2027-7-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-7-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell" data-date="2027-7-21">
+      <span class="day-num">21</span>
+      
+    </div><div class="day-cell" data-date="2027-7-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell" data-date="2027-7-23">
+      <span class="day-num">23</span>
+      
+    </div><div class="day-cell" data-date="2027-7-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-7-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-7-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell" data-date="2027-7-27">
+      <span class="day-num">27</span>
+      
+    </div><div class="day-cell" data-date="2027-7-28">
+      <span class="day-num">28</span>
+      
+    </div><div class="day-cell" data-date="2027-7-29">
+      <span class="day-num">29</span>
+      
+    </div><div class="day-cell" data-date="2027-7-30">
+      <span class="day-num">30</span>
+      
+    </div><div class="day-cell" data-date="2027-7-31">
+      <span class="day-num">31</span>
+      
+    </div></div>
+  </section><section class="month" id="august" data-month="8">
+    <h3>August</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell" data-date="2027-8-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-8-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-8-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell" data-date="2027-8-4">
+      <span class="day-num">4</span>
+      
+    </div><div class="day-cell" data-date="2027-8-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-8-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell" data-date="2027-8-7">
+      <span class="day-num">7</span>
+      
+    </div><div class="day-cell" data-date="2027-8-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-8-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-8-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell" data-date="2027-8-11">
+      <span class="day-num">11</span>
+      
+    </div><div class="day-cell" data-date="2027-8-12">
+      <span class="day-num">12</span>
+      
+    </div><div class="day-cell" data-date="2027-8-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-8-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell" data-date="2027-8-15">
+      <span class="day-num">15</span>
+      
+    </div><div class="day-cell" data-date="2027-8-16">
+      <span class="day-num">16</span>
+      
+    </div><div class="day-cell" data-date="2027-8-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell" data-date="2027-8-18">
+      <span class="day-num">18</span>
+      
+    </div><div class="day-cell" data-date="2027-8-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-8-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell" data-date="2027-8-21">
+      <span class="day-num">21</span>
+      
+    </div><div class="day-cell" data-date="2027-8-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell" data-date="2027-8-23">
+      <span class="day-num">23</span>
+      
+    </div><div class="day-cell" data-date="2027-8-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-8-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-8-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell" data-date="2027-8-27">
+      <span class="day-num">27</span>
+      
+    </div><div class="day-cell" data-date="2027-8-28">
+      <span class="day-num">28</span>
+      
+    </div><div class="day-cell" data-date="2027-8-29">
+      <span class="day-num">29</span>
+      
+    </div><div class="day-cell" data-date="2027-8-30">
+      <span class="day-num">30</span>
+      
+    </div><div class="day-cell" data-date="2027-8-31">
+      <span class="day-num">31</span>
+      
+    </div></div>
+  </section><section class="month" id="september" data-month="9">
+    <h3>September</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-9-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-9-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-9-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell" data-date="2027-9-4">
+      <span class="day-num">4</span>
+      
+    </div><div class="day-cell" data-date="2027-9-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-9-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell" data-date="2027-9-7">
+      <span class="day-num">7</span>
+      
+    </div><div class="day-cell" data-date="2027-9-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-9-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-9-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell" data-date="2027-9-11">
+      <span class="day-num">11</span>
+      
+    </div><div class="day-cell" data-date="2027-9-12">
+      <span class="day-num">12</span>
+      
+    </div><div class="day-cell" data-date="2027-9-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-9-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell" data-date="2027-9-15">
+      <span class="day-num">15</span>
+      
+    </div><div class="day-cell" data-date="2027-9-16">
+      <span class="day-num">16</span>
+      
+    </div><div class="day-cell" data-date="2027-9-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell" data-date="2027-9-18">
+      <span class="day-num">18</span>
+      
+    </div><div class="day-cell" data-date="2027-9-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-9-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell" data-date="2027-9-21">
+      <span class="day-num">21</span>
+      
+    </div><div class="day-cell" data-date="2027-9-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell" data-date="2027-9-23">
+      <span class="day-num">23</span>
+      
+    </div><div class="day-cell" data-date="2027-9-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-9-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-9-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell" data-date="2027-9-27">
+      <span class="day-num">27</span>
+      
+    </div><div class="day-cell" data-date="2027-9-28">
+      <span class="day-num">28</span>
+      
+    </div><div class="day-cell" data-date="2027-9-29">
+      <span class="day-num">29</span>
+      
+    </div><div class="day-cell" data-date="2027-9-30">
+      <span class="day-num">30</span>
+      
+    </div></div>
+  </section><section class="month" id="october" data-month="10">
+    <h3>October</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-10-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-10-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-10-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell" data-date="2027-10-4">
+      <span class="day-num">4</span>
+      
+    </div><div class="day-cell" data-date="2027-10-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-10-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell" data-date="2027-10-7">
+      <span class="day-num">7</span>
+      
+    </div><div class="day-cell" data-date="2027-10-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-10-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-10-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell" data-date="2027-10-11">
+      <span class="day-num">11</span>
+      
+    </div><div class="day-cell" data-date="2027-10-12">
+      <span class="day-num">12</span>
+      
+    </div><div class="day-cell" data-date="2027-10-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-10-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell" data-date="2027-10-15">
+      <span class="day-num">15</span>
+      
+    </div><div class="day-cell" data-date="2027-10-16">
+      <span class="day-num">16</span>
+      
+    </div><div class="day-cell" data-date="2027-10-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell" data-date="2027-10-18">
+      <span class="day-num">18</span>
+      
+    </div><div class="day-cell" data-date="2027-10-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-10-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell" data-date="2027-10-21">
+      <span class="day-num">21</span>
+      
+    </div><div class="day-cell" data-date="2027-10-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell" data-date="2027-10-23">
+      <span class="day-num">23</span>
+      
+    </div><div class="day-cell" data-date="2027-10-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-10-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-10-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell" data-date="2027-10-27">
+      <span class="day-num">27</span>
+      
+    </div><div class="day-cell" data-date="2027-10-28">
+      <span class="day-num">28</span>
+      
+    </div><div class="day-cell" data-date="2027-10-29">
+      <span class="day-num">29</span>
+      
+    </div><div class="day-cell" data-date="2027-10-30">
+      <span class="day-num">30</span>
+      
+    </div><div class="day-cell" data-date="2027-10-31">
+      <span class="day-num">31</span>
+      
+    </div></div>
+  </section><section class="month" id="november" data-month="11">
+    <h3>November</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-11-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-11-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-11-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell" data-date="2027-11-4">
+      <span class="day-num">4</span>
+      
+    </div><div class="day-cell" data-date="2027-11-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-11-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell" data-date="2027-11-7">
+      <span class="day-num">7</span>
+      
+    </div><div class="day-cell" data-date="2027-11-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-11-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-11-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell" data-date="2027-11-11">
+      <span class="day-num">11</span>
+      
+    </div><div class="day-cell" data-date="2027-11-12">
+      <span class="day-num">12</span>
+      
+    </div><div class="day-cell" data-date="2027-11-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-11-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell" data-date="2027-11-15">
+      <span class="day-num">15</span>
+      
+    </div><div class="day-cell" data-date="2027-11-16">
+      <span class="day-num">16</span>
+      
+    </div><div class="day-cell" data-date="2027-11-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell" data-date="2027-11-18">
+      <span class="day-num">18</span>
+      
+    </div><div class="day-cell" data-date="2027-11-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-11-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell" data-date="2027-11-21">
+      <span class="day-num">21</span>
+      
+    </div><div class="day-cell" data-date="2027-11-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell" data-date="2027-11-23">
+      <span class="day-num">23</span>
+      
+    </div><div class="day-cell" data-date="2027-11-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-11-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-11-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell" data-date="2027-11-27">
+      <span class="day-num">27</span>
+      
+    </div><div class="day-cell" data-date="2027-11-28">
+      <span class="day-num">28</span>
+      
+    </div><div class="day-cell" data-date="2027-11-29">
+      <span class="day-num">29</span>
+      
+    </div><div class="day-cell" data-date="2027-11-30">
+      <span class="day-num">30</span>
+      
+    </div></div>
+  </section><section class="month" id="december" data-month="12">
+    <h3>December</h3>
+    <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-12-1">
+      <span class="day-num">1</span>
+      
+    </div><div class="day-cell" data-date="2027-12-2">
+      <span class="day-num">2</span>
+      
+    </div><div class="day-cell" data-date="2027-12-3">
+      <span class="day-num">3</span>
+      
+    </div><div class="day-cell" data-date="2027-12-4">
+      <span class="day-num">4</span>
+      
+    </div><div class="day-cell" data-date="2027-12-5">
+      <span class="day-num">5</span>
+      
+    </div><div class="day-cell" data-date="2027-12-6">
+      <span class="day-num">6</span>
+      
+    </div><div class="day-cell" data-date="2027-12-7">
+      <span class="day-num">7</span>
+      
+    </div><div class="day-cell" data-date="2027-12-8">
+      <span class="day-num">8</span>
+      
+    </div><div class="day-cell" data-date="2027-12-9">
+      <span class="day-num">9</span>
+      
+    </div><div class="day-cell" data-date="2027-12-10">
+      <span class="day-num">10</span>
+      
+    </div><div class="day-cell" data-date="2027-12-11">
+      <span class="day-num">11</span>
+      
+    </div><div class="day-cell" data-date="2027-12-12">
+      <span class="day-num">12</span>
+      
+    </div><div class="day-cell" data-date="2027-12-13">
+      <span class="day-num">13</span>
+      
+    </div><div class="day-cell" data-date="2027-12-14">
+      <span class="day-num">14</span>
+      
+    </div><div class="day-cell" data-date="2027-12-15">
+      <span class="day-num">15</span>
+      
+    </div><div class="day-cell" data-date="2027-12-16">
+      <span class="day-num">16</span>
+      
+    </div><div class="day-cell" data-date="2027-12-17">
+      <span class="day-num">17</span>
+      
+    </div><div class="day-cell" data-date="2027-12-18">
+      <span class="day-num">18</span>
+      
+    </div><div class="day-cell" data-date="2027-12-19">
+      <span class="day-num">19</span>
+      
+    </div><div class="day-cell" data-date="2027-12-20">
+      <span class="day-num">20</span>
+      
+    </div><div class="day-cell" data-date="2027-12-21">
+      <span class="day-num">21</span>
+      
+    </div><div class="day-cell" data-date="2027-12-22">
+      <span class="day-num">22</span>
+      
+    </div><div class="day-cell" data-date="2027-12-23">
+      <span class="day-num">23</span>
+      
+    </div><div class="day-cell" data-date="2027-12-24">
+      <span class="day-num">24</span>
+      
+    </div><div class="day-cell" data-date="2027-12-25">
+      <span class="day-num">25</span>
+      
+    </div><div class="day-cell" data-date="2027-12-26">
+      <span class="day-num">26</span>
+      
+    </div><div class="day-cell" data-date="2027-12-27">
+      <span class="day-num">27</span>
+      
+    </div><div class="day-cell" data-date="2027-12-28">
+      <span class="day-num">28</span>
+      
+    </div><div class="day-cell" data-date="2027-12-29">
+      <span class="day-num">29</span>
+      
+    </div><div class="day-cell" data-date="2027-12-30">
+      <span class="day-num">30</span>
+      
+    </div><div class="day-cell" data-date="2027-12-31">
+      <span class="day-num">31</span>
+      
+    </div></div>
+  </section>
+
+<script>
+(function () {
+  var months = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+  var pageYear = 2027;
+  function activate(name) {
+    document.body.classList.remove('show-all');
+    months.forEach(function (m) {
+      var s = document.getElementById(m);
+      if (s) s.classList.toggle('active', m === name);
+    });
+    var navs = document.querySelectorAll('.month-nav a.month-link');
+    navs.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + name); });
+  }
+  function fromHash() {
+    var h = (location.hash || '').replace('#', '').toLowerCase();
+    return months.indexOf(h) >= 0 ? h : null;
+  }
+  var now = new Date();
+  var target = fromHash();
+  if (!target && pageYear === now.getFullYear()) target = months[now.getMonth()];
+  if (target) activate(target);
+
+  var todayKey = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+  var cell = document.querySelector('.day-cell[data-date="' + todayKey + '"]');
+  if (cell) cell.classList.add('today');
+
+  var showAllBtn = document.getElementById('show-all');
+  if (showAllBtn) showAllBtn.addEventListener('click', function () {
+    document.body.classList.toggle('show-all');
+  });
+  window.addEventListener('hashchange', function () {
+    var h = fromHash();
+    if (h) activate(h);
+  });
+})();
+</script>
+
+</main>
+<footer>
+  <p>Game release schedule scraped from <a href="https://www.gameinformer.com">Game Informer</a>, current year 2026. Generated pages are static &mdash; share any URL directly.</p>
+</footer>
+</body>
+</html>
