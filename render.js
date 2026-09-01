@@ -6,13 +6,13 @@ function renderHTMLPage(body, year = "2020") {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Game Calendar of ${year} by KimmyLeo</title>
+        <title>Game Calendar of ${year} by Kimmy</title>
     </head>
     <body>
         <h1>Game Calendar ${year}</h1>
         <a href="#upcoming-release">Upcoming</a>
         <p>
-        <small>Author: <a href="http://kimleo.net">KimmyLeo</a>.</small>
+        <small>Author: <a href="http://kimleo.net">Kimmy</a>.</small>
         <small>Generated using Game Informer's data, updated every week.</small>
         </p>
 
