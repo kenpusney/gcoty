@@ -6,7 +6,7 @@ on:
     - cron: "0 0 * * 5" # Every Friday
     - cron: "0 0 1 * *" # 1st of every month.
   push:
-    - master
+
 jobs:
   build:
 
