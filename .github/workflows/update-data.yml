@@ -14,18 +14,23 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [20.x]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install
+    # 1. scrape the current year (and the next one) into public/*.json + .ics
     - run: node index.js
+    # 2. rebuild every static page (timeline, per-year calendars, stats) offline
+    - run: node scripts/rebuild.js
+    - name: Run unit tests
+      run: node --test
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./public

@@ -10,5 +10,9 @@
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
     "node-html-parser": "^1.2.4"
+  },
+  "scripts": {
+    "rebuild": "node scripts/rebuild.js",
+    "test": "node --test"
   }
 }

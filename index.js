@@ -4,11 +4,6 @@ const htmlParser = require("node-html-parser");
 
 const fs = require('fs');
 
-const {
-    renderGameList,
-    renderHTMLPage
-} = require("./render");
-
 const moment = require("moment")
 
 const ical = require("ical-generator");
@@ -37,6 +32,14 @@ Url: ${url}
 `
 }
 
+/**
+ * Scrape one calendar year from GameInformer and persist <year>.json + <year>.ics.
+ *
+ * NOTE (page rendering): the static HTML pages are generated separately by
+ * `node scripts/rebuild.js` (offline, from the .json files). This scraper only
+ * produces data — the DOM parsing below is intentionally left untouched so the
+ * scraper keeps working when GameInformer changes its markup.
+ */
 async function render(year = "2020", htmlFile = "public/index.html", dataFile = "public/data.json", icsFile = "public/event.ics") {
     const response = await fetch(`https://www.gameinformer.com/${year}`);
 
@@ -82,8 +85,6 @@ async function render(year = "2020", htmlFile = "public/index.html", dataFile = 
     })
 
     fs.writeFileSync(icsFile, cal.toString());
-
-    fs.writeFileSync(htmlFile, renderHTMLPage(renderGameList(result, year), year));
 
     fs.writeFileSync(dataFile, JSON.stringify(result));
 }

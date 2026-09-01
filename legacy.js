@@ -4,11 +4,6 @@ const htmlParser = require("node-html-parser");
 
 const fs = require('fs');
 
-const {
-    renderGameList,
-    renderHTMLPage
-} = require("./render");
-
 const moment = require("moment")
 
 const ical = require("ical-generator");
@@ -72,8 +67,6 @@ async function render(year = "2016") {
     })
 
     fs.writeFileSync(icsFile, cal.toString());
-
-    fs.writeFileSync(htmlFile, renderHTMLPage(renderGameList(result, year), year));
 
     fs.writeFileSync(dataFile, JSON.stringify(result));
 }
