@@ -276,8 +276,9 @@ html[data-theme="void"] .tl-item,
 html[data-theme="void"] .day-cell { background-image: linear-gradient(rgba(255, 255, 255, .03), rgba(255, 255, 255, 0)); border: 1px solid rgba(150, 140, 255, .25); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), var(--shadow-md); }
 html[data-theme="void"] .month-nav a.month-link { border-color: rgba(124, 128, 220, .35); }
 html[data-theme="void"] a { text-decoration-color: rgba(34, 211, 238, .55); text-underline-offset: 3px; }
-html[data-theme="void"] body { background-image: repeating-linear-gradient(0deg, rgba(8, 6, 26, .12) 0 1px, transparent 1px 3px); }
 html[data-theme="void"] .day-cell.today .day-num { box-shadow: 0 0 12px var(--accent2); }
+/* Scanline stays a fixed veil instead of replacing the body neon gradient */
+html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none; background-image: repeating-linear-gradient(0deg, rgba(8, 6, 26, .10) 0 1px, transparent 1px 3px); }
 
 </style>
 <script>document.documentElement.className += ' js';</script>
