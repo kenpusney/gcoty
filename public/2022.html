@@ -244,7 +244,10 @@ body.modal-open { overflow: hidden; }
   .day-cell.has-games:hover { border-color: var(--accent); }
   .day-cell .games { display: none; }
   .day-more { display: block; margin-top: 4px; font-size: .72rem; font-weight: 700; color: var(--accent); line-height: 1.2; }
-  .site-header { flex-direction: column; align-items: flex-start; }
+  .site-header { flex-wrap: wrap; gap: 4px 10px; align-items: flex-start; }
+  .site-header .brand { order: 1; }
+  .site-header nav { order: 3; flex: 1 1 100%; margin: 2px 0 4px; gap: 18px; }
+  .theme-toggle { order: 2; margin-left: auto; }
 }
 
 /* ---------- Surface identity (final shape pass so it always wins) ---------- */
@@ -277,6 +280,10 @@ html[data-theme="void"] .day-cell { background-image: linear-gradient(rgba(255, 
 html[data-theme="void"] .month-nav a.month-link { border-color: rgba(124, 128, 220, .35); }
 html[data-theme="void"] a { text-decoration-color: rgba(34, 211, 238, .55); text-underline-offset: 3px; }
 html[data-theme="void"] .day-cell.today .day-num { box-shadow: 0 0 12px var(--accent2); }
+html[data-theme="void"] .day-modal-backdrop { background: rgba(4, 2, 14, .7); }
+html[data-theme="void"] .day-modal-panel { background-image: radial-gradient(circle at 85% -5%, rgba(76, 29, 149, .55), transparent 55%), linear-gradient(rgba(30, 22, 88, .55), rgba(14, 10, 40, .93)); }
+html[data-theme="void"] .day-modal-list li { font-family: var(--font-body); font-weight: 500; font-size: 1.05rem; }
+html[data-theme="void"] .day-modal-list li a { font-weight: 700; }
 /* Scanline stays a fixed veil instead of replacing the body neon gradient */
 html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none; background-image: repeating-linear-gradient(0deg, rgba(8, 6, 26, .10) 0 1px, transparent 1px 3px); }
 
