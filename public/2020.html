@@ -2776,8 +2776,16 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
   var MONTHS = ["january","february","march","april","may","june","july","august","september","october","november","december"];
   var MBASE = "https://kimleo.net/gcoty";
   var YEAR = 2020;
-  var qrLib = null, overlay = null, iconCodes = {};
+  var qrLib = null, overlay = null, cssIconCache = {};
   var DARK = (document.documentElement.getAttribute('data-theme') || '') === 'void';
+  // deterministic glyph codepoints for the platform/VR families we use as a
+  // primary source (bootstrap-icons), fall back to stylesheet probe otherwise.
+  var GS = Object.freeze({
+    'bi-pc-display': 0xf6a6, 'bi-apple': 0xf65b, 'bi-android': 0xf7d0,
+    'bi-windows': 0xf65e, 'bi-playstation': 0xf6a9, 'bi-xbox': 0xf6d4,
+    'bi-nintendo-switch': 0xf6a4, 'bi-headset-vr': 0xf645, 'bi-google': 0xf3f0,
+    'bi-share': 0xf52e, 'bi-controller': 0xf2d4, 'bi-moon': 0xf497, 'bi-sun': 0xf5a2
+  });
 
   function cssVar(n) { return (getComputedStyle(document.documentElement).getPropertyValue(n) || '').trim(); }
   function byDate(ds) { return document.querySelector('.day-cell[data-date="' + ds + '"]'); }
@@ -2801,26 +2809,29 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
 
   // Resolve a Bootstrap icon glyph from the loaded stylesheet (CORS-enabled)
   // e.g. class "bi-playstation" -> "\f1xx".
+  // Resolve a glyph char for an icon class: prefer the hardcoded GS table,
+  // else probe the loaded stylesheet (CORS-enabled) and cache the result.
   function iconCode(cls) {
-    if (iconCodes[cls]) return iconCodes[cls];
-    var css = cls.startsWith('bi-') ? cls : 'bi-' + cls;
+    var css = (cls && cls.indexOf('bi-') === 0) ? cls : 'bi-' + cls;
+    if (cssIconCache[css]) return cssIconCache[css];
+    var cp = GS[css];
+    if (cp) { var ch1 = String.fromCodePoint(cp); cssIconCache[css] = ch1; return ch1; }
     var out = '';
     var sheets = (document.styleSheets || []);
-    for (var s = 0; s < sheets.length && !out; s++) {
+    for (var i = 0; i < sheets.length && !out; i++) {
       var rules = null;
-      try { rules = sheets[s].cssRules; } catch (e) { rules = null; }
-      if (!rules) continue;
-      for (var r = 0; r < rules.length && !out; r++) {
+      try { rules = sheets[i].cssRules; } catch (e) { rules = null; }
+      for (var r = 0; r < (rules ? rules.length : 0) && !out; r++) {
         var cs = rules[r];
-        if (cs.selectorText && cs.selectorText.indexOf('.' + css + ':before') >= 0) {
+        if (cs.selectorText && cs.selectorText.replace('::', ':').indexOf('.' + css + ':before') >= 0) {
           var cdel = cs.style.content || '';
-          var md = /\\([0-9a-fA-F]{2,6})/.exec(cdel);
-          if (md) out = String.fromCodePoint(parseInt(md[1], 16));
+          var m = /([0-9a-fA-F]{4,5})/.exec(cdel);
+          if (m) out = String.fromCodePoint(parseInt(m[1], 16));
           else { var mt = cdel.match(/"([^"]+)"/); if (mt) out = mt[1]; }
         }
       }
     }
-    iconCodes[css] = out;
+    cssIconCache[css] = out;
     return out;
   }
 
@@ -2984,6 +2995,7 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
         okIcons++;
       }
       void okIcons;
+      c.font = bodyF; // restore body font before next row's measure
       y = ly + rowIcon;
     });
 
