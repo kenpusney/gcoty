@@ -2843,26 +2843,32 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
     var accent = (cssVar('--accent') || (DARK ? '#e879f9' : '#1f6f54'));
     var accent2 = (cssVar('--accent2') || accent);
 
-    var W = 780;             // portrait (taller than wide)
-    var pad = 54;
-    var headerH = 148;       // gradient band + labels
-    var rowTitle = 21.5, rowIcon = 24;
-
-    // measure pass: count lines per row
-    var drawCtx = document.createElement('canvas').getContext('2d');
-    drawCtx.font = '600 16px ' + qFont(bodyD);
-    var linesCount = [];
+    var W = 640;             // narrower portrait
+    var pad = 42;
+    var headerH = 128;
+    var bottomH = 150;
+    var titleSize = 19;                 // game titles
+    var titleLH = 25;                   // line pitch inside a wrapped title
+    var iconSize = 12;                  // platform glyphs — must stay < titleSize
+    var noIconGap = 10;                 // bottom margin rows without icons
+    var iconGap = 17;                   // reserved below title block for icons + gap
     var bodyW = W - pad * 2;
-    rows.forEach(function (row, idx) {
-      linesCount[idx] = wrap(drawCtx, row.title, bodyW).length;
-    });
 
-    var bottomH = 210;
-    var H = headerH + (bodyW > 0 ? 8 : 0) + pad;
-    rows.forEach(function (row, idx) {
-      H += linesCount[idx] * (rowTitle + 2) + rowIcon;
+    var tmp = document.createElement('canvas').getContext('2d');
+    tmp.font = '600 ' + titleSize + 'px ' + qFont(bodyD) + ', sans-serif';
+
+    // pass 1 — deterministic layout (title lines + per-row height)
+    var starts = [], nLines = [], rowH = [], total = headerH;
+    rows.forEach(function (row, ri) {
+      starts.push(total);
+      var L = wrap(tmp, row.title, bodyW).length;
+      var hasI = row.icons && row.icons.length;
+      nLines.push(L);
+      var rh = L * titleLH + (hasI ? iconGap + 2 : noIconGap);
+      rowH.push(rh);
+      total += rh;
     });
-    H += bottomH;
+    var H = total + bottomH;
 
     var cv = document.createElement('canvas');
     cv.width = W; cv.height = H;
@@ -2870,62 +2876,57 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
 
     // base
     c.fillStyle = bg; c.fillRect(0, 0, W, H);
-    // header accent band
     var grad = c.createLinearGradient(0, 0, W, 0);
     grad.addColorStop(0, accent); grad.addColorStop(1, accent2);
-    c.fillStyle = grad; c.fillRect(0, 0, W, 7);
-    c.fillStyle = (DARK ? '#121033' : 'rgba(0,0,0,0)');
-    // kicker/date
+    c.fillStyle = grad; c.fillRect(0, 0, W, 6);
+    // kicker + date
+    c.textBaseline = 'alphabetic';
     c.font = '800 34px ' + qFont(displayD) + ', sans-serif';
     c.fillStyle = fg;
-    c.textBaseline = 'alphabetic';
-    c.fillText('Game Calendar', pad, 48);
+    c.fillText('Game Calendar', pad, 44);
     c.font = '700 22px ' + qFont(bodyD) + ', sans-serif';
     c.fillStyle = muted;
-    c.fillText(dateLabel + ', ' + YEAR, pad, 84);
-    // underline
-    c.strokeStyle = accent; c.lineWidth = 2; c.beginPath(); c.moveTo(pad, 100); c.lineTo(W - pad, 100); c.stroke();
+    c.fillText(dateLabel + ', ' + YEAR, pad, 76);
+    c.font = '800 13px ' + qFont(displayD) + ', sans-serif';
+    c.fillText('K I M L E O   ·   G A M E   C A L E N D A R', pad, 100);
+    c.strokeStyle = accent; c.lineWidth = 2; c.beginPath(); c.moveTo(pad, 112); c.lineTo(W - pad, 112); c.stroke();
 
-    // ----- rows -----
-    var y = headerH;
-    var bodyF = '600 16px ' + qFont(bodyD) + ', sans-serif';
-    c.font = bodyF;
-    rows.forEach(function (row, idx) {
-      var lines = wrap(c, row.title, W - pad * 2);
-      var ly = y;
-      lines.forEach(function (ln) { c.fillStyle = fg; c.fillText(ln, pad, ly); ly += rowTitle + 2; });
-      // icons row
-      var ix = pad;
-      c.font = '600 18px ' + qFont(iconF);
-      var okIcons = 0;
-      for (var ii = 0; ii < row.icons.length; ii++) {
-        var ic = row.icons[ii];
-        var glyph;
+    // pass 2 — paint rows on the computed starts
+    var bodyF = '600 ' + titleSize + 'px ' + qFont(bodyD) + ', sans-serif';
+    rows.forEach(function (row, ri) {
+      var top0 = starts[ri];
+      var lines = wrap(c, row.title, bodyW);
+      var tb = top0 + titleSize;
+      c.font = bodyF;
+      lines.forEach(function (ln) { c.fillStyle = fg; c.fillText(ln, pad, tb); tb += titleLH; });
+      var gY = top0 + nLines[ri] * titleLH + 10;   // platform baseline below the title block
+      var ix = pad, okP = 0;
+      for (var z = 0; z < row.icons.length; z++) {
+        var ic = row.icons[z];
         if (ic.text) {
           c.font = bodyF; c.fillStyle = muted;
-          glyph = ic.text; c.fillText(glyph, ix, ly - 4);
-          var tw = 0; try { tw = c.measureText(glyph).width; } catch (e) {}
-          ix += tw + 10; continue;
+          var gw2 = c.measureText(ic.text).width;
+          c.fillStyle = muted; c.textAlign = 'left'; c.fillText(ic.text, ix, gY + 22);
+          ix += gw2 + 14; continue;
         }
-        glyph = iconCode(ic.cls);
+        var glyph = iconCode(ic.cls);
         if (!glyph) continue;
+        c.font = '400 ' + iconSize + 'px ' + qFont(iconF);
         c.fillStyle = accent2;
-        c.fillText(glyph, ix, ly - 3);
-        var gw = 0; try { gw = c.measureText(glyph).width; } catch (e) {}
-        ix += gw + 8;
-        okIcons++;
+        c.fillText(glyph, ix, gY);
+        var gw = c.measureText(glyph).width;
+        ix += gw + 9; okP++;
       }
-      void okIcons;
-      c.font = bodyF; // restore body font before next row's measure
-      y = ly + rowIcon;
+      void okP;
+      c.font = bodyF;
     });
 
-    // footer text (left)
-    var fy = H - bottomH + 42;
-    c.font = '500 15px ' + qFont(bodyD) + ', sans-serif';
+    // footer caption (left) — official base url (scheme stripped)
+    var fy = H - bottomH + 22;
+    c.font = '600 14px ' + qFont(bodyD) + ', sans-serif';
     c.fillStyle = muted;
-    c.fillText('Source · Game Informer', pad, fy);
-    c.fillText('gcoty', pad, fy + 22);
+    var hostDot = MBASE.indexOf('//') >= 0 ? MBASE.slice(MBASE.indexOf('//') + 2) : MBASE;
+    c.fillText(hostDot + ' · Game Informer', pad, fy);
     // divider
     c.strokeStyle = accent; c.globalAlpha = .35; c.lineWidth = 1;
     c.beginPath(); c.moveTo(pad, H - bottomH + 8); c.lineTo(W - pad, H - bottomH + 8); c.stroke();
