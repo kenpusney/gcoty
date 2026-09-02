@@ -3,47 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Game release calendar by year (12 years, 6761 games) scraped from Game Informer.">
+<meta name="description" content="Game release calendar by year (12 years, 6771 games) scraped from Game Informer.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Game Calendar">
 <meta property="og:title" content="Game Calendar — Years">
-<meta property="og:description" content="Game release calendar by year (12 years, 6761 games) scraped from Game Informer.">
+<meta property="og:description" content="Game release calendar by year (12 years, 6771 games) scraped from Game Informer.">
 <meta property="og:url" content="https://kenpusney.github.io/gcoty/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Game Calendar — Years">
-<meta name="twitter:description" content="Game release calendar by year (12 years, 6761 games) scraped from Game Informer.">
+<meta name="twitter:description" content="Game release calendar by year (12 years, 6771 games) scraped from Game Informer.">
 <title>Game Calendar — Years</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;0,6..72,900;1,6..72,400&family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@400;500;600;700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
+/* ---------- Theme tokens ----------
+   Pages carry <body data-theme="...">. Three themes are supported:
+   paper  (default) warm paper newsprint
+   void   deep-space neon / arcade cabinet
+   arcade light, game-media clean
+   Common tokens let components (cards, fields, charts, icons, rays) re-skin via vars. */
+
 :root {
-  --fg: #1f2430; --muted: #6b7280; --line: #e5e7eb; --bg: #fafafa;
-  --accent: #2563eb; --accent-soft: #dbeafe;
-  --released: #16a34a; --upcoming: #f59e0b; --tba: #9ca3af;
-  --card: #ffffff;
+  --fg: #2b2118; --muted: #736652; --line: #e6decb; --bg: #f6f0e4;
+  --accent: #1f6f54; --accent2: #9a5b13; --accent-soft: #e2f0e7; --accent-ink: #ffffff;
+  --card: #fffdf8; --card2: #f1ebdd;
+  --released: #1e7f4d; --upcoming: #ad6d0a; --tba: #99907e;
+  --icon: #57534e; --ring: var(--accent);
+  --header: rgba(253, 251, 245, .86); --neon: #389e0d;
+  --shadow-sm: 0 1px 2px rgba(80, 66, 30, .06), 0 3px 8px rgba(80, 66, 30, .05);
+  --shadow-md: 0 10px 26px rgba(80, 66, 30, .12);
+}
+
+html[data-theme="arcade"] {
+  --bg: radial-gradient(circle at 12% -10%, #eef2ff, transparent 38%), #f6f7fb;
+  --fg: #151a2b; --muted: #5a6177; --line: #e0e4ef; --card: #ffffff; --card2: #eef1f9;
+  --accent: #3b5bdb; --accent2: #db2777; --accent-soft: #e2e8ff; --accent-ink: #ffffff;
+  --released: #059669; --upcoming: #d97706; --tba: #94a3b8;
+  --icon: #46506e; --ring: var(--accent);
+  --header: rgba(255, 255, 255, .88); --neon: #10b981;
+  --shadow-sm: 0 1px 2px rgba(30, 41, 59, .05), 0 3px 10px rgba(30, 41, 59, .07);
+  --shadow-md: 0 12px 30px rgba(30, 41, 59, .16);
+}
+
+html[data-theme="void"] {
+  color-scheme: dark;
+  --bg: radial-gradient(circle at 20% -10%, #4c1d95 0%, #312e81 30%, #0f0d22 80%);
+  --fg: #efeefc; --muted: #c3c6ea; --line: #5b54a3;
+  --card: #251e56; --card2: #33286b;
+  --accent: #e879f9; --accent2: #22d3ee; --accent-soft: rgba(217, 70, 239, .22); --accent-ink: #1f0b26;
+  --released: #34d399; --upcoming: #fbbf24; --tba: #7982b6;
+  --icon: #cdd3f7; --ring: #22d3ee;
+  --header: rgba(17, 14, 46, .8); --neon: #22d3ee;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .35), 0 4px 14px rgba(0, 0, 0, .4);
+  --shadow-md: 0 14px 40px rgba(0, 0, 0, .5);
 }
 * { box-sizing: border-box; }
-body { margin: 0; font-family: "Newsreader", Georgia, "Times New Roman", serif; color: var(--fg); background: var(--bg); line-height: 1.45; }
+html { -webkit-text-size-adjust: 100%; }
+
+/* ---------- Typography & surface identity per theme ---------- */
+:root {
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "Newsreader", Georgia, "Times New Roman", serif;
+  --heading-style: normal; --heading-weigh: 900; --heading-ls: -0.01em; --heading-caps: none;
+  --lm-size: 1.15rem; --lm-ls: .01em;
+  --radius-card: 10px; --radius-pill: 999px; --radius-btn: 8px;
+  --pixel-edge: 0; --glow: 0;
+}
+html[data-theme="arcade"] {
+  --font-display: "Silkscreen", ui-monospace, "Courier New", monospace;
+  --font-body: "Pixelify Sans", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --heading-style: normal; --heading-weigh: 700; --heading-ls: 0; --heading-caps: uppercase;
+  --lm-size: 1.05rem; --lm-ls: .04em; --lm-caps: uppercase;
+  --radius-card: 2px; --radius-pill: 2px; --radius-btn: 2px;
+  --pixel-edge: 1; --glow: 0;
+}
+html[data-theme="void"] {
+  --font-display: "Orbitron", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Rajdhani", "Segoe UI", system-ui, sans-serif;
+  --heading-style: normal; --heading-weigh: 800; --heading-ls: .06em; --heading-caps: uppercase;
+  --lm-size: 1.05rem; --lm-ls: .3em; --lm-caps: uppercase;
+  --radius-card: 14px; --radius-pill: 999px; --radius-btn: 999px;
+  --pixel-edge: 0; --glow: 1;
+}
+body { margin: 0; font-family: var(--font-body); color: var(--fg); background: var(--bg); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+h1, .entry-title { font-family: var(--font-display); font-weight: var(--heading-weigh); letter-spacing: var(--heading-ls); text-transform: var(--heading-caps); font-variant-numeric: tabular-nums; }
+h2 { font-family: var(--font-display); font-weight: var(--heading-weigh); letter-spacing: var(--heading-ls); text-transform: var(--heading-caps); }
+h2::after, .month h3::after { content: none; }
+.site-header .brand { font-family: var(--font-display); }
+.site-header .brand small { font-family: inherit; letter-spacing: .2em; }
+.tl-item .year, .day-num, .cal-header, .month h3, .card .num, .month-nav a.month-link.active { font-family: var(--font-display); }
+
+::selection { background: var(--accent-soft); }
 a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
 
-.site-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 20px; background: var(--card); border-bottom: 1px solid var(--line); }
-.site-header .brand { font-weight: 700; font-size: 1.1rem; color: var(--fg); }
-.site-header nav { display: flex; gap: 14px; }
+.site-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: var(--header); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.site-header .brand { font-weight: 800; font-size: 1.15rem; letter-spacing: .01em; color: var(--fg); }
+.site-header .brand small { display: block; font-size: .62rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.site-header nav { display: flex; gap: 16px; }
 .site-header nav a { color: var(--muted); }
-.site-header nav a.active { color: var(--accent); font-weight: 600; }
+.site-header nav a:hover { color: var(--fg); text-decoration: none; }
+.site-header nav a.active { color: var(--accent); font-weight: 700; }
+.theme-toggle { display: inline-flex; align-items: center; gap: 7px; flex: 0 0 auto; margin-left: 2px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--fg); font-family: inherit; font-size: .8rem; font-weight: 600; cursor: pointer; transition: border-color .12s, color .12s, box-shadow .12s; }
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); box-shadow: var(--shadow-sm); }
+.theme-toggle > i.bi { font-size: .9rem; color: var(--accent); }
+html[data-theme="void"] .theme-toggle { border-color: var(--line); }
 
-main { max-width: 1080px; margin: 0 auto; padding: 24px 20px 48px; }
-footer { max-width: 1080px; margin: 0 auto; padding: 12px 20px 32px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); }
-h1 { margin: 8px 0 4px; }
-h2 { margin: 28px 0 10px; }
-.sub { color: var(--muted); margin: 0 0 18px; }
+main { max-width: 1080px; margin: 0 auto; padding: 28px 20px 56px; }
+footer { max-width: 1080px; margin: 0 auto; padding: 16px 20px 36px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); }
+h1 { margin: 6px 0 6px; font-size: 2.15rem; font-weight: var(--heading-weigh); line-height: 1.15; letter-spacing: var(--heading-ls); }
+h2 { margin: 34px 0 12px; font-size: 1.45rem; font-weight: var(--heading-weigh); padding-bottom: 8px; border-bottom: 1px solid var(--line); letter-spacing: var(--heading-ls); }
+.sub { color: var(--muted); margin: 0 0 18px; max-width: 66ch; }
 
 /* --- overview cards --- */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 18px 0 26px; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; box-shadow: var(--shadow-sm); }
 .card .num { font-size: 1.7rem; font-weight: 700; line-height: 1.1; }
 .card .lbl { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: .04em; }
 .card.released .num { color: var(--released); }
@@ -53,14 +130,15 @@ h2 { margin: 28px 0 10px; }
 
 /* --- year timeline (index.html) --- */
 .tl-wrap { position: relative; margin: 26px 0; }
-.tl-track { display: flex; gap: 14px; overflow-x: auto; padding: 10px 2px 16px; scroll-snap-type: x proximity; scrollbar-width: thin; }
-.tl-item { flex: 0 0 auto; scroll-snap-align: start; width: 118px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px; color: var(--fg); text-align: center; transition: transform .12s, box-shadow .12s; }
-.tl-item:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,.08); text-decoration: none; }
+.tl-track { display: flex; gap: 14px; overflow-x: auto; padding: 10px 2px 16px; scroll-snap-type: x proximity; scrollbar-width: none; }
+.tl-track::-webkit-scrollbar { display: none; }
+.tl-item { flex: 0 0 auto; scroll-snap-align: start; width: 118px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px; color: var(--fg); text-align: center; box-shadow: var(--shadow-sm); transition: transform .12s, box-shadow .12s, border-color .12s; }
+.tl-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--accent-soft); text-decoration: none; }
 .tl-item .year { font-size: 1.5rem; font-weight: 700; }
 .tl-item .counts { margin: 6px 0; font-size: .78rem; color: var(--muted); }
 .tl-item .counts b { color: var(--fg); }
 .tl-item.current { outline: 2px solid var(--accent); background: var(--accent-soft); }
-.tl-item .bar { height: 6px; border-radius: 3px; background: #eef0f3; overflow: hidden; margin-top: 8px; }
+.tl-item .bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 8px; }
 .tl-item .bar > i { display: block; height: 100%; background: var(--released); }
 .tl-scroll { display: flex; justify-content: space-between; margin-top: 8px; gap: 10px; }
 .tl-scroll button { flex: 1; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-size: .9rem; cursor: pointer; }
@@ -69,43 +147,39 @@ h2 { margin: 28px 0 10px; }
 .tl-legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 4px 0 12px; vertical-align: -1px; }
 
 /* --- month calendar (year pages) --- */
-.month-nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 16px 0 20px; }
-.month-nav .years { display: flex; gap: 8px; }
-.month-nav .months { display: flex; flex-wrap: wrap; gap: 6px; }
-.month-nav a.year-link { padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-weight: 600; white-space: nowrap; }
+.month-nav { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; margin: 16px 0 20px; }
+.month-nav .years { flex: 0 0 auto; display: flex; gap: 6px; }
+.month-nav .months { flex: 1 1 auto; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; padding-bottom: 2px; }
+.month-nav .months::-webkit-scrollbar { display: none; }
+.month-nav a.year-link { flex: 0 0 auto; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-weight: 600; white-space: nowrap; }
 .month-nav a.year-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 .month-nav .year-link.disabled { opacity: .4; pointer-events: none; }
-.month-nav a.month-link { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--fg); font-size: .85rem; }
+.month-nav a.month-link { flex: 0 0 auto; scroll-snap-align: start; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--fg); font-size: .85rem; white-space: nowrap; }
 .month-nav a.month-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-.month-nav a.month-link.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-.show-all-btn { padding: 6px 12px; border: 1px dashed var(--line); border-radius: 999px; background: transparent; color: var(--muted); font-size: .85rem; cursor: pointer; font-family: inherit; }
-.show-all-btn:hover { border-color: var(--accent); color: var(--accent); }
-body.show-all .show-all-btn { border-style: solid; color: var(--accent); border-color: var(--accent); }
+.month-nav a.month-link.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 
-/* exactly one month is shown; the month links above act as filters.
-   body.show-all (toggle button) reveals every month. */
+/* exactly one month is shown; the month links above act as filters. */
 .month { display: none; }
 .month.active { display: block; }
-body.show-all .month { display: block; }
 
-.month h3 { margin: 0 0 2px; }
+.month h3 { margin: 0 0 2px; font-size: 1.3rem; font-weight: 700; }
 .month .mstats { color: var(--muted); font-size: .85rem; margin: 0 0 10px; }
-.month .mstats .rel { color: var(--released); }
-.month .mstats .upc { color: var(--upcoming); }
-.month .mstats .tba { color: var(--tba); }
+.month .mstats .rel { color: var(--released); font-weight: 700; }
+.month .mstats .upc { color: var(--upcoming); font-weight: 700; }
+.month .mstats .tba { color: var(--tba); font-weight: 700; }
 
 .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 26px; }
 .cal-header { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); text-align: center; padding: 4px 0; }
-.day-cell { position: relative; min-height: 96px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 6px; overflow: hidden; }
+.day-cell { position: relative; min-height: 96px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 6px; overflow: hidden; transition: border-color .12s, box-shadow .12s; }
 .day-cell.empty { background: transparent; border-color: transparent; }
 .day-cell.today { outline: 2px solid var(--accent); }
-.day-num { display: inline-block; font-size: .78rem; font-weight: 600; color: var(--muted); padding: 1px 6px; border-radius: 999px; }
+.day-cell.has-games:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+.day-num { display: inline-flex; align-items: center; font-size: .8rem; font-weight: 700; color: var(--muted); padding: 1px 7px; border-radius: 999px; }
 .day-cell.has-games .day-num { background: var(--accent-soft); color: var(--accent); }
-.day-cell.today .day-num { background: var(--accent); color: #fff; }
-.day-cell .games { list-style: none; margin: 4px 0 0; padding: 0; font-size: .7rem; max-height: 72px; overflow-y: auto; }
-.day-cell .games li { padding: 2px 0; border-top: 1px dashed var(--line); }
+.day-cell.today .day-num { background: var(--accent); color: var(--accent-ink); }
+.day-cell .games { list-style: none; margin: 5px 0 0; padding: 0; font-size: .72rem; max-height: 70px; overflow-y: auto; scrollbar-width: thin; }
+.day-cell .games li { padding: 3px 0; border-top: 1px dashed var(--line); line-height: 1.35; }
 .day-cell .games li:first-child { border-top: none; }
-.day-cell .games .plats { display: block; color: var(--muted); }
 
 /* calendars: exactly one .month.active is displayed; see .month rules above */
 
@@ -117,11 +191,45 @@ body.show-all .month { display: block; }
 .count-dot.d4 { background: #46b574; }
 .count-dot.d5 { background: #209254; }
 .count-dot.d6 { background: #0f6638; }
+html[data-theme="arcade"] .count-dot.d1 { background: #d1fae5; }
+html[data-theme="arcade"] .count-dot.d2 { background: #a7f3d0; }
+html[data-theme="arcade"] .count-dot.d3 { background: #34d399; }
+html[data-theme="arcade"] .count-dot.d4 { background: #10b981; }
+html[data-theme="arcade"] .count-dot.d5 { background: #059669; }
+html[data-theme="arcade"] .count-dot.d6 { background: #065f46; }
+html[data-theme="void"] .count-dot.d1 { background: #1f1a4a; }
+html[data-theme="void"] .count-dot.d2 { background: #5b21b6; }
+html[data-theme="void"] .count-dot.d3 { background: #9333ea; }
+html[data-theme="void"] .count-dot.d4 { background: #c026d3; }
+html[data-theme="void"] .count-dot.d5 { background: #e11d48; }
+html[data-theme="void"] .count-dot.d6 { background: #f43f5e; }
+html[data-theme="void"] .day-cell.today,
+html[data-theme="void"] .tl-item.current,
+html[data-theme="void"] .month-nav a.month-link.active { box-shadow: 0 0 0 2px var(--accent), 0 0 18px rgba(34, 211, 238, .5); }
+html[data-theme="void"] .day-cell.today,
+html[data-theme="void"] .tl-item.current { outline: none; }
 
 /* --- platform brand icons (Bootstrap Icons), merged per family --- */
 .platform-icons { margin-left: 6px; white-space: nowrap; }
-.platform-icons i.bi { font-size: .78rem; color: #4b5563; margin-left: 3px; cursor: help; }
+.platform-icons i.bi { font-size: .78rem; color: var(--icon); margin-left: 3px; cursor: help; }
 .platform-icons .plat-txt { font-size: .7rem; color: var(--tba); }
+
+/* "N titles" chip shown on small screens instead of the inline game list */
+.day-more { display: none; }
+
+/* day detail modal (used on small screens) */
+.day-modal { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.day-modal[hidden] { display: none; }
+.day-modal-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, .55); }
+.day-modal-panel { position: relative; width: min(560px, 100%); max-height: 82vh; overflow-y: auto; background: var(--card); border-radius: 14px; padding: 22px 24px; box-shadow: 0 24px 60px rgba(0, 0, 0, .3); }
+.day-modal-close { position: absolute; top: 10px; right: 12px; font-size: 1.4rem; line-height: 1; border: none; background: none; color: var(--muted); cursor: pointer; padding: 6px; }
+.day-modal-close:hover { color: var(--fg); }
+.day-modal-panel h4 { margin: 0 0 14px; font-size: 1.25rem; font-weight: 700; padding-right: 28px; }
+.day-modal-list { list-style: none; margin: 0; padding: 0; }
+.day-modal-list li { padding: 8px 2px; border-top: 1px solid var(--line); font-size: .95rem; }
+.day-modal-list li:first-child { border-top: none; }
+.day-modal-list .platform-icons i.bi { font-size: 1rem; }
+body.modal-open { overflow: hidden; }
 
 /* --- stats page --- */
 .filter-row { display: flex; align-items: center; gap: 8px; margin: 12px 0 4px; }
@@ -131,17 +239,63 @@ body.show-all .month { display: block; }
 .note { color: var(--muted); font-size: .82rem; }
 @media (max-width: 720px) {
   .calendar { gap: 4px; }
-  .day-cell { min-height: 74px; padding: 4px; }
-  .day-cell .games { max-height: 56px; }
-  .site-header { flex-direction: column; align-items: flex-start; }
+  .day-cell { min-height: 74px; padding: 5px; }
+  .day-cell.has-games { cursor: pointer; }
+  .day-cell.has-games:hover { border-color: var(--accent); }
+  .day-cell .games { display: none; }
+  .day-more { display: block; margin-top: 4px; font-size: .72rem; font-weight: 700; color: var(--accent); line-height: 1.2; }
+  .site-header { flex-wrap: wrap; gap: 4px 10px; align-items: flex-start; }
+  .site-header .brand { order: 1; }
+  .site-header nav { order: 3; flex: 1 1 100%; margin: 2px 0 4px; gap: 18px; }
+  .theme-toggle { order: 2; margin-left: auto; }
 }
+
+/* ---------- Surface identity (final shape pass so it always wins) ---------- */
+.card, .tl-item, .day-cell, .day-modal-panel { border-radius: var(--radius-card); }
+.month-nav a.year-link, .theme-toggle, .filter-row select, .show-all-pill, .tl-scroll button { border-radius: var(--radius-btn); }
+.month-nav a.month-link, .count-dot, .day-num, .site-header .brand small, .tl-legend .dot { border-radius: var(--radius-pill); }
+
+.card, .tl-item, .day-cell, .day-modal-panel { border-radius: var(--radius-card); }
+.month-nav a.year-link, .theme-toggle, .filter-row select, .tl-scroll button { border-radius: var(--radius-btn); }
+.month-nav a.month-link, .count-dot, .day-num, .site-header .brand small, .tl-legend .dot { border-radius: var(--radius-pill); }
+
+/* ===== Arcade — pixel / retro-console surface ===== */
+html[data-theme="arcade"] { color-scheme: light; }
+html[data-theme="arcade"] .card,
+html[data-theme="arcade"] .tl-item { box-shadow: 4px 4px 0 var(--shadow-color, rgba(60, 40, 140, .24)); }
+html[data-theme="arcade"] .card:hover,
+html[data-theme="arcade"] .tl-item:hover { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 var(--shadow-color, rgba(60, 40, 140, .22)); transition: transform .04s linear, box-shadow .04s linear; }
+html[data-theme="arcade"] .day-cell.empty { background-image: radial-gradient(currentColor 1px, transparent 1px); background-size: 14px 14px; color: rgba(90, 70, 200, .08); }
+html[data-theme="arcade"] .day-num { font-size: .86rem; }
+html[data-theme="arcade"] .site-header { border-bottom-width: 2px; }
+
+/* ===== Void — cyber neon surface ===== */
+html[data-theme="void"] h1,
+html[data-theme="void"] h2,
+html[data-theme="void"] .tl-item .year,
+html[data-theme="void"] .card .num { text-shadow: 0 0 14px rgba(34, 211, 238, .5), 0 0 3px rgba(232, 121, 249, .4); }
+html[data-theme="void"] .card,
+html[data-theme="void"] .tl-item,
+html[data-theme="void"] .day-cell { background-image: linear-gradient(rgba(255, 255, 255, .03), rgba(255, 255, 255, 0)); border: 1px solid rgba(150, 140, 255, .25); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), var(--shadow-md); }
+html[data-theme="void"] .month-nav a.month-link { border-color: rgba(124, 128, 220, .35); }
+html[data-theme="void"] a { text-decoration-color: rgba(34, 211, 238, .55); text-underline-offset: 3px; }
+html[data-theme="void"] .day-cell.today .day-num { box-shadow: 0 0 12px var(--accent2); }
+html[data-theme="void"] .day-modal-backdrop { background: rgba(4, 2, 14, .7); }
+html[data-theme="void"] .day-modal-panel { background-image: radial-gradient(circle at 85% -5%, rgba(76, 29, 149, .55), transparent 55%), linear-gradient(rgba(30, 22, 88, .55), rgba(14, 10, 40, .93)); }
+html[data-theme="void"] .day-modal-list li { font-family: var(--font-body); font-weight: 500; font-size: 1.05rem; }
+html[data-theme="void"] .day-modal-list li a { font-weight: 700; }
+/* Scanline stays a fixed veil instead of replacing the body neon gradient */
+html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none; background-image: repeating-linear-gradient(0deg, rgba(8, 6, 26, .10) 0 1px, transparent 1px 3px); }
+
 </style>
 <script>document.documentElement.className += ' js';</script>
+<script>(function(){function sysDark(){return window.matchMedia('(prefers-color-scheme: dark)').matches;}function resolve(t){if(t==='paper'||t==='arcade'||t==='void')return t;return sysDark()?'void':'paper';}var t;try{t=localStorage.getItem('gc-theme')}catch(e){t=null}var want=resolve(t);if(want==='paper'){document.documentElement.removeAttribute('data-theme');}else{document.documentElement.setAttribute('data-theme',want);}})();</script>
 </head>
 <body>
 <header class="site-header">
-  <a class="brand" href="index.html">Game Calendar</a>
+  <a class="brand" href="index.html">Game Calendar<small>Release schedule</small></a>
   <nav><a href="index.html" class="active">Years</a><a href="stats.html">Stats</a></nav>
+  <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch theme"><i class="bi bi-palette" aria-hidden="true"></i><span id="theme-label"></span></button>
 </header>
 <main>
 
@@ -149,10 +303,10 @@ body.show-all .month { display: block; }
 <p class="sub">Annual release schedule by year, scraped from Game Informer. Pick a year to open its monthly calendar.</p>
 
 <div class="cards">
-  <div class="card total"><div class="num">6761</div><div class="lbl">Games tracked</div></div>
-  <div class="card released"><div class="num">6298</div><div class="lbl">Released</div></div>
-  <div class="card upcoming"><div class="num">168</div><div class="lbl">Upcoming</div></div>
-  <div class="card tba"><div class="num">295</div><div class="lbl">TBA</div></div>
+  <div class="card total"><div class="num">6771</div><div class="lbl">Games tracked</div></div>
+  <div class="card released"><div class="num">6300</div><div class="lbl">Released</div></div>
+  <div class="card upcoming"><div class="num">175</div><div class="lbl">Upcoming</div></div>
+  <div class="card tba"><div class="num">296</div><div class="lbl">TBA</div></div>
   <div class="card total"><div class="num">12</div><div class="lbl">Years covered</div></div>
 </div>
 
@@ -199,7 +353,7 @@ body.show-all .month { display: block; }
         <div class="bar"><i style="width:100%"></i></div>
       </a><a class="tl-item current" href="2026.html">
         <div class="year">2026</div>
-        <div class="counts"><b>562</b> released &middot; <b>154</b> upcoming</div>
+        <div class="counts"><b>564</b> released &middot; <b>161</b> upcoming</div>
         <div class="bar"><i style="width:78%"></i></div>
       </a><a class="tl-item future" href="2027.html">
         <div class="year">2027</div>
@@ -241,5 +395,61 @@ body.show-all .month { display: block; }
 <footer>
   <p>Game release schedule scraped from <a href="https://www.gameinformer.com">Game Informer</a>, current year 2026. Generated pages are static &mdash; share any URL directly.</p>
 </footer>
+<script>
+(function () {
+  var btn = document.getElementById('theme-toggle');
+  var label = document.getElementById('theme-label');
+  if (!btn) return;
+  var CHOICES = [
+    { id: 'paper',  label: 'Paper',   mode: 'light' },
+    { id: 'arcade', label: 'Arcade',  mode: 'light' },
+    { id: 'void',   label: 'Void',    mode: 'dark'  },
+    { id: 'auto',   label: 'Auto',    mode: 'auto'  }
+  ];
+  var mqDark = window.matchMedia('(prefers-color-scheme: dark)');
+  function readPref() {
+    var t; try { t = localStorage.getItem('gc-theme'); } catch (e) { t = null; }
+    return t || 'auto';
+  }
+  function currentChoice() {
+    var t = readPref();
+    for (var i = 0; i < CHOICES.length; i++) if (CHOICES[i].id === t) return CHOICES[i];
+    return CHOICES[3]; // auto
+  }
+  function resolveTheme(choice) {
+    if (choice.mode === 'auto') return mqDark.matches ? 'void' : 'paper';
+    if (choice.id === 'paper') return 'paper';
+    return choice.id; // arcade | void
+  }
+  function apply() {
+    var want = resolveTheme(currentChoice());
+    function dd(a) { document.documentElement.setAttribute('data-theme', a); }
+    if (want === 'paper') document.documentElement.removeAttribute('data-theme');
+    else dd(want);
+    var c = currentChoice();
+    var modeIcon = mqDark.matches ? 'bi-moon' : 'bi-sun';
+    var mood = c.mode === 'auto' ? modeIcon
+              : c.mode === 'dark' ? 'bi-moon'
+              : 'bi-sun';
+    var ic = btn.querySelector('i');
+    if (ic) { ic.className = 'bi ' + mood; }
+    label.textContent = c.label + ' ▾';
+    btn.setAttribute('aria-label', 'Switch theme: currently ' + c.label);
+  }
+  btn.addEventListener('click', function () {
+    var c = currentChoice();
+    var idx = 0;
+    for (var i = 0; i < CHOICES.length; i++) if (CHOICES[i].id === c.id) idx = i;
+    var next = CHOICES[(idx + 1) % CHOICES.length];
+    try { localStorage.setItem('gc-theme', next.id); } catch (e) {}
+    apply();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 't') { btn.click(); } });
+  // When "Auto", re-resolve on system dark/light changes; a hand-picked style locks it.
+  mqDark.addEventListener('change', function () { if (currentChoice().mode === 'auto') apply(); });
+  apply();
+})();
+
+</script>
 </body>
 </html>
