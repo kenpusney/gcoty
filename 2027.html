@@ -15,8 +15,8 @@
 <title>Game Calendar 2027</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;0,6..72,900;1,6..72,400&family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@400;500;600;700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;0,6..72,900;1,6..72,400&family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@400;500;600;700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" crossorigin="anonymous">
 <style>
 /* ---------- Theme tokens ----------
    Pages carry <body data-theme="...">. Three themes are supported:
@@ -287,6 +287,33 @@ html[data-theme="void"] .day-modal-list li a { font-weight: 700; }
 /* Scanline stays a fixed veil instead of replacing the body neon gradient */
 html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none; background-image: repeating-linear-gradient(0deg, rgba(8, 6, 26, .10) 0 1px, transparent 1px 3px); }
 
+/* ===== share-day button + preview overlay ===== */
+.day-head { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+.day-head .share-day { margin-left: 2px; }
+.share-day { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 0; border: none; background: none; color: var(--icon); font-size: .82rem; line-height: 1; border-radius: 6px; cursor: pointer; flex: 0 0 auto; }
+.day-cell .share-day:hover, .share-day:hover { color: var(--accent); background: var(--accent-soft); }
+
+.day-modal-head { display: flex; align-items: flex-start; gap: 8px; padding-right: 2px; }
+.day-modal-head h4 { margin: 0 0 12px; flex: 1 1 auto; padding-right: 0; }
+.day-modal-actions { display: inline-flex; gap: 4px; align-items: center; flex: 0 0 auto; }
+.day-modal-close { position: static; font-size: 1.1rem; padding: 2px 7px; }
+
+#share-overlay { position: fixed; inset: 0; z-index: 130; display: none; align-items: center; justify-content: center; padding: 16px; }
+#share-overlay .backdrop { position: absolute; inset: 0; background: rgba(9, 7, 24, .62); }
+#share-overlay .panel { position: relative; background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: var(--radius-card); box-shadow: var(--shadow-md); padding: 18px; width: min(680px, 100%); max-height: 92vh; overflow: auto; }
+#share-overlay .panel img { display: block; width: 100%; border-radius: 6px; }
+#share-overlay .close { position: absolute; top: 6px; right: 8px; font-size: 1.35rem; line-height: 1; border: none; background: none; color: var(--muted); cursor: pointer; padding: 4px 6px; border-radius: 6px; }
+#share-overlay .close:hover { color: var(--fg); background: var(--accent-soft); }
+#share-overlay .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
+#share-overlay .download { display: inline-block; padding: 9px 18px; background: var(--accent); color: var(--accent-ink); border-radius: var(--radius-btn); font-family: var(--font-display); font-weight: 600; text-decoration: none; }
+#share-overlay .download:hover { text-decoration: none; filter: brightness(1.06); }
+@media (max-width: 720px) {
+  .day-cell .share-day { display: none; }
+  #share-overlay .panel { padding: 14px; }
+}
+
+
+
 </style>
 <script>document.documentElement.className += ' js';</script>
 <script>(function(){function sysDark(){return window.matchMedia('(prefers-color-scheme: dark)').matches;}function resolve(t){if(t==='paper'||t==='arcade'||t==='void')return t;return sysDark()?'void':'paper';}var t;try{t=localStorage.getItem('gc-theme')}catch(e){t=null}var want=resolve(t);if(want==='paper'){document.documentElement.removeAttribute('data-theme');}else{document.documentElement.setAttribute('data-theme',want);}})();</script>
@@ -312,1164 +339,2574 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
 <section class="month active" id="january" data-month="1">
     <h3>January</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">5 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-1-1" data-label="January 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-1-1" data-label="January 1" data-month="1">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-2" data-label="January 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-1-2" data-label="January 2" data-month="1">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-3" data-label="January 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-1-3" data-label="January 3" data-month="1">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-4" data-label="January 4">
-      <span class="day-num">4</span>
+    </div><div class="day-cell" data-date="2027-1-4" data-label="January 4" data-month="1">
+      <span class="day-head">
+        <span class="day-num">4</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-5" data-label="January 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-1-5" data-label="January 5" data-month="1">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-6" data-label="January 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-1-6" data-label="January 6" data-month="1">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell has-games" data-date="2027-1-7" data-label="January 7">
-      <span class="day-num">7<span class="count-dot d1" title="1 game"></span></span>
+    </div><div class="day-cell has-games" data-date="2027-1-7" data-label="January 7" data-month="1">
+      <span class="day-head">
+        <span class="day-num">7<span class="count-dot d1" title="1 game"></span></span>
+        <button type="button" class="share-day bi bi-share" data-share-date="2027-1-7" aria-label="Share releases for January 7"></button>
+      </span>
       <ul class="games"><li><a href="https://www.gameinformer.com/product/armatus" target="_blank" rel="noopener">Armatus</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-nintendo-switch" title="Switch 2"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
       <span class="day-more" aria-hidden="true">1 title &nearr;</span>
-    </div><div class="day-cell" data-date="2027-1-8" data-label="January 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-1-8" data-label="January 8" data-month="1">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-9" data-label="January 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-1-9" data-label="January 9" data-month="1">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-10" data-label="January 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-1-10" data-label="January 10" data-month="1">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-11" data-label="January 11">
-      <span class="day-num">11</span>
+    </div><div class="day-cell" data-date="2027-1-11" data-label="January 11" data-month="1">
+      <span class="day-head">
+        <span class="day-num">11</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-12" data-label="January 12">
-      <span class="day-num">12</span>
+    </div><div class="day-cell" data-date="2027-1-12" data-label="January 12" data-month="1">
+      <span class="day-head">
+        <span class="day-num">12</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-13" data-label="January 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-1-13" data-label="January 13" data-month="1">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-14" data-label="January 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-1-14" data-label="January 14" data-month="1">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell has-games" data-date="2027-1-15" data-label="January 15">
-      <span class="day-num">15<span class="count-dot d3" title="3 games"></span></span>
+    </div><div class="day-cell has-games" data-date="2027-1-15" data-label="January 15" data-month="1">
+      <span class="day-head">
+        <span class="day-num">15<span class="count-dot d3" title="3 games"></span></span>
+        <button type="button" class="share-day bi bi-share" data-share-date="2027-1-15" aria-label="Share releases for January 15"></button>
+      </span>
       <ul class="games"><li><a href="https://www.gameinformer.com/product/ananta" target="_blank" rel="noopener">Ananta</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-pc-display" title="PC"></i><i class="bi bi-apple" title="iOS"></i><i class="bi bi-android" title="Android"></i></span></li><li><a href="https://www.gameinformer.com/product/stranger-than-heaven" target="_blank" rel="noopener">Stranger Than Heaven</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li><a href="https://www.gameinformer.com/product/tankrat" target="_blank" rel="noopener">TankRat</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
       <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
-    </div><div class="day-cell" data-date="2027-1-16" data-label="January 16">
-      <span class="day-num">16</span>
+    </div><div class="day-cell" data-date="2027-1-16" data-label="January 16" data-month="1">
+      <span class="day-head">
+        <span class="day-num">16</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-17" data-label="January 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-1-17" data-label="January 17" data-month="1">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-18" data-label="January 18">
-      <span class="day-num">18</span>
+    </div><div class="day-cell" data-date="2027-1-18" data-label="January 18" data-month="1">
+      <span class="day-head">
+        <span class="day-num">18</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-19" data-label="January 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-1-19" data-label="January 19" data-month="1">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-20" data-label="January 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-1-20" data-label="January 20" data-month="1">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell has-games" data-date="2027-1-21" data-label="January 21">
-      <span class="day-num">21<span class="count-dot d1" title="1 game"></span></span>
+    </div><div class="day-cell has-games" data-date="2027-1-21" data-label="January 21" data-month="1">
+      <span class="day-head">
+        <span class="day-num">21<span class="count-dot d1" title="1 game"></span></span>
+        <button type="button" class="share-day bi bi-share" data-share-date="2027-1-21" aria-label="Share releases for January 21"></button>
+      </span>
       <ul class="games"><li><a href="https://www.gameinformer.com/product/wandering-sword" target="_blank" rel="noopener">Wandering Sword</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-nintendo-switch" title="Switch 2, Switch"></i></span></li></ul>
       <span class="day-more" aria-hidden="true">1 title &nearr;</span>
-    </div><div class="day-cell" data-date="2027-1-22" data-label="January 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-1-22" data-label="January 22" data-month="1">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-23" data-label="January 23">
-      <span class="day-num">23</span>
+    </div><div class="day-cell" data-date="2027-1-23" data-label="January 23" data-month="1">
+      <span class="day-head">
+        <span class="day-num">23</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-24" data-label="January 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-1-24" data-label="January 24" data-month="1">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-25" data-label="January 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-1-25" data-label="January 25" data-month="1">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-26" data-label="January 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-1-26" data-label="January 26" data-month="1">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-27" data-label="January 27">
-      <span class="day-num">27</span>
+    </div><div class="day-cell" data-date="2027-1-27" data-label="January 27" data-month="1">
+      <span class="day-head">
+        <span class="day-num">27</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-28" data-label="January 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-1-28" data-label="January 28" data-month="1">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-29" data-label="January 29">
-      <span class="day-num">29</span>
+    </div><div class="day-cell" data-date="2027-1-29" data-label="January 29" data-month="1">
+      <span class="day-head">
+        <span class="day-num">29</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-30" data-label="January 30">
-      <span class="day-num">30</span>
+    </div><div class="day-cell" data-date="2027-1-30" data-label="January 30" data-month="1">
+      <span class="day-head">
+        <span class="day-num">30</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-1-31" data-label="January 31">
-      <span class="day-num">31</span>
+    </div><div class="day-cell" data-date="2027-1-31" data-label="January 31" data-month="1">
+      <span class="day-head">
+        <span class="day-num">31</span>
+        
+      </span>
       
     </div></div>
   </section><section class="month" id="february" data-month="2">
     <h3>February</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">4 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-2-1" data-label="February 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-2-1" data-label="February 1" data-month="2">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-2" data-label="February 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-2-2" data-label="February 2" data-month="2">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-3" data-label="February 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-2-3" data-label="February 3" data-month="2">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-4" data-label="February 4">
-      <span class="day-num">4</span>
+    </div><div class="day-cell" data-date="2027-2-4" data-label="February 4" data-month="2">
+      <span class="day-head">
+        <span class="day-num">4</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-5" data-label="February 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-2-5" data-label="February 5" data-month="2">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-6" data-label="February 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-2-6" data-label="February 6" data-month="2">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-7" data-label="February 7">
-      <span class="day-num">7</span>
+    </div><div class="day-cell" data-date="2027-2-7" data-label="February 7" data-month="2">
+      <span class="day-head">
+        <span class="day-num">7</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-8" data-label="February 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-2-8" data-label="February 8" data-month="2">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-9" data-label="February 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-2-9" data-label="February 9" data-month="2">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-10" data-label="February 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-2-10" data-label="February 10" data-month="2">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-11" data-label="February 11">
-      <span class="day-num">11</span>
+    </div><div class="day-cell" data-date="2027-2-11" data-label="February 11" data-month="2">
+      <span class="day-head">
+        <span class="day-num">11</span>
+        
+      </span>
       
-    </div><div class="day-cell has-games" data-date="2027-2-12" data-label="February 12">
-      <span class="day-num">12<span class="count-dot d1" title="1 game"></span></span>
+    </div><div class="day-cell has-games" data-date="2027-2-12" data-label="February 12" data-month="2">
+      <span class="day-head">
+        <span class="day-num">12<span class="count-dot d1" title="1 game"></span></span>
+        <button type="button" class="share-day bi bi-share" data-share-date="2027-2-12" aria-label="Share releases for February 12"></button>
+      </span>
       <ul class="games"><li><a href="https://www.gameinformer.com/product/tomb-raider-legacy-of-atlantis" target="_blank" rel="noopener">Tomb Raider: Legacy of Atlantis</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-nintendo-switch" title="Switch 2"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
       <span class="day-more" aria-hidden="true">1 title &nearr;</span>
-    </div><div class="day-cell" data-date="2027-2-13" data-label="February 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-2-13" data-label="February 13" data-month="2">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-14" data-label="February 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-2-14" data-label="February 14" data-month="2">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-15" data-label="February 15">
-      <span class="day-num">15</span>
+    </div><div class="day-cell" data-date="2027-2-15" data-label="February 15" data-month="2">
+      <span class="day-head">
+        <span class="day-num">15</span>
+        
+      </span>
       
-    </div><div class="day-cell has-games" data-date="2027-2-16" data-label="February 16">
-      <span class="day-num">16<span class="count-dot d1" title="1 game"></span></span>
+    </div><div class="day-cell has-games" data-date="2027-2-16" data-label="February 16" data-month="2">
+      <span class="day-head">
+        <span class="day-num">16<span class="count-dot d1" title="1 game"></span></span>
+        <button type="button" class="share-day bi bi-share" data-share-date="2027-2-16" aria-label="Share releases for February 16"></button>
+      </span>
       <ul class="games"><li><a href="https://www.gameinformer.com/product/god-of-war-laufey" target="_blank" rel="noopener">God of War Laufey</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i></span></li></ul>
       <span class="day-more" aria-hidden="true">1 title &nearr;</span>
-    </div><div class="day-cell" data-date="2027-2-17" data-label="February 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-2-17" data-label="February 17" data-month="2">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell has-games" data-date="2027-2-18" data-label="February 18">
-      <span class="day-num">18<span class="count-dot d1" title="1 game"></span></span>
+    </div><div class="day-cell has-games" data-date="2027-2-18" data-label="February 18" data-month="2">
+      <span class="day-head">
+        <span class="day-num">18<span class="count-dot d1" title="1 game"></span></span>
+        <button type="button" class="share-day bi bi-share" data-share-date="2027-2-18" aria-label="Share releases for February 18"></button>
+      </span>
       <ul class="games"><li><a href="https://www.gameinformer.com/product/persona-4-revival" target="_blank" rel="noopener">Persona 4 Revival</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
       <span class="day-more" aria-hidden="true">1 title &nearr;</span>
-    </div><div class="day-cell" data-date="2027-2-19" data-label="February 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-2-19" data-label="February 19" data-month="2">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-20" data-label="February 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-2-20" data-label="February 20" data-month="2">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-21" data-label="February 21">
-      <span class="day-num">21</span>
+    </div><div class="day-cell" data-date="2027-2-21" data-label="February 21" data-month="2">
+      <span class="day-head">
+        <span class="day-num">21</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-22" data-label="February 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-2-22" data-label="February 22" data-month="2">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell has-games" data-date="2027-2-23" data-label="February 23">
-      <span class="day-num">23<span class="count-dot d1" title="1 game"></span></span>
+    </div><div class="day-cell has-games" data-date="2027-2-23" data-label="February 23" data-month="2">
+      <span class="day-head">
+        <span class="day-num">23<span class="count-dot d1" title="1 game"></span></span>
+        <button type="button" class="share-day bi bi-share" data-share-date="2027-2-23" aria-label="Share releases for February 23"></button>
+      </span>
       <ul class="games"><li><a href="https://www.gameinformer.com/product/fable" target="_blank" rel="noopener">Fable</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
       <span class="day-more" aria-hidden="true">1 title &nearr;</span>
-    </div><div class="day-cell" data-date="2027-2-24" data-label="February 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-2-24" data-label="February 24" data-month="2">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-25" data-label="February 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-2-25" data-label="February 25" data-month="2">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-26" data-label="February 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-2-26" data-label="February 26" data-month="2">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-27" data-label="February 27">
-      <span class="day-num">27</span>
+    </div><div class="day-cell" data-date="2027-2-27" data-label="February 27" data-month="2">
+      <span class="day-head">
+        <span class="day-num">27</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-2-28" data-label="February 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-2-28" data-label="February 28" data-month="2">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
     </div></div>
   </section><section class="month" id="march" data-month="3">
     <h3>March</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">2 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-3-1" data-label="March 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-3-1" data-label="March 1" data-month="3">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-2" data-label="March 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-3-2" data-label="March 2" data-month="3">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-3" data-label="March 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-3-3" data-label="March 3" data-month="3">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell has-games" data-date="2027-3-4" data-label="March 4">
-      <span class="day-num">4<span class="count-dot d1" title="1 game"></span></span>
+    </div><div class="day-cell has-games" data-date="2027-3-4" data-label="March 4" data-month="3">
+      <span class="day-head">
+        <span class="day-num">4<span class="count-dot d1" title="1 game"></span></span>
+        <button type="button" class="share-day bi bi-share" data-share-date="2027-3-4" aria-label="Share releases for March 4"></button>
+      </span>
       <ul class="games"><li><a href="https://www.gameinformer.com/product/trine-6-together-in-time" target="_blank" rel="noopener">Trine 6: Together in Time</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-nintendo-switch" title="Switch 2, Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
       <span class="day-more" aria-hidden="true">1 title &nearr;</span>
-    </div><div class="day-cell" data-date="2027-3-5" data-label="March 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-3-5" data-label="March 5" data-month="3">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-6" data-label="March 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-3-6" data-label="March 6" data-month="3">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-7" data-label="March 7">
-      <span class="day-num">7</span>
+    </div><div class="day-cell" data-date="2027-3-7" data-label="March 7" data-month="3">
+      <span class="day-head">
+        <span class="day-num">7</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-8" data-label="March 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-3-8" data-label="March 8" data-month="3">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-9" data-label="March 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-3-9" data-label="March 9" data-month="3">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-10" data-label="March 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-3-10" data-label="March 10" data-month="3">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell has-games" data-date="2027-3-11" data-label="March 11">
-      <span class="day-num">11<span class="count-dot d1" title="1 game"></span></span>
+    </div><div class="day-cell has-games" data-date="2027-3-11" data-label="March 11" data-month="3">
+      <span class="day-head">
+        <span class="day-num">11<span class="count-dot d1" title="1 game"></span></span>
+        <button type="button" class="share-day bi bi-share" data-share-date="2027-3-11" aria-label="Share releases for March 11"></button>
+      </span>
       <ul class="games"><li><a href="https://www.gameinformer.com/product/road-kings" target="_blank" rel="noopener">Road Kings</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
       <span class="day-more" aria-hidden="true">1 title &nearr;</span>
-    </div><div class="day-cell" data-date="2027-3-12" data-label="March 12">
-      <span class="day-num">12</span>
+    </div><div class="day-cell" data-date="2027-3-12" data-label="March 12" data-month="3">
+      <span class="day-head">
+        <span class="day-num">12</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-13" data-label="March 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-3-13" data-label="March 13" data-month="3">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-14" data-label="March 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-3-14" data-label="March 14" data-month="3">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-15" data-label="March 15">
-      <span class="day-num">15</span>
+    </div><div class="day-cell" data-date="2027-3-15" data-label="March 15" data-month="3">
+      <span class="day-head">
+        <span class="day-num">15</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-16" data-label="March 16">
-      <span class="day-num">16</span>
+    </div><div class="day-cell" data-date="2027-3-16" data-label="March 16" data-month="3">
+      <span class="day-head">
+        <span class="day-num">16</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-17" data-label="March 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-3-17" data-label="March 17" data-month="3">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-18" data-label="March 18">
-      <span class="day-num">18</span>
+    </div><div class="day-cell" data-date="2027-3-18" data-label="March 18" data-month="3">
+      <span class="day-head">
+        <span class="day-num">18</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-19" data-label="March 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-3-19" data-label="March 19" data-month="3">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-20" data-label="March 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-3-20" data-label="March 20" data-month="3">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-21" data-label="March 21">
-      <span class="day-num">21</span>
+    </div><div class="day-cell" data-date="2027-3-21" data-label="March 21" data-month="3">
+      <span class="day-head">
+        <span class="day-num">21</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-22" data-label="March 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-3-22" data-label="March 22" data-month="3">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-23" data-label="March 23">
-      <span class="day-num">23</span>
+    </div><div class="day-cell" data-date="2027-3-23" data-label="March 23" data-month="3">
+      <span class="day-head">
+        <span class="day-num">23</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-24" data-label="March 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-3-24" data-label="March 24" data-month="3">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-25" data-label="March 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-3-25" data-label="March 25" data-month="3">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-26" data-label="March 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-3-26" data-label="March 26" data-month="3">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-27" data-label="March 27">
-      <span class="day-num">27</span>
+    </div><div class="day-cell" data-date="2027-3-27" data-label="March 27" data-month="3">
+      <span class="day-head">
+        <span class="day-num">27</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-28" data-label="March 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-3-28" data-label="March 28" data-month="3">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-29" data-label="March 29">
-      <span class="day-num">29</span>
+    </div><div class="day-cell" data-date="2027-3-29" data-label="March 29" data-month="3">
+      <span class="day-head">
+        <span class="day-num">29</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-30" data-label="March 30">
-      <span class="day-num">30</span>
+    </div><div class="day-cell" data-date="2027-3-30" data-label="March 30" data-month="3">
+      <span class="day-head">
+        <span class="day-num">30</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-3-31" data-label="March 31">
-      <span class="day-num">31</span>
+    </div><div class="day-cell" data-date="2027-3-31" data-label="March 31" data-month="3">
+      <span class="day-head">
+        <span class="day-num">31</span>
+        
+      </span>
       
     </div></div>
   </section><section class="month" id="april" data-month="4">
     <h3>April</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">3 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-4-1" data-label="April 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-4-1" data-label="April 1" data-month="4">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-2" data-label="April 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-4-2" data-label="April 2" data-month="4">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-3" data-label="April 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-4-3" data-label="April 3" data-month="4">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-4" data-label="April 4">
-      <span class="day-num">4</span>
+    </div><div class="day-cell" data-date="2027-4-4" data-label="April 4" data-month="4">
+      <span class="day-head">
+        <span class="day-num">4</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-5" data-label="April 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-4-5" data-label="April 5" data-month="4">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-6" data-label="April 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-4-6" data-label="April 6" data-month="4">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell has-games" data-date="2027-4-7" data-label="April 7">
-      <span class="day-num">7<span class="count-dot d1" title="1 game"></span></span>
+    </div><div class="day-cell has-games" data-date="2027-4-7" data-label="April 7" data-month="4">
+      <span class="day-head">
+        <span class="day-num">7<span class="count-dot d1" title="1 game"></span></span>
+        <button type="button" class="share-day bi bi-share" data-share-date="2027-4-7" aria-label="Share releases for April 7"></button>
+      </span>
       <ul class="games"><li><a href="https://www.gameinformer.com/product/exodus" target="_blank" rel="noopener">Exodus</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
       <span class="day-more" aria-hidden="true">1 title &nearr;</span>
-    </div><div class="day-cell" data-date="2027-4-8" data-label="April 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-4-8" data-label="April 8" data-month="4">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-9" data-label="April 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-4-9" data-label="April 9" data-month="4">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-10" data-label="April 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-4-10" data-label="April 10" data-month="4">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-11" data-label="April 11">
-      <span class="day-num">11</span>
+    </div><div class="day-cell" data-date="2027-4-11" data-label="April 11" data-month="4">
+      <span class="day-head">
+        <span class="day-num">11</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-12" data-label="April 12">
-      <span class="day-num">12</span>
+    </div><div class="day-cell" data-date="2027-4-12" data-label="April 12" data-month="4">
+      <span class="day-head">
+        <span class="day-num">12</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-13" data-label="April 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-4-13" data-label="April 13" data-month="4">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-14" data-label="April 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-4-14" data-label="April 14" data-month="4">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-15" data-label="April 15">
-      <span class="day-num">15</span>
+    </div><div class="day-cell" data-date="2027-4-15" data-label="April 15" data-month="4">
+      <span class="day-head">
+        <span class="day-num">15</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-16" data-label="April 16">
-      <span class="day-num">16</span>
+    </div><div class="day-cell" data-date="2027-4-16" data-label="April 16" data-month="4">
+      <span class="day-head">
+        <span class="day-num">16</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-17" data-label="April 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-4-17" data-label="April 17" data-month="4">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-18" data-label="April 18">
-      <span class="day-num">18</span>
+    </div><div class="day-cell" data-date="2027-4-18" data-label="April 18" data-month="4">
+      <span class="day-head">
+        <span class="day-num">18</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-19" data-label="April 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-4-19" data-label="April 19" data-month="4">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-20" data-label="April 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-4-20" data-label="April 20" data-month="4">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-21" data-label="April 21">
-      <span class="day-num">21</span>
+    </div><div class="day-cell" data-date="2027-4-21" data-label="April 21" data-month="4">
+      <span class="day-head">
+        <span class="day-num">21</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-22" data-label="April 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-4-22" data-label="April 22" data-month="4">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-23" data-label="April 23">
-      <span class="day-num">23</span>
+    </div><div class="day-cell" data-date="2027-4-23" data-label="April 23" data-month="4">
+      <span class="day-head">
+        <span class="day-num">23</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-24" data-label="April 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-4-24" data-label="April 24" data-month="4">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-25" data-label="April 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-4-25" data-label="April 25" data-month="4">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-26" data-label="April 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-4-26" data-label="April 26" data-month="4">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell has-games" data-date="2027-4-27" data-label="April 27">
-      <span class="day-num">27<span class="count-dot d2" title="2 games"></span></span>
+    </div><div class="day-cell has-games" data-date="2027-4-27" data-label="April 27" data-month="4">
+      <span class="day-head">
+        <span class="day-num">27<span class="count-dot d2" title="2 games"></span></span>
+        <button type="button" class="share-day bi bi-share" data-share-date="2027-4-27" aria-label="Share releases for April 27"></button>
+      </span>
       <ul class="games"><li><a href="https://www.gameinformer.com/product/mariachi-legends" target="_blank" rel="noopener">Mariachi Legends</a><span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 5"></i><i class="bi bi-xbox" title="Xbox Series X/S"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li><a href="https://www.gameinformer.com/product/pony-island-2-panda-circus" target="_blank" rel="noopener">Pony Island 2: Panda Circus</a><span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
       <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
-    </div><div class="day-cell" data-date="2027-4-28" data-label="April 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-4-28" data-label="April 28" data-month="4">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-29" data-label="April 29">
-      <span class="day-num">29</span>
+    </div><div class="day-cell" data-date="2027-4-29" data-label="April 29" data-month="4">
+      <span class="day-head">
+        <span class="day-num">29</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-4-30" data-label="April 30">
-      <span class="day-num">30</span>
+    </div><div class="day-cell" data-date="2027-4-30" data-label="April 30" data-month="4">
+      <span class="day-head">
+        <span class="day-num">30</span>
+        
+      </span>
       
     </div></div>
   </section><section class="month" id="may" data-month="5">
     <h3>May</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-5-1" data-label="May 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-5-1" data-label="May 1" data-month="5">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-2" data-label="May 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-5-2" data-label="May 2" data-month="5">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-3" data-label="May 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-5-3" data-label="May 3" data-month="5">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-4" data-label="May 4">
-      <span class="day-num">4</span>
+    </div><div class="day-cell" data-date="2027-5-4" data-label="May 4" data-month="5">
+      <span class="day-head">
+        <span class="day-num">4</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-5" data-label="May 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-5-5" data-label="May 5" data-month="5">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-6" data-label="May 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-5-6" data-label="May 6" data-month="5">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-7" data-label="May 7">
-      <span class="day-num">7</span>
+    </div><div class="day-cell" data-date="2027-5-7" data-label="May 7" data-month="5">
+      <span class="day-head">
+        <span class="day-num">7</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-8" data-label="May 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-5-8" data-label="May 8" data-month="5">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-9" data-label="May 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-5-9" data-label="May 9" data-month="5">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-10" data-label="May 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-5-10" data-label="May 10" data-month="5">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-11" data-label="May 11">
-      <span class="day-num">11</span>
+    </div><div class="day-cell" data-date="2027-5-11" data-label="May 11" data-month="5">
+      <span class="day-head">
+        <span class="day-num">11</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-12" data-label="May 12">
-      <span class="day-num">12</span>
+    </div><div class="day-cell" data-date="2027-5-12" data-label="May 12" data-month="5">
+      <span class="day-head">
+        <span class="day-num">12</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-13" data-label="May 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-5-13" data-label="May 13" data-month="5">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-14" data-label="May 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-5-14" data-label="May 14" data-month="5">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-15" data-label="May 15">
-      <span class="day-num">15</span>
+    </div><div class="day-cell" data-date="2027-5-15" data-label="May 15" data-month="5">
+      <span class="day-head">
+        <span class="day-num">15</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-16" data-label="May 16">
-      <span class="day-num">16</span>
+    </div><div class="day-cell" data-date="2027-5-16" data-label="May 16" data-month="5">
+      <span class="day-head">
+        <span class="day-num">16</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-17" data-label="May 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-5-17" data-label="May 17" data-month="5">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-18" data-label="May 18">
-      <span class="day-num">18</span>
+    </div><div class="day-cell" data-date="2027-5-18" data-label="May 18" data-month="5">
+      <span class="day-head">
+        <span class="day-num">18</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-19" data-label="May 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-5-19" data-label="May 19" data-month="5">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-20" data-label="May 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-5-20" data-label="May 20" data-month="5">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-21" data-label="May 21">
-      <span class="day-num">21</span>
+    </div><div class="day-cell" data-date="2027-5-21" data-label="May 21" data-month="5">
+      <span class="day-head">
+        <span class="day-num">21</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-22" data-label="May 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-5-22" data-label="May 22" data-month="5">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-23" data-label="May 23">
-      <span class="day-num">23</span>
+    </div><div class="day-cell" data-date="2027-5-23" data-label="May 23" data-month="5">
+      <span class="day-head">
+        <span class="day-num">23</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-24" data-label="May 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-5-24" data-label="May 24" data-month="5">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-25" data-label="May 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-5-25" data-label="May 25" data-month="5">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-26" data-label="May 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-5-26" data-label="May 26" data-month="5">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-27" data-label="May 27">
-      <span class="day-num">27</span>
+    </div><div class="day-cell" data-date="2027-5-27" data-label="May 27" data-month="5">
+      <span class="day-head">
+        <span class="day-num">27</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-28" data-label="May 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-5-28" data-label="May 28" data-month="5">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-29" data-label="May 29">
-      <span class="day-num">29</span>
+    </div><div class="day-cell" data-date="2027-5-29" data-label="May 29" data-month="5">
+      <span class="day-head">
+        <span class="day-num">29</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-30" data-label="May 30">
-      <span class="day-num">30</span>
+    </div><div class="day-cell" data-date="2027-5-30" data-label="May 30" data-month="5">
+      <span class="day-head">
+        <span class="day-num">30</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-5-31" data-label="May 31">
-      <span class="day-num">31</span>
+    </div><div class="day-cell" data-date="2027-5-31" data-label="May 31" data-month="5">
+      <span class="day-head">
+        <span class="day-num">31</span>
+        
+      </span>
       
     </div></div>
   </section><section class="month" id="june" data-month="6">
     <h3>June</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-6-1" data-label="June 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-6-1" data-label="June 1" data-month="6">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-2" data-label="June 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-6-2" data-label="June 2" data-month="6">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-3" data-label="June 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-6-3" data-label="June 3" data-month="6">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-4" data-label="June 4">
-      <span class="day-num">4</span>
+    </div><div class="day-cell" data-date="2027-6-4" data-label="June 4" data-month="6">
+      <span class="day-head">
+        <span class="day-num">4</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-5" data-label="June 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-6-5" data-label="June 5" data-month="6">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-6" data-label="June 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-6-6" data-label="June 6" data-month="6">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-7" data-label="June 7">
-      <span class="day-num">7</span>
+    </div><div class="day-cell" data-date="2027-6-7" data-label="June 7" data-month="6">
+      <span class="day-head">
+        <span class="day-num">7</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-8" data-label="June 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-6-8" data-label="June 8" data-month="6">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-9" data-label="June 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-6-9" data-label="June 9" data-month="6">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-10" data-label="June 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-6-10" data-label="June 10" data-month="6">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-11" data-label="June 11">
-      <span class="day-num">11</span>
+    </div><div class="day-cell" data-date="2027-6-11" data-label="June 11" data-month="6">
+      <span class="day-head">
+        <span class="day-num">11</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-12" data-label="June 12">
-      <span class="day-num">12</span>
+    </div><div class="day-cell" data-date="2027-6-12" data-label="June 12" data-month="6">
+      <span class="day-head">
+        <span class="day-num">12</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-13" data-label="June 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-6-13" data-label="June 13" data-month="6">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-14" data-label="June 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-6-14" data-label="June 14" data-month="6">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-15" data-label="June 15">
-      <span class="day-num">15</span>
+    </div><div class="day-cell" data-date="2027-6-15" data-label="June 15" data-month="6">
+      <span class="day-head">
+        <span class="day-num">15</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-16" data-label="June 16">
-      <span class="day-num">16</span>
+    </div><div class="day-cell" data-date="2027-6-16" data-label="June 16" data-month="6">
+      <span class="day-head">
+        <span class="day-num">16</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-17" data-label="June 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-6-17" data-label="June 17" data-month="6">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-18" data-label="June 18">
-      <span class="day-num">18</span>
+    </div><div class="day-cell" data-date="2027-6-18" data-label="June 18" data-month="6">
+      <span class="day-head">
+        <span class="day-num">18</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-19" data-label="June 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-6-19" data-label="June 19" data-month="6">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-20" data-label="June 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-6-20" data-label="June 20" data-month="6">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-21" data-label="June 21">
-      <span class="day-num">21</span>
+    </div><div class="day-cell" data-date="2027-6-21" data-label="June 21" data-month="6">
+      <span class="day-head">
+        <span class="day-num">21</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-22" data-label="June 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-6-22" data-label="June 22" data-month="6">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-23" data-label="June 23">
-      <span class="day-num">23</span>
+    </div><div class="day-cell" data-date="2027-6-23" data-label="June 23" data-month="6">
+      <span class="day-head">
+        <span class="day-num">23</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-24" data-label="June 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-6-24" data-label="June 24" data-month="6">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-25" data-label="June 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-6-25" data-label="June 25" data-month="6">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-26" data-label="June 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-6-26" data-label="June 26" data-month="6">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-27" data-label="June 27">
-      <span class="day-num">27</span>
+    </div><div class="day-cell" data-date="2027-6-27" data-label="June 27" data-month="6">
+      <span class="day-head">
+        <span class="day-num">27</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-28" data-label="June 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-6-28" data-label="June 28" data-month="6">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-29" data-label="June 29">
-      <span class="day-num">29</span>
+    </div><div class="day-cell" data-date="2027-6-29" data-label="June 29" data-month="6">
+      <span class="day-head">
+        <span class="day-num">29</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-6-30" data-label="June 30">
-      <span class="day-num">30</span>
+    </div><div class="day-cell" data-date="2027-6-30" data-label="June 30" data-month="6">
+      <span class="day-head">
+        <span class="day-num">30</span>
+        
+      </span>
       
     </div></div>
   </section><section class="month" id="july" data-month="7">
     <h3>July</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-7-1" data-label="July 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-7-1" data-label="July 1" data-month="7">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-2" data-label="July 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-7-2" data-label="July 2" data-month="7">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-3" data-label="July 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-7-3" data-label="July 3" data-month="7">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-4" data-label="July 4">
-      <span class="day-num">4</span>
+    </div><div class="day-cell" data-date="2027-7-4" data-label="July 4" data-month="7">
+      <span class="day-head">
+        <span class="day-num">4</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-5" data-label="July 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-7-5" data-label="July 5" data-month="7">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-6" data-label="July 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-7-6" data-label="July 6" data-month="7">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-7" data-label="July 7">
-      <span class="day-num">7</span>
+    </div><div class="day-cell" data-date="2027-7-7" data-label="July 7" data-month="7">
+      <span class="day-head">
+        <span class="day-num">7</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-8" data-label="July 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-7-8" data-label="July 8" data-month="7">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-9" data-label="July 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-7-9" data-label="July 9" data-month="7">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-10" data-label="July 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-7-10" data-label="July 10" data-month="7">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-11" data-label="July 11">
-      <span class="day-num">11</span>
+    </div><div class="day-cell" data-date="2027-7-11" data-label="July 11" data-month="7">
+      <span class="day-head">
+        <span class="day-num">11</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-12" data-label="July 12">
-      <span class="day-num">12</span>
+    </div><div class="day-cell" data-date="2027-7-12" data-label="July 12" data-month="7">
+      <span class="day-head">
+        <span class="day-num">12</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-13" data-label="July 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-7-13" data-label="July 13" data-month="7">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-14" data-label="July 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-7-14" data-label="July 14" data-month="7">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-15" data-label="July 15">
-      <span class="day-num">15</span>
+    </div><div class="day-cell" data-date="2027-7-15" data-label="July 15" data-month="7">
+      <span class="day-head">
+        <span class="day-num">15</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-16" data-label="July 16">
-      <span class="day-num">16</span>
+    </div><div class="day-cell" data-date="2027-7-16" data-label="July 16" data-month="7">
+      <span class="day-head">
+        <span class="day-num">16</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-17" data-label="July 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-7-17" data-label="July 17" data-month="7">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-18" data-label="July 18">
-      <span class="day-num">18</span>
+    </div><div class="day-cell" data-date="2027-7-18" data-label="July 18" data-month="7">
+      <span class="day-head">
+        <span class="day-num">18</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-19" data-label="July 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-7-19" data-label="July 19" data-month="7">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-20" data-label="July 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-7-20" data-label="July 20" data-month="7">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-21" data-label="July 21">
-      <span class="day-num">21</span>
+    </div><div class="day-cell" data-date="2027-7-21" data-label="July 21" data-month="7">
+      <span class="day-head">
+        <span class="day-num">21</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-22" data-label="July 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-7-22" data-label="July 22" data-month="7">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-23" data-label="July 23">
-      <span class="day-num">23</span>
+    </div><div class="day-cell" data-date="2027-7-23" data-label="July 23" data-month="7">
+      <span class="day-head">
+        <span class="day-num">23</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-24" data-label="July 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-7-24" data-label="July 24" data-month="7">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-25" data-label="July 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-7-25" data-label="July 25" data-month="7">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-26" data-label="July 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-7-26" data-label="July 26" data-month="7">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-27" data-label="July 27">
-      <span class="day-num">27</span>
+    </div><div class="day-cell" data-date="2027-7-27" data-label="July 27" data-month="7">
+      <span class="day-head">
+        <span class="day-num">27</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-28" data-label="July 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-7-28" data-label="July 28" data-month="7">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-29" data-label="July 29">
-      <span class="day-num">29</span>
+    </div><div class="day-cell" data-date="2027-7-29" data-label="July 29" data-month="7">
+      <span class="day-head">
+        <span class="day-num">29</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-30" data-label="July 30">
-      <span class="day-num">30</span>
+    </div><div class="day-cell" data-date="2027-7-30" data-label="July 30" data-month="7">
+      <span class="day-head">
+        <span class="day-num">30</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-7-31" data-label="July 31">
-      <span class="day-num">31</span>
+    </div><div class="day-cell" data-date="2027-7-31" data-label="July 31" data-month="7">
+      <span class="day-head">
+        <span class="day-num">31</span>
+        
+      </span>
       
     </div></div>
   </section><section class="month" id="august" data-month="8">
     <h3>August</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell" data-date="2027-8-1" data-label="August 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell" data-date="2027-8-1" data-label="August 1" data-month="8">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-2" data-label="August 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-8-2" data-label="August 2" data-month="8">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-3" data-label="August 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-8-3" data-label="August 3" data-month="8">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-4" data-label="August 4">
-      <span class="day-num">4</span>
+    </div><div class="day-cell" data-date="2027-8-4" data-label="August 4" data-month="8">
+      <span class="day-head">
+        <span class="day-num">4</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-5" data-label="August 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-8-5" data-label="August 5" data-month="8">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-6" data-label="August 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-8-6" data-label="August 6" data-month="8">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-7" data-label="August 7">
-      <span class="day-num">7</span>
+    </div><div class="day-cell" data-date="2027-8-7" data-label="August 7" data-month="8">
+      <span class="day-head">
+        <span class="day-num">7</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-8" data-label="August 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-8-8" data-label="August 8" data-month="8">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-9" data-label="August 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-8-9" data-label="August 9" data-month="8">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-10" data-label="August 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-8-10" data-label="August 10" data-month="8">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-11" data-label="August 11">
-      <span class="day-num">11</span>
+    </div><div class="day-cell" data-date="2027-8-11" data-label="August 11" data-month="8">
+      <span class="day-head">
+        <span class="day-num">11</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-12" data-label="August 12">
-      <span class="day-num">12</span>
+    </div><div class="day-cell" data-date="2027-8-12" data-label="August 12" data-month="8">
+      <span class="day-head">
+        <span class="day-num">12</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-13" data-label="August 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-8-13" data-label="August 13" data-month="8">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-14" data-label="August 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-8-14" data-label="August 14" data-month="8">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-15" data-label="August 15">
-      <span class="day-num">15</span>
+    </div><div class="day-cell" data-date="2027-8-15" data-label="August 15" data-month="8">
+      <span class="day-head">
+        <span class="day-num">15</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-16" data-label="August 16">
-      <span class="day-num">16</span>
+    </div><div class="day-cell" data-date="2027-8-16" data-label="August 16" data-month="8">
+      <span class="day-head">
+        <span class="day-num">16</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-17" data-label="August 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-8-17" data-label="August 17" data-month="8">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-18" data-label="August 18">
-      <span class="day-num">18</span>
+    </div><div class="day-cell" data-date="2027-8-18" data-label="August 18" data-month="8">
+      <span class="day-head">
+        <span class="day-num">18</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-19" data-label="August 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-8-19" data-label="August 19" data-month="8">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-20" data-label="August 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-8-20" data-label="August 20" data-month="8">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-21" data-label="August 21">
-      <span class="day-num">21</span>
+    </div><div class="day-cell" data-date="2027-8-21" data-label="August 21" data-month="8">
+      <span class="day-head">
+        <span class="day-num">21</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-22" data-label="August 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-8-22" data-label="August 22" data-month="8">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-23" data-label="August 23">
-      <span class="day-num">23</span>
+    </div><div class="day-cell" data-date="2027-8-23" data-label="August 23" data-month="8">
+      <span class="day-head">
+        <span class="day-num">23</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-24" data-label="August 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-8-24" data-label="August 24" data-month="8">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-25" data-label="August 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-8-25" data-label="August 25" data-month="8">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-26" data-label="August 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-8-26" data-label="August 26" data-month="8">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-27" data-label="August 27">
-      <span class="day-num">27</span>
+    </div><div class="day-cell" data-date="2027-8-27" data-label="August 27" data-month="8">
+      <span class="day-head">
+        <span class="day-num">27</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-28" data-label="August 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-8-28" data-label="August 28" data-month="8">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-29" data-label="August 29">
-      <span class="day-num">29</span>
+    </div><div class="day-cell" data-date="2027-8-29" data-label="August 29" data-month="8">
+      <span class="day-head">
+        <span class="day-num">29</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-30" data-label="August 30">
-      <span class="day-num">30</span>
+    </div><div class="day-cell" data-date="2027-8-30" data-label="August 30" data-month="8">
+      <span class="day-head">
+        <span class="day-num">30</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-8-31" data-label="August 31">
-      <span class="day-num">31</span>
+    </div><div class="day-cell" data-date="2027-8-31" data-label="August 31" data-month="8">
+      <span class="day-head">
+        <span class="day-num">31</span>
+        
+      </span>
       
     </div></div>
   </section><section class="month" id="september" data-month="9">
     <h3>September</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-9-1" data-label="September 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-9-1" data-label="September 1" data-month="9">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-2" data-label="September 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-9-2" data-label="September 2" data-month="9">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-3" data-label="September 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-9-3" data-label="September 3" data-month="9">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-4" data-label="September 4">
-      <span class="day-num">4</span>
+    </div><div class="day-cell" data-date="2027-9-4" data-label="September 4" data-month="9">
+      <span class="day-head">
+        <span class="day-num">4</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-5" data-label="September 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-9-5" data-label="September 5" data-month="9">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-6" data-label="September 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-9-6" data-label="September 6" data-month="9">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-7" data-label="September 7">
-      <span class="day-num">7</span>
+    </div><div class="day-cell" data-date="2027-9-7" data-label="September 7" data-month="9">
+      <span class="day-head">
+        <span class="day-num">7</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-8" data-label="September 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-9-8" data-label="September 8" data-month="9">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-9" data-label="September 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-9-9" data-label="September 9" data-month="9">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-10" data-label="September 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-9-10" data-label="September 10" data-month="9">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-11" data-label="September 11">
-      <span class="day-num">11</span>
+    </div><div class="day-cell" data-date="2027-9-11" data-label="September 11" data-month="9">
+      <span class="day-head">
+        <span class="day-num">11</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-12" data-label="September 12">
-      <span class="day-num">12</span>
+    </div><div class="day-cell" data-date="2027-9-12" data-label="September 12" data-month="9">
+      <span class="day-head">
+        <span class="day-num">12</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-13" data-label="September 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-9-13" data-label="September 13" data-month="9">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-14" data-label="September 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-9-14" data-label="September 14" data-month="9">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-15" data-label="September 15">
-      <span class="day-num">15</span>
+    </div><div class="day-cell" data-date="2027-9-15" data-label="September 15" data-month="9">
+      <span class="day-head">
+        <span class="day-num">15</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-16" data-label="September 16">
-      <span class="day-num">16</span>
+    </div><div class="day-cell" data-date="2027-9-16" data-label="September 16" data-month="9">
+      <span class="day-head">
+        <span class="day-num">16</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-17" data-label="September 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-9-17" data-label="September 17" data-month="9">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-18" data-label="September 18">
-      <span class="day-num">18</span>
+    </div><div class="day-cell" data-date="2027-9-18" data-label="September 18" data-month="9">
+      <span class="day-head">
+        <span class="day-num">18</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-19" data-label="September 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-9-19" data-label="September 19" data-month="9">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-20" data-label="September 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-9-20" data-label="September 20" data-month="9">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-21" data-label="September 21">
-      <span class="day-num">21</span>
+    </div><div class="day-cell" data-date="2027-9-21" data-label="September 21" data-month="9">
+      <span class="day-head">
+        <span class="day-num">21</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-22" data-label="September 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-9-22" data-label="September 22" data-month="9">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-23" data-label="September 23">
-      <span class="day-num">23</span>
+    </div><div class="day-cell" data-date="2027-9-23" data-label="September 23" data-month="9">
+      <span class="day-head">
+        <span class="day-num">23</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-24" data-label="September 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-9-24" data-label="September 24" data-month="9">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-25" data-label="September 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-9-25" data-label="September 25" data-month="9">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-26" data-label="September 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-9-26" data-label="September 26" data-month="9">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-27" data-label="September 27">
-      <span class="day-num">27</span>
+    </div><div class="day-cell" data-date="2027-9-27" data-label="September 27" data-month="9">
+      <span class="day-head">
+        <span class="day-num">27</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-28" data-label="September 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-9-28" data-label="September 28" data-month="9">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-29" data-label="September 29">
-      <span class="day-num">29</span>
+    </div><div class="day-cell" data-date="2027-9-29" data-label="September 29" data-month="9">
+      <span class="day-head">
+        <span class="day-num">29</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-9-30" data-label="September 30">
-      <span class="day-num">30</span>
+    </div><div class="day-cell" data-date="2027-9-30" data-label="September 30" data-month="9">
+      <span class="day-head">
+        <span class="day-num">30</span>
+        
+      </span>
       
     </div></div>
   </section><section class="month" id="october" data-month="10">
     <h3>October</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-10-1" data-label="October 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-10-1" data-label="October 1" data-month="10">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-2" data-label="October 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-10-2" data-label="October 2" data-month="10">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-3" data-label="October 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-10-3" data-label="October 3" data-month="10">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-4" data-label="October 4">
-      <span class="day-num">4</span>
+    </div><div class="day-cell" data-date="2027-10-4" data-label="October 4" data-month="10">
+      <span class="day-head">
+        <span class="day-num">4</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-5" data-label="October 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-10-5" data-label="October 5" data-month="10">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-6" data-label="October 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-10-6" data-label="October 6" data-month="10">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-7" data-label="October 7">
-      <span class="day-num">7</span>
+    </div><div class="day-cell" data-date="2027-10-7" data-label="October 7" data-month="10">
+      <span class="day-head">
+        <span class="day-num">7</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-8" data-label="October 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-10-8" data-label="October 8" data-month="10">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-9" data-label="October 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-10-9" data-label="October 9" data-month="10">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-10" data-label="October 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-10-10" data-label="October 10" data-month="10">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-11" data-label="October 11">
-      <span class="day-num">11</span>
+    </div><div class="day-cell" data-date="2027-10-11" data-label="October 11" data-month="10">
+      <span class="day-head">
+        <span class="day-num">11</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-12" data-label="October 12">
-      <span class="day-num">12</span>
+    </div><div class="day-cell" data-date="2027-10-12" data-label="October 12" data-month="10">
+      <span class="day-head">
+        <span class="day-num">12</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-13" data-label="October 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-10-13" data-label="October 13" data-month="10">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-14" data-label="October 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-10-14" data-label="October 14" data-month="10">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-15" data-label="October 15">
-      <span class="day-num">15</span>
+    </div><div class="day-cell" data-date="2027-10-15" data-label="October 15" data-month="10">
+      <span class="day-head">
+        <span class="day-num">15</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-16" data-label="October 16">
-      <span class="day-num">16</span>
+    </div><div class="day-cell" data-date="2027-10-16" data-label="October 16" data-month="10">
+      <span class="day-head">
+        <span class="day-num">16</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-17" data-label="October 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-10-17" data-label="October 17" data-month="10">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-18" data-label="October 18">
-      <span class="day-num">18</span>
+    </div><div class="day-cell" data-date="2027-10-18" data-label="October 18" data-month="10">
+      <span class="day-head">
+        <span class="day-num">18</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-19" data-label="October 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-10-19" data-label="October 19" data-month="10">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-20" data-label="October 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-10-20" data-label="October 20" data-month="10">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-21" data-label="October 21">
-      <span class="day-num">21</span>
+    </div><div class="day-cell" data-date="2027-10-21" data-label="October 21" data-month="10">
+      <span class="day-head">
+        <span class="day-num">21</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-22" data-label="October 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-10-22" data-label="October 22" data-month="10">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-23" data-label="October 23">
-      <span class="day-num">23</span>
+    </div><div class="day-cell" data-date="2027-10-23" data-label="October 23" data-month="10">
+      <span class="day-head">
+        <span class="day-num">23</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-24" data-label="October 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-10-24" data-label="October 24" data-month="10">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-25" data-label="October 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-10-25" data-label="October 25" data-month="10">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-26" data-label="October 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-10-26" data-label="October 26" data-month="10">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-27" data-label="October 27">
-      <span class="day-num">27</span>
+    </div><div class="day-cell" data-date="2027-10-27" data-label="October 27" data-month="10">
+      <span class="day-head">
+        <span class="day-num">27</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-28" data-label="October 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-10-28" data-label="October 28" data-month="10">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-29" data-label="October 29">
-      <span class="day-num">29</span>
+    </div><div class="day-cell" data-date="2027-10-29" data-label="October 29" data-month="10">
+      <span class="day-head">
+        <span class="day-num">29</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-30" data-label="October 30">
-      <span class="day-num">30</span>
+    </div><div class="day-cell" data-date="2027-10-30" data-label="October 30" data-month="10">
+      <span class="day-head">
+        <span class="day-num">30</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-10-31" data-label="October 31">
-      <span class="day-num">31</span>
+    </div><div class="day-cell" data-date="2027-10-31" data-label="October 31" data-month="10">
+      <span class="day-head">
+        <span class="day-num">31</span>
+        
+      </span>
       
     </div></div>
   </section><section class="month" id="november" data-month="11">
     <h3>November</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-11-1" data-label="November 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-11-1" data-label="November 1" data-month="11">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-2" data-label="November 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-11-2" data-label="November 2" data-month="11">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-3" data-label="November 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-11-3" data-label="November 3" data-month="11">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-4" data-label="November 4">
-      <span class="day-num">4</span>
+    </div><div class="day-cell" data-date="2027-11-4" data-label="November 4" data-month="11">
+      <span class="day-head">
+        <span class="day-num">4</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-5" data-label="November 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-11-5" data-label="November 5" data-month="11">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-6" data-label="November 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-11-6" data-label="November 6" data-month="11">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-7" data-label="November 7">
-      <span class="day-num">7</span>
+    </div><div class="day-cell" data-date="2027-11-7" data-label="November 7" data-month="11">
+      <span class="day-head">
+        <span class="day-num">7</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-8" data-label="November 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-11-8" data-label="November 8" data-month="11">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-9" data-label="November 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-11-9" data-label="November 9" data-month="11">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-10" data-label="November 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-11-10" data-label="November 10" data-month="11">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-11" data-label="November 11">
-      <span class="day-num">11</span>
+    </div><div class="day-cell" data-date="2027-11-11" data-label="November 11" data-month="11">
+      <span class="day-head">
+        <span class="day-num">11</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-12" data-label="November 12">
-      <span class="day-num">12</span>
+    </div><div class="day-cell" data-date="2027-11-12" data-label="November 12" data-month="11">
+      <span class="day-head">
+        <span class="day-num">12</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-13" data-label="November 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-11-13" data-label="November 13" data-month="11">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-14" data-label="November 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-11-14" data-label="November 14" data-month="11">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-15" data-label="November 15">
-      <span class="day-num">15</span>
+    </div><div class="day-cell" data-date="2027-11-15" data-label="November 15" data-month="11">
+      <span class="day-head">
+        <span class="day-num">15</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-16" data-label="November 16">
-      <span class="day-num">16</span>
+    </div><div class="day-cell" data-date="2027-11-16" data-label="November 16" data-month="11">
+      <span class="day-head">
+        <span class="day-num">16</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-17" data-label="November 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-11-17" data-label="November 17" data-month="11">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-18" data-label="November 18">
-      <span class="day-num">18</span>
+    </div><div class="day-cell" data-date="2027-11-18" data-label="November 18" data-month="11">
+      <span class="day-head">
+        <span class="day-num">18</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-19" data-label="November 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-11-19" data-label="November 19" data-month="11">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-20" data-label="November 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-11-20" data-label="November 20" data-month="11">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-21" data-label="November 21">
-      <span class="day-num">21</span>
+    </div><div class="day-cell" data-date="2027-11-21" data-label="November 21" data-month="11">
+      <span class="day-head">
+        <span class="day-num">21</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-22" data-label="November 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-11-22" data-label="November 22" data-month="11">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-23" data-label="November 23">
-      <span class="day-num">23</span>
+    </div><div class="day-cell" data-date="2027-11-23" data-label="November 23" data-month="11">
+      <span class="day-head">
+        <span class="day-num">23</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-24" data-label="November 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-11-24" data-label="November 24" data-month="11">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-25" data-label="November 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-11-25" data-label="November 25" data-month="11">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-26" data-label="November 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-11-26" data-label="November 26" data-month="11">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-27" data-label="November 27">
-      <span class="day-num">27</span>
+    </div><div class="day-cell" data-date="2027-11-27" data-label="November 27" data-month="11">
+      <span class="day-head">
+        <span class="day-num">27</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-28" data-label="November 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-11-28" data-label="November 28" data-month="11">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-29" data-label="November 29">
-      <span class="day-num">29</span>
+    </div><div class="day-cell" data-date="2027-11-29" data-label="November 29" data-month="11">
+      <span class="day-head">
+        <span class="day-num">29</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-11-30" data-label="November 30">
-      <span class="day-num">30</span>
+    </div><div class="day-cell" data-date="2027-11-30" data-label="November 30" data-month="11">
+      <span class="day-head">
+        <span class="day-num">30</span>
+        
+      </span>
       
     </div></div>
   </section><section class="month" id="december" data-month="12">
     <h3>December</h3>
     <p class="mstats"><span class="rel">0 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-12-1" data-label="December 1">
-      <span class="day-num">1</span>
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2027-12-1" data-label="December 1" data-month="12">
+      <span class="day-head">
+        <span class="day-num">1</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-2" data-label="December 2">
-      <span class="day-num">2</span>
+    </div><div class="day-cell" data-date="2027-12-2" data-label="December 2" data-month="12">
+      <span class="day-head">
+        <span class="day-num">2</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-3" data-label="December 3">
-      <span class="day-num">3</span>
+    </div><div class="day-cell" data-date="2027-12-3" data-label="December 3" data-month="12">
+      <span class="day-head">
+        <span class="day-num">3</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-4" data-label="December 4">
-      <span class="day-num">4</span>
+    </div><div class="day-cell" data-date="2027-12-4" data-label="December 4" data-month="12">
+      <span class="day-head">
+        <span class="day-num">4</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-5" data-label="December 5">
-      <span class="day-num">5</span>
+    </div><div class="day-cell" data-date="2027-12-5" data-label="December 5" data-month="12">
+      <span class="day-head">
+        <span class="day-num">5</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-6" data-label="December 6">
-      <span class="day-num">6</span>
+    </div><div class="day-cell" data-date="2027-12-6" data-label="December 6" data-month="12">
+      <span class="day-head">
+        <span class="day-num">6</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-7" data-label="December 7">
-      <span class="day-num">7</span>
+    </div><div class="day-cell" data-date="2027-12-7" data-label="December 7" data-month="12">
+      <span class="day-head">
+        <span class="day-num">7</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-8" data-label="December 8">
-      <span class="day-num">8</span>
+    </div><div class="day-cell" data-date="2027-12-8" data-label="December 8" data-month="12">
+      <span class="day-head">
+        <span class="day-num">8</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-9" data-label="December 9">
-      <span class="day-num">9</span>
+    </div><div class="day-cell" data-date="2027-12-9" data-label="December 9" data-month="12">
+      <span class="day-head">
+        <span class="day-num">9</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-10" data-label="December 10">
-      <span class="day-num">10</span>
+    </div><div class="day-cell" data-date="2027-12-10" data-label="December 10" data-month="12">
+      <span class="day-head">
+        <span class="day-num">10</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-11" data-label="December 11">
-      <span class="day-num">11</span>
+    </div><div class="day-cell" data-date="2027-12-11" data-label="December 11" data-month="12">
+      <span class="day-head">
+        <span class="day-num">11</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-12" data-label="December 12">
-      <span class="day-num">12</span>
+    </div><div class="day-cell" data-date="2027-12-12" data-label="December 12" data-month="12">
+      <span class="day-head">
+        <span class="day-num">12</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-13" data-label="December 13">
-      <span class="day-num">13</span>
+    </div><div class="day-cell" data-date="2027-12-13" data-label="December 13" data-month="12">
+      <span class="day-head">
+        <span class="day-num">13</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-14" data-label="December 14">
-      <span class="day-num">14</span>
+    </div><div class="day-cell" data-date="2027-12-14" data-label="December 14" data-month="12">
+      <span class="day-head">
+        <span class="day-num">14</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-15" data-label="December 15">
-      <span class="day-num">15</span>
+    </div><div class="day-cell" data-date="2027-12-15" data-label="December 15" data-month="12">
+      <span class="day-head">
+        <span class="day-num">15</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-16" data-label="December 16">
-      <span class="day-num">16</span>
+    </div><div class="day-cell" data-date="2027-12-16" data-label="December 16" data-month="12">
+      <span class="day-head">
+        <span class="day-num">16</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-17" data-label="December 17">
-      <span class="day-num">17</span>
+    </div><div class="day-cell" data-date="2027-12-17" data-label="December 17" data-month="12">
+      <span class="day-head">
+        <span class="day-num">17</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-18" data-label="December 18">
-      <span class="day-num">18</span>
+    </div><div class="day-cell" data-date="2027-12-18" data-label="December 18" data-month="12">
+      <span class="day-head">
+        <span class="day-num">18</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-19" data-label="December 19">
-      <span class="day-num">19</span>
+    </div><div class="day-cell" data-date="2027-12-19" data-label="December 19" data-month="12">
+      <span class="day-head">
+        <span class="day-num">19</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-20" data-label="December 20">
-      <span class="day-num">20</span>
+    </div><div class="day-cell" data-date="2027-12-20" data-label="December 20" data-month="12">
+      <span class="day-head">
+        <span class="day-num">20</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-21" data-label="December 21">
-      <span class="day-num">21</span>
+    </div><div class="day-cell" data-date="2027-12-21" data-label="December 21" data-month="12">
+      <span class="day-head">
+        <span class="day-num">21</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-22" data-label="December 22">
-      <span class="day-num">22</span>
+    </div><div class="day-cell" data-date="2027-12-22" data-label="December 22" data-month="12">
+      <span class="day-head">
+        <span class="day-num">22</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-23" data-label="December 23">
-      <span class="day-num">23</span>
+    </div><div class="day-cell" data-date="2027-12-23" data-label="December 23" data-month="12">
+      <span class="day-head">
+        <span class="day-num">23</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-24" data-label="December 24">
-      <span class="day-num">24</span>
+    </div><div class="day-cell" data-date="2027-12-24" data-label="December 24" data-month="12">
+      <span class="day-head">
+        <span class="day-num">24</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-25" data-label="December 25">
-      <span class="day-num">25</span>
+    </div><div class="day-cell" data-date="2027-12-25" data-label="December 25" data-month="12">
+      <span class="day-head">
+        <span class="day-num">25</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-26" data-label="December 26">
-      <span class="day-num">26</span>
+    </div><div class="day-cell" data-date="2027-12-26" data-label="December 26" data-month="12">
+      <span class="day-head">
+        <span class="day-num">26</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-27" data-label="December 27">
-      <span class="day-num">27</span>
+    </div><div class="day-cell" data-date="2027-12-27" data-label="December 27" data-month="12">
+      <span class="day-head">
+        <span class="day-num">27</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-28" data-label="December 28">
-      <span class="day-num">28</span>
+    </div><div class="day-cell" data-date="2027-12-28" data-label="December 28" data-month="12">
+      <span class="day-head">
+        <span class="day-num">28</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-29" data-label="December 29">
-      <span class="day-num">29</span>
+    </div><div class="day-cell" data-date="2027-12-29" data-label="December 29" data-month="12">
+      <span class="day-head">
+        <span class="day-num">29</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-30" data-label="December 30">
-      <span class="day-num">30</span>
+    </div><div class="day-cell" data-date="2027-12-30" data-label="December 30" data-month="12">
+      <span class="day-head">
+        <span class="day-num">30</span>
+        
+      </span>
       
-    </div><div class="day-cell" data-date="2027-12-31" data-label="December 31">
-      <span class="day-num">31</span>
+    </div><div class="day-cell" data-date="2027-12-31" data-label="December 31" data-month="12">
+      <span class="day-head">
+        <span class="day-num">31</span>
+        
+      </span>
       
     </div></div>
   </section>
 
+<script>
+(function () {
+  var MONTHS = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+  var MBASE = "https://kimleo.net/gcoty";
+  var YEAR = 2027;
+  var qrLib = null, overlay = null, cssIconCache = {};
+  var DARK = (document.documentElement.getAttribute('data-theme') || '') === 'void';
+  // deterministic glyph codepoints for the platform/VR families we use as a
+  // primary source (bootstrap-icons), fall back to stylesheet probe otherwise.
+  var GS = Object.freeze({
+    'bi-pc-display': 0xf6a6, 'bi-apple': 0xf65b, 'bi-android': 0xf7d0,
+    'bi-windows': 0xf65e, 'bi-playstation': 0xf6a9, 'bi-xbox': 0xf6d4,
+    'bi-nintendo-switch': 0xf6a4, 'bi-headset-vr': 0xf645, 'bi-google': 0xf3f0,
+    'bi-share': 0xf52e, 'bi-controller': 0xf2d4, 'bi-moon': 0xf497, 'bi-sun': 0xf5a2
+  });
+
+  function cssVar(n) { return (getComputedStyle(document.documentElement).getPropertyValue(n) || '').trim(); }
+  function byDate(ds) { return document.querySelector('.day-cell[data-date="' + ds + '"]'); }
+  function nodeOf(el) { return el && el.closest ? el.closest('.day-cell') : el; }
+  function esc(s) { return String(s == null ? '' : s); }
+  function monthId(m) { return MONTHS[m - 1]; }
+  function shareUrl(m) { return MBASE + '/' + YEAR + '.html#' + monthId(m); }
+
+  // lightest readable hex from --bg / --card, else default per theme
+  function flatBg() {
+    var bg = cssVar('--bg') || '';
+    var m2 = /#[0-9a-fA-F]{6}/.exec(bg);
+    if (m2) return m2[0];
+    return DARK ? '#181440' : '#f6f0e4';
+  }
+  function firstToken(v, dflt) {
+    if (!v) return dflt;
+    return v.split(',')[0].trim().replace(/["']/g, '');
+  }
+  function qFont(name) { return /\s/.test(name) ? '"' + name + '"' : name; }
+
+  // Resolve a Bootstrap icon glyph from the loaded stylesheet (CORS-enabled)
+  // e.g. class "bi-playstation" -> "\f1xx".
+  // Resolve a glyph char for an icon class: prefer the hardcoded GS table,
+  // else probe the loaded stylesheet (CORS-enabled) and cache the result.
+  function iconCode(cls) {
+    var css = (cls && cls.indexOf('bi-') === 0) ? cls : 'bi-' + cls;
+    if (cssIconCache[css]) return cssIconCache[css];
+    var cp = GS[css];
+    if (cp) { var ch1 = String.fromCodePoint(cp); cssIconCache[css] = ch1; return ch1; }
+    var out = '';
+    var sheets = (document.styleSheets || []);
+    for (var i = 0; i < sheets.length && !out; i++) {
+      var rules = null;
+      try { rules = sheets[i].cssRules; } catch (e) { rules = null; }
+      for (var r = 0; r < (rules ? rules.length : 0) && !out; r++) {
+        var cs = rules[r];
+        if (cs.selectorText && cs.selectorText.replace('::', ':').indexOf('.' + css + ':before') >= 0) {
+          var cdel = cs.style.content || '';
+          var m = /([0-9a-fA-F]{4,5})/.exec(cdel);
+          if (m) out = String.fromCodePoint(parseInt(m[1], 16));
+          else { var mt = cdel.match(/"([^"]+)"/); if (mt) out = mt[1]; }
+        }
+      }
+    }
+    cssIconCache[css] = out;
+    return out;
+  }
+
+  // Gather one day's rows: title text + platform family classes per li.
+  function readRows(ul) {
+    var rows = [];
+    if (!ul) return rows;
+    ul.querySelectorAll('li').forEach(function (li) {
+      var a = li.querySelector('a');
+      var title = (a ? (a.textContent || '') : (li.textContent || '')).trim();
+      var icons = [];
+      li.querySelectorAll('.platform-icons i.bi').forEach(function (ic) {
+        var m = (/\bbi-([a-z0-9-]+)/).exec(ic.className || '');
+        if (m) icons.push({ cls: 'bi-' + m[1] });
+      });
+      if (!icons.length) {
+        // no icon resolution: fall back to plain text platforms
+        var txt = (li.querySelector('.platform-icons') || {}).textContent || '';
+        if (txt) icons = [{ text: txt.trim() }];
+      }
+      if (title) rows.push({ title: title, icons: icons });
+    });
+    return rows;
+  }
+
+  // layout title into several lines for a width (word-greedy, single words pass)
+  function wrap(ctx, text, maxW) {
+    var lines = [], line = '';
+    function pushHard(word) {
+      if (ctx.measureText(word).width <= maxW) { lines.push(word); return; }
+      var cur = '';
+      for (var i = 0; i < word.length; i++) {
+        if (ctx.measureText(cur + word[i]).width > maxW) { lines.push(cur); cur = word[i]; }
+        else cur += word[i];
+      }
+      if (cur) lines.push(cur);
+    }
+    var words = String(text == null ? '' : text).split(' ');
+    for (var w = 0; w < words.length; w++) {
+      if (!words[w]) continue;
+      var cand = line ? line + ' ' + words[w] : words[w];
+      if (line && ctx.measureText(cand).width > maxW) {
+        lines.push(line);
+        line = '';
+        pushHard(words[w]);
+      } else { line = cand; }
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  // lazy QR lib
+  function ensureQr() {
+    return new Promise(function (resolve, reject) {
+      if (qrLib) return resolve();
+      if (window.qrcode) { qrLib = window.qrcode; return resolve(); }
+      var s = document.createElement('script');
+      s.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js";
+      s.onload = function () { qrLib = window.qrcode; resolve(); };
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  function drawQR(ctx, x, y, url) {
+    var q = qrLib(4, 'L'); q.addData(url); q.make();
+    var p = 6; // quiet-zone cells in px units below given px
+    var px = 3, mods = q.getModuleCount(), side = mods * px + 2 * p;
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(x, y, side, side); // readable on any theme
+    ctx.fillStyle = '#11122b';
+    for (var r = 0; r < mods; r++) for (var c = 0; c < mods; c++)
+      if (q.isDark(r, c)) ctx.fillRect(x + p + c * px, y + p + r * px, px, px);
+  }
+
+  function build(dCell, cb) {
+    var dateLabel = dCell.getAttribute('data-label') || '';
+    var month = parseInt(dCell.getAttribute('data-month') || '1', 10) || 1;
+    var rows = readRows(dCell.querySelector('.games'));
+    var url = shareUrl(month);
+
+    var displayD = firstToken(cssVar('--font-display'), 'Newsreader');
+    var bodyD = firstToken(cssVar('--font-body'), 'Newsreader');
+    var iconF = 'bootstrap-icons';
+
+    var bg = flatBg();
+    var fg = cssVar('--fg') || '#' + (DARK ? 'efeefc' : '26241f');
+    var muted = cssVar('--muted');
+    var accent = (cssVar('--accent') || (DARK ? '#e879f9' : '#1f6f54'));
+    var accent2 = (cssVar('--accent2') || accent);
+
+    var W = 640;             // narrower portrait
+    var pad = 42;
+    var headerH = 128;
+    var bottomH = 150;
+    var titleSize = 19;                 // game titles
+    var titleLH = 25;                   // line pitch inside a wrapped title
+    var iconSize = 12;                  // platform glyphs — must stay < titleSize
+    var noIconGap = 10;                 // bottom margin rows without icons
+    var iconGap = 17;                   // reserved below title block for icons + gap
+    var bodyW = W - pad * 2;
+
+    var tmp = document.createElement('canvas').getContext('2d');
+    tmp.font = '600 ' + titleSize + 'px ' + qFont(bodyD) + ', sans-serif';
+
+    // pass 1 — deterministic layout (title lines + per-row height)
+    var starts = [], nLines = [], rowH = [], total = headerH;
+    rows.forEach(function (row, ri) {
+      starts.push(total);
+      var L = wrap(tmp, row.title, bodyW).length;
+      var hasI = row.icons && row.icons.length;
+      nLines.push(L);
+      var rh = L * titleLH + (hasI ? iconGap + 2 : noIconGap);
+      rowH.push(rh);
+      total += rh;
+    });
+    var H = total + bottomH;
+
+    var cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    var c = cv.getContext('2d');
+
+    // base
+    c.fillStyle = bg; c.fillRect(0, 0, W, H);
+    var grad = c.createLinearGradient(0, 0, W, 0);
+    grad.addColorStop(0, accent); grad.addColorStop(1, accent2);
+    c.fillStyle = grad; c.fillRect(0, 0, W, 6);
+    // kicker + date
+    c.textBaseline = 'alphabetic';
+    c.font = '800 34px ' + qFont(displayD) + ', sans-serif';
+    c.fillStyle = fg;
+    c.fillText('Game Calendar', pad, 44);
+    c.font = '700 22px ' + qFont(bodyD) + ', sans-serif';
+    c.fillStyle = muted;
+    c.fillText(dateLabel + ', ' + YEAR, pad, 76);
+    c.strokeStyle = accent; c.lineWidth = 2; c.beginPath(); c.moveTo(pad, 112); c.lineTo(W - pad, 112); c.stroke();
+
+    // pass 2 — paint rows on the computed starts
+    var bodyF = '600 ' + titleSize + 'px ' + qFont(bodyD) + ', sans-serif';
+    rows.forEach(function (row, ri) {
+      var top0 = starts[ri];
+      var lines = wrap(c, row.title, bodyW);
+      var tb = top0 + titleSize;
+      c.font = bodyF;
+      lines.forEach(function (ln) { c.fillStyle = fg; c.fillText(ln, pad, tb); tb += titleLH; });
+      var gY = top0 + nLines[ri] * titleLH + 10;   // platform baseline below the title block
+      var ix = pad, okP = 0;
+      for (var z = 0; z < row.icons.length; z++) {
+        var ic = row.icons[z];
+        if (ic.text) {
+          c.font = bodyF; c.fillStyle = muted;
+          var gw2 = c.measureText(ic.text).width;
+          c.fillStyle = muted; c.textAlign = 'left'; c.fillText(ic.text, ix, gY + 22);
+          ix += gw2 + 14; continue;
+        }
+        var glyph = iconCode(ic.cls);
+        if (!glyph) continue;
+        c.font = '400 ' + iconSize + 'px ' + qFont(iconF);
+        c.fillStyle = accent2;
+        c.fillText(glyph, ix, gY);
+        var gw = c.measureText(glyph).width;
+        ix += gw + 9; okP++;
+      }
+      void okP;
+      c.font = bodyF;
+    });
+
+    // footer caption (left) — official base url (scheme stripped)
+    var fy = H - bottomH + 22;
+    c.font = '600 14px ' + qFont(bodyD) + ', sans-serif';
+    c.fillStyle = muted;
+    var hostDot = MBASE.indexOf('//') >= 0 ? MBASE.slice(MBASE.indexOf('//') + 2) : MBASE;
+    c.fillText(hostDot, pad, fy);
+    // divider
+    c.strokeStyle = accent; c.globalAlpha = .35; c.lineWidth = 1;
+    c.beginPath(); c.moveTo(pad, H - bottomH + 8); c.lineTo(W - pad, H - bottomH + 8); c.stroke();
+    c.globalAlpha = 1;
+
+    // QR bottom-right
+    if (qrLib) { drawQR(c, W - pad - 150, H - bottomH + 10, url); }
+    else { c.fillStyle = muted; c.save(); c.translate(W - pad - 110, H - bottomH + 30); c.rotate(-.5); c.fillText('offline QR', 0, 0); c.restore(); }
+
+    return { canvas: cv, dataUrl: cv.toDataURL('image/png'), label: dateLabel, url: url };
+  }
+
+  // overlay preview + download
+  function ensureOverlay() {
+    if (overlay) return overlay;
+    overlay = document.createElement('div');
+    overlay.id = 'share-overlay';
+    overlay.innerHTML =
+      '<div class="backdrop" data-share-close></div>' +
+      '<div class="panel"><button type="button" class="close" data-share-close>&times;</button>' +
+      '<img class="preview" alt="Share preview">' +
+      '<div class="actions"><a class="download" download="share.png">Download PNG</a></div></div>';
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function (e) {
+      if (e.target && (e.target.closest('[data-share-close]') || e.target.hasAttribute('data-share-close'))) close();
+    });
+    document.addEventListener('keydown', function (k) { if (k.key === 'Escape') close(); });
+    return overlay;
+  }
+  function close() { if (overlay) overlay.style.display = 'none'; document.body.classList.remove('modal-open'); }
+  function show(dataUrl, label) {
+    var o = ensureOverlay();
+    o.style.display = 'flex';
+    var img = o.querySelector('img.preview');
+    img.src = dataUrl;
+    var dl = o.querySelector('.download');
+    dl.href = dataUrl;
+    dl.setAttribute('download', (label ? label.split(' ').join('-') : 'share').toLowerCase() + '.png');
+    document.body.classList.add('modal-open');
+  }
+
+  function okFont() {
+    return new Promise(function (ok) {
+      var asked = [];
+      function ask(n) { try { if (document.fonts && document.fonts.load) document.fonts.load('600 16px ' + n).then(function(){ ok(); }); else ok(); } catch (e) { ok(); } }
+      var have = new Set();
+      var f = cssVar('--font-display') + ', ' + cssVar('--font-body');
+      f.split(',').forEach(function (t) { var name = t.trim().replace(/["']/g, ''); if (name && !have.has(name)) { have.add(name); asked.push(name); } });
+      if (!asked.length) return ok();
+      var count = asked.length, done = 0, finish = function () { done++; if (done === count) ok(); };
+      asked.forEach(function (n) { try { document.fonts.load('600 16px "' + n.replace(/"/g, '') + '"').then(finish, finish); } catch (e) { finish(); } });
+      try { document.fonts.load('600 16px "bootstrap-icons"'); } catch (e) {}
+      // hard cap
+      setTimeout(ok, 700);
+    });
+  }
+
+  function doShare(dCell) {
+    if (!dCell) return;
+    var month = parseInt(dCell.getAttribute('data-month') || '1', 10) || 1;
+    var url = shareUrl(month);
+    ensureQr()
+      .then(function () { return okFont(); })
+      .then(function () {
+        var r = build(dCell);
+        show(r.dataUrl, r.label);
+      })
+      .catch(function (err) { console.error('share poster failed', err); });
+  }
+
+  document.addEventListener('click', function (e) {
+    var trg = e.target && e.target.closest ? e.target.closest('[data-share-date]') : null;
+    if (trg) { e.preventDefault(); e.stopPropagation(); var d = trg.getAttribute('data-share-date'); doShare(d ? byDate(d) : nodeOf(trg)); }
+  });
+})();
+</script>
+
 <div class="day-modal" id="day-modal" hidden>
   <div class="day-modal-backdrop" data-day-close></div>
   <div class="day-modal-panel" role="dialog" aria-modal="true" aria-labelledby="day-modal-title">
-    <button type="button" class="day-modal-close" data-day-close aria-label="Close">&times;</button>
-    <h4 id="day-modal-title"></h4>
+    <div class="day-modal-head">
+      <h4 id="day-modal-title"></h4>
+      <span class="day-modal-actions">
+        <button type="button" class="share-day bi bi-share" id="modal-share" aria-label="Share these releases"></button>
+        <button type="button" class="day-modal-close" data-day-close aria-label="Close">&times;</button>
+      </span>
+    </div>
     <ul class="day-modal-list" id="day-modal-list"></ul>
   </div>
 </div>
@@ -1515,6 +2952,8 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
     if (!dCell) return;
     modalTitle.textContent = dCell.getAttribute('data-label');
     modalList.innerHTML = dCell.querySelector('.games').innerHTML;
+    var sh = document.getElementById('modal-share');
+    if (sh) sh.setAttribute('data-share-date', dCell.getAttribute('data-date'));
     modal.hidden = false;
     document.body.classList.add('modal-open');
   }

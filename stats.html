@@ -15,8 +15,8 @@
 <title>Game Calendar — Statistics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;0,6..72,900;1,6..72,400&family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@400;500;600;700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;0,6..72,900;1,6..72,400&family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@400;500;600;700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" crossorigin="anonymous">
 <style>
 /* ---------- Theme tokens ----------
    Pages carry <body data-theme="...">. Three themes are supported:
@@ -287,6 +287,33 @@ html[data-theme="void"] .day-modal-list li a { font-weight: 700; }
 /* Scanline stays a fixed veil instead of replacing the body neon gradient */
 html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none; background-image: repeating-linear-gradient(0deg, rgba(8, 6, 26, .10) 0 1px, transparent 1px 3px); }
 
+/* ===== share-day button + preview overlay ===== */
+.day-head { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+.day-head .share-day { margin-left: 2px; }
+.share-day { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 0; border: none; background: none; color: var(--icon); font-size: .82rem; line-height: 1; border-radius: 6px; cursor: pointer; flex: 0 0 auto; }
+.day-cell .share-day:hover, .share-day:hover { color: var(--accent); background: var(--accent-soft); }
+
+.day-modal-head { display: flex; align-items: flex-start; gap: 8px; padding-right: 2px; }
+.day-modal-head h4 { margin: 0 0 12px; flex: 1 1 auto; padding-right: 0; }
+.day-modal-actions { display: inline-flex; gap: 4px; align-items: center; flex: 0 0 auto; }
+.day-modal-close { position: static; font-size: 1.1rem; padding: 2px 7px; }
+
+#share-overlay { position: fixed; inset: 0; z-index: 130; display: none; align-items: center; justify-content: center; padding: 16px; }
+#share-overlay .backdrop { position: absolute; inset: 0; background: rgba(9, 7, 24, .62); }
+#share-overlay .panel { position: relative; background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: var(--radius-card); box-shadow: var(--shadow-md); padding: 18px; width: min(680px, 100%); max-height: 92vh; overflow: auto; }
+#share-overlay .panel img { display: block; width: 100%; border-radius: 6px; }
+#share-overlay .close { position: absolute; top: 6px; right: 8px; font-size: 1.35rem; line-height: 1; border: none; background: none; color: var(--muted); cursor: pointer; padding: 4px 6px; border-radius: 6px; }
+#share-overlay .close:hover { color: var(--fg); background: var(--accent-soft); }
+#share-overlay .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
+#share-overlay .download { display: inline-block; padding: 9px 18px; background: var(--accent); color: var(--accent-ink); border-radius: var(--radius-btn); font-family: var(--font-display); font-weight: 600; text-decoration: none; }
+#share-overlay .download:hover { text-decoration: none; filter: brightness(1.06); }
+@media (max-width: 720px) {
+  .day-cell .share-day { display: none; }
+  #share-overlay .panel { padding: 14px; }
+}
+
+
+
 </style>
 <script>document.documentElement.className += ' js';</script>
 <script>(function(){function sysDark(){return window.matchMedia('(prefers-color-scheme: dark)').matches;}function resolve(t){if(t==='paper'||t==='arcade'||t==='void')return t;return sysDark()?'void':'paper';}var t;try{t=localStorage.getItem('gc-theme')}catch(e){t=null}var want=resolve(t);if(want==='paper'){document.documentElement.removeAttribute('data-theme');}else{document.documentElement.setAttribute('data-theme',want);}})();</script>
@@ -303,10 +330,10 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
 <p class="sub">Counted up to today (2026-09-02): "released" means the entry's release date has already passed. Entries without a concrete date ("TBA") never count toward monthly or yearly series. A game releasing on several platforms counts once per platform in the platform chart.</p>
 
 <div class="cards">
-  <div class="card total"><div class="num">6771</div><div class="lbl">Games tracked</div></div>
+  <div class="card total"><div class="num">6772</div><div class="lbl">Games tracked</div></div>
   <div class="card released"><div class="num">6300</div><div class="lbl">Released</div></div>
   <div class="card upcoming"><div class="num">175</div><div class="lbl">Upcoming</div></div>
-  <div class="card tba"><div class="num">296</div><div class="lbl">TBA</div></div>
+  <div class="card tba"><div class="num">297</div><div class="lbl">TBA</div></div>
 </div>
 
 <h2>Games per year</h2>
@@ -323,7 +350,7 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
 <div id="chart-platforms" class="chart"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
-<script>window.__GC = {"currentYear":2026,"years":[{"year":2016,"total":1133,"dated":1133,"tba":0,"released":1133,"upcoming":0},{"year":2017,"total":301,"dated":301,"tba":0,"released":301,"upcoming":0},{"year":2018,"total":333,"dated":332,"tba":1,"released":332,"upcoming":0},{"year":2019,"total":360,"dated":360,"tba":0,"released":360,"upcoming":0},{"year":2020,"total":682,"dated":682,"tba":0,"released":682,"upcoming":0},{"year":2021,"total":591,"dated":591,"tba":0,"released":591,"upcoming":0},{"year":2022,"total":508,"dated":508,"tba":0,"released":508,"upcoming":0},{"year":2023,"total":580,"dated":577,"tba":3,"released":577,"upcoming":0},{"year":2024,"total":520,"dated":520,"tba":0,"released":520,"upcoming":0},{"year":2025,"total":732,"dated":732,"tba":0,"released":732,"upcoming":0},{"year":2026,"total":884,"dated":725,"tba":159,"released":564,"upcoming":161},{"year":2027,"total":147,"dated":14,"tba":133,"released":0,"upcoming":14}],"byMonthReleased":{"2016":[95,118,168,117,112,104,119,122,80,69,16,13],"2017":[19,18,34,29,25,17,30,29,40,27,21,12],"2018":[14,44,23,28,48,29,27,34,31,24,23,7],"2019":[20,24,27,26,25,22,22,33,44,50,33,34],"2020":[22,37,42,41,80,66,60,66,58,72,95,43],"2021":[29,31,64,38,41,54,43,63,80,57,53,38],"2022":[26,41,44,38,29,48,36,32,61,48,61,44],"2023":[35,80,45,44,40,45,37,45,51,65,51,39],"2024":[26,45,57,51,54,38,49,42,54,56,26,22],"2025":[38,34,40,59,49,75,69,63,71,77,90,67],"2026":[44,68,79,97,69,71,67,65,4,0,0,0],"2027":[0,0,0,0,0,0,0,0,0,0,0,0]},"sumByMonth":[368,540,623,568,572,569,559,594,574,545,469,319],"platforms":[{"name":"PC","count":3575,"released":3456},{"name":"PlayStation 4","count":2159,"released":2151},{"name":"Xbox One","count":1862,"released":1856},{"name":"Switch","count":1837,"released":1794},{"name":"PlayStation 5","count":1634,"released":1528},{"name":"Xbox Series X/S","count":1505,"released":1417},{"name":"Switch 2","count":350,"released":269},{"name":"iOS","count":314,"released":306},{"name":"Android","count":250,"released":243},{"name":"Mac","count":182,"released":181},{"name":"3DS","count":121,"released":121},{"name":"Wii U","count":120,"released":120},{"name":"PlayStation Vita","count":102,"released":102},{"name":"Stadia","count":97,"released":97},{"name":"PlayStation VR2","count":76,"released":76}]};</script>
+<script>window.__GC = {"currentYear":2026,"years":[{"year":2016,"total":1133,"dated":1133,"tba":0,"released":1133,"upcoming":0},{"year":2017,"total":301,"dated":301,"tba":0,"released":301,"upcoming":0},{"year":2018,"total":333,"dated":332,"tba":1,"released":332,"upcoming":0},{"year":2019,"total":360,"dated":360,"tba":0,"released":360,"upcoming":0},{"year":2020,"total":682,"dated":682,"tba":0,"released":682,"upcoming":0},{"year":2021,"total":591,"dated":591,"tba":0,"released":591,"upcoming":0},{"year":2022,"total":508,"dated":508,"tba":0,"released":508,"upcoming":0},{"year":2023,"total":580,"dated":577,"tba":3,"released":577,"upcoming":0},{"year":2024,"total":520,"dated":520,"tba":0,"released":520,"upcoming":0},{"year":2025,"total":732,"dated":732,"tba":0,"released":732,"upcoming":0},{"year":2026,"total":885,"dated":725,"tba":160,"released":564,"upcoming":161},{"year":2027,"total":147,"dated":14,"tba":133,"released":0,"upcoming":14}],"byMonthReleased":{"2016":[95,118,168,117,112,104,119,122,80,69,16,13],"2017":[19,18,34,29,25,17,30,29,40,27,21,12],"2018":[14,44,23,28,48,29,27,34,31,24,23,7],"2019":[20,24,27,26,25,22,22,33,44,50,33,34],"2020":[22,37,42,41,80,66,60,66,58,72,95,43],"2021":[29,31,64,38,41,54,43,63,80,57,53,38],"2022":[26,41,44,38,29,48,36,32,61,48,61,44],"2023":[35,80,45,44,40,45,37,45,51,65,51,39],"2024":[26,45,57,51,54,38,49,42,54,56,26,22],"2025":[38,34,40,59,49,75,69,63,71,77,90,67],"2026":[44,68,79,97,69,71,67,65,4,0,0,0],"2027":[0,0,0,0,0,0,0,0,0,0,0,0]},"sumByMonth":[368,540,623,568,572,569,559,594,574,545,469,319],"platforms":[{"name":"PC","count":3575,"released":3456},{"name":"PlayStation 4","count":2159,"released":2151},{"name":"Xbox One","count":1862,"released":1856},{"name":"Switch","count":1837,"released":1794},{"name":"PlayStation 5","count":1634,"released":1528},{"name":"Xbox Series X/S","count":1505,"released":1417},{"name":"Switch 2","count":350,"released":269},{"name":"iOS","count":314,"released":306},{"name":"Android","count":250,"released":243},{"name":"Mac","count":182,"released":181},{"name":"3DS","count":121,"released":121},{"name":"Wii U","count":120,"released":120},{"name":"PlayStation Vita","count":102,"released":102},{"name":"Stadia","count":97,"released":97},{"name":"PlayStation VR2","count":76,"released":76}]};</script>
 <script>
 (function () {
   var D = window.__GC;
