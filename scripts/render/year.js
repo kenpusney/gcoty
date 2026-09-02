@@ -1,10 +1,10 @@
 // Year page ({year}.html): 12 inline month calendars, one shown at a time.
 //
-// The month-nav toolbar acts as a filter: exactly one month is visible by
-// default (the current month when the page year is the current year, January
-// otherwise), with prev/next year links on the left and right. Anchors
-// (#january..#december) select a month; "Show all months" reveals the full
-// year. Without JS the page still shows its default month.
+// The month-nav toolbar acts as a filter: exactly one month is visible at a
+// time (the current month when the page year is the current year, January
+// otherwise). Prev/next year links sit on the left and right of the month
+// links, which double as filters. Anchors (#january..#december) select a month.
+// Without JS the page still shows its default month.
 
 const { renderPage, escapeHtml } = require("./common");
 const { MONTH_NAMES, monthLabel, daysInMonth } = require("../dates");
@@ -35,7 +35,7 @@ function countDot(n) {
 
 function gameListItem(g) {
   const name = g.url
-    ? `<a href="https://www.gameinformer.com${escapeHtml(g.url)}">${escapeHtml(g.title)}</a>`
+    ? `<a href="https://www.gameinformer.com${escapeHtml(g.url)}" target="_blank" rel="noopener">${escapeHtml(g.title)}</a>`
     : escapeHtml(g.title);
   const icons = groupByFamily(g.platforms)
     .map((fam) =>
@@ -60,9 +60,12 @@ function renderMonthCalendar(year, month, dayGroups, monthStats, active) {
   for (let d = 1; d <= numDays; d++) {
     const list = dayGroups[`${month}-${d}`] || [];
     const has = list.length > 0;
-    cells += `<div class="day-cell${has ? " has-games" : ""}" data-date="${year}-${month}-${d}">
+    cells += `<div class="day-cell${has ? " has-games" : ""}" data-date="${year}-${month}-${d}" data-label="${monthLabel(month)} ${d}">
       <span class="day-num">${d}${countDot(list.length)}</span>
-      ${has ? `<ul class="games">${list.map(gameListItem).join("")}</ul>` : ""}
+      ${has
+        ? `<ul class="games">${list.map(gameListItem).join("")}</ul>
+      <span class="day-more" aria-hidden="true">${list.length} title${list.length > 1 ? "s" : ""} &nearr;</span>`
+        : ""}
     </div>`;
   }
 
@@ -108,24 +111,33 @@ function renderYearPage({ year, entries, stats, currentYear, prevYear, nextYear 
   <span class="years">${prevLink}</span>
   <span class="months">${monthLinks}</span>
   <span class="years">${nextLink}</span>
-  <button type="button" class="show-all-btn" id="show-all">Show all months</button>
 </nav>
 <noscript><p class="note">JavaScript is needed to switch months; the default month (${monthLabel(defaultMonth)}) is shown below.</p></noscript>
 
 ${monthsHtml}
+
+<div class="day-modal" id="day-modal" hidden>
+  <div class="day-modal-backdrop" data-day-close></div>
+  <div class="day-modal-panel" role="dialog" aria-modal="true" aria-labelledby="day-modal-title">
+    <button type="button" class="day-modal-close" data-day-close aria-label="Close">&times;</button>
+    <h4 id="day-modal-title"></h4>
+    <ul class="day-modal-list" id="day-modal-list"></ul>
+  </div>
+</div>
 
 <script>
 (function () {
   var months = ${JSON.stringify(MONTH_IDS)};
   var pageYear = ${year};
   function activate(name) {
-    document.body.classList.remove('show-all');
     months.forEach(function (m) {
       var s = document.getElementById(m);
       if (s) s.classList.toggle('active', m === name);
     });
     var navs = document.querySelectorAll('.month-nav a.month-link');
     navs.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + name); });
+    var active = document.querySelector('.month-nav a.month-link.active');
+    if (active) active.scrollIntoView({ block: 'nearest', inline: 'center' });
   }
   function fromHash() {
     var h = (location.hash || '').replace('#', '').toLowerCase();
@@ -140,14 +152,38 @@ ${monthsHtml}
   var cell = document.querySelector('.day-cell[data-date="' + todayKey + '"]');
   if (cell) cell.classList.add('today');
 
-  var showAllBtn = document.getElementById('show-all');
-  if (showAllBtn) showAllBtn.addEventListener('click', function () {
-    document.body.classList.toggle('show-all');
-  });
   window.addEventListener('hashchange', function () {
     var h = fromHash();
     if (h) activate(h);
   });
+
+  // Mobile: tapping a day with games opens its release list in a modal.
+  var modal = document.getElementById('day-modal');
+  var modalTitle = document.getElementById('day-modal-title');
+  var modalList = document.getElementById('day-modal-list');
+  var mqMobile = window.matchMedia('(max-width: 720px)');
+  function openDay(dCell) {
+    if (!dCell) return;
+    modalTitle.textContent = dCell.getAttribute('data-label');
+    modalList.innerHTML = dCell.querySelector('.games').innerHTML;
+    modal.hidden = false;
+    document.body.classList.add('modal-open');
+  }
+  function closeDay() {
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+  }
+  if (modal) {
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-day-close]')) { closeDay(); return; }
+      if (!mqMobile.matches) return;
+      var dCell = e.target.closest ? e.target.closest('.day-cell.has-games') : null;
+      if (dCell && !e.target.closest('a')) openDay(dCell);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeDay();
+    });
+  }
 })();
 </script>
 `;

@@ -3,32 +3,76 @@
 // progressive enhancement only: without JS the calendar shows all months.
 
 const STYLES = `
+/* ---------- Theme tokens ----------
+   Pages carry <body data-theme="...">. Three themes are supported:
+   paper  (default) warm paper newsprint
+   void   deep-space neon / arcade cabinet
+   arcade light, game-media clean
+   Common tokens let components (cards, fields, charts, icons, rays) re-skin via vars. */
+
 :root {
-  --fg: #1f2430; --muted: #6b7280; --line: #e5e7eb; --bg: #fafafa;
-  --accent: #2563eb; --accent-soft: #dbeafe;
-  --released: #16a34a; --upcoming: #f59e0b; --tba: #9ca3af;
-  --card: #ffffff;
+  --fg: #26241f; --muted: #6f695c; --line: #e6e0d2; --bg: #f6f2ea;
+  --accent: #1e4fd6; --accent2: #9333ea; --accent-soft: #e2eaf9; --accent-ink: #ffffff;
+  --card: #fffdf8; --card2: #f1ebdd;
+  --released: #1e7f4d; --upcoming: #ad6d0a; --tba: #99907e;
+  --icon: #57534e; --ring: var(--accent);
+  --header: rgba(253, 251, 245, .86); --neon: #389e0d;
+  --shadow-sm: 0 1px 2px rgba(80, 66, 30, .06), 0 3px 8px rgba(80, 66, 30, .05);
+  --shadow-md: 0 10px 26px rgba(80, 66, 30, .12);
+}
+
+html[data-theme="arcade"] {
+  --bg: radial-gradient(circle at 12% -10%, #eef2ff, transparent 38%), #f6f7fb;
+  --fg: #151a2b; --muted: #5a6177; --line: #e0e4ef; --card: #ffffff; --card2: #eef1f9;
+  --accent: #4f46e5; --accent2: #ec4899; --accent-soft: #e0e7ff; --accent-ink: #ffffff;
+  --released: #059669; --upcoming: #d97706; --tba: #94a3b8;
+  --icon: #46506e; --ring: var(--accent);
+  --header: rgba(255, 255, 255, .88); --neon: #10b981;
+  --shadow-sm: 0 1px 2px rgba(30, 41, 59, .05), 0 3px 10px rgba(30, 41, 59, .07);
+  --shadow-md: 0 12px 30px rgba(30, 41, 59, .16);
+}
+
+html[data-theme="void"] {
+  color-scheme: dark;
+  --bg: radial-gradient(circle at 20% -10%, #4c1d95 0%, #312e81 30%, #0f0d22 80%);
+  --fg: #efeefc; --muted: #9aa3d4; --line: #2c2f5e;
+  --card: rgba(31, 28, 84, .5); --card2: rgba(55, 48, 130, .38);
+  --accent: #e879f9; --accent2: #22d3ee; --accent-soft: rgba(217, 70, 239, .18); --accent-ink: #22062e;
+  --released: #34d399; --upcoming: #fbbf24; --tba: #7982b6;
+  --icon: #cdd3f7; --ring: #22d3ee;
+  --header: rgba(17, 14, 46, .8); --neon: #22d3ee;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .35), 0 4px 14px rgba(0, 0, 0, .4);
+  --shadow-md: 0 14px 40px rgba(0, 0, 0, .5);
 }
 * { box-sizing: border-box; }
-body { margin: 0; font-family: "Newsreader", Georgia, "Times New Roman", serif; color: var(--fg); background: var(--bg); line-height: 1.45; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font-family: "Newsreader", Georgia, "Times New Roman", serif; color: var(--fg); background: var(--bg); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent-soft); }
 a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
 
-.site-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 20px; background: var(--card); border-bottom: 1px solid var(--line); }
-.site-header .brand { font-weight: 700; font-size: 1.1rem; color: var(--fg); }
-.site-header nav { display: flex; gap: 14px; }
+.site-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: var(--header); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.site-header .brand { font-weight: 800; font-size: 1.15rem; letter-spacing: .01em; color: var(--fg); }
+.site-header .brand small { display: block; font-size: .62rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.site-header nav { display: flex; gap: 16px; }
 .site-header nav a { color: var(--muted); }
-.site-header nav a.active { color: var(--accent); font-weight: 600; }
+.site-header nav a:hover { color: var(--fg); text-decoration: none; }
+.site-header nav a.active { color: var(--accent); font-weight: 700; }
+.theme-toggle { display: inline-flex; align-items: center; gap: 7px; flex: 0 0 auto; margin-left: 2px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--fg); font-family: inherit; font-size: .8rem; font-weight: 600; cursor: pointer; transition: border-color .12s, color .12s, box-shadow .12s; }
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); box-shadow: var(--shadow-sm); }
+.theme-toggle > i.bi { font-size: .9rem; color: var(--accent); }
+html[data-theme="void"] .theme-toggle { border-color: var(--line); }
 
-main { max-width: 1080px; margin: 0 auto; padding: 24px 20px 48px; }
-footer { max-width: 1080px; margin: 0 auto; padding: 12px 20px 32px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); }
-h1 { margin: 8px 0 4px; }
-h2 { margin: 28px 0 10px; }
-.sub { color: var(--muted); margin: 0 0 18px; }
+main { max-width: 1080px; margin: 0 auto; padding: 28px 20px 56px; }
+footer { max-width: 1080px; margin: 0 auto; padding: 16px 20px 36px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); }
+h1 { margin: 6px 0 6px; font-size: 2.15rem; font-weight: 800; line-height: 1.15; letter-spacing: -.01em; }
+h2 { margin: 34px 0 12px; font-size: 1.45rem; font-weight: 700; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.sub { color: var(--muted); margin: 0 0 18px; max-width: 66ch; }
 
 /* --- overview cards --- */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 18px 0 26px; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; box-shadow: var(--shadow-sm); }
 .card .num { font-size: 1.7rem; font-weight: 700; line-height: 1.1; }
 .card .lbl { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: .04em; }
 .card.released .num { color: var(--released); }
@@ -38,14 +82,15 @@ h2 { margin: 28px 0 10px; }
 
 /* --- year timeline (index.html) --- */
 .tl-wrap { position: relative; margin: 26px 0; }
-.tl-track { display: flex; gap: 14px; overflow-x: auto; padding: 10px 2px 16px; scroll-snap-type: x proximity; scrollbar-width: thin; }
-.tl-item { flex: 0 0 auto; scroll-snap-align: start; width: 118px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px; color: var(--fg); text-align: center; transition: transform .12s, box-shadow .12s; }
-.tl-item:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,.08); text-decoration: none; }
+.tl-track { display: flex; gap: 14px; overflow-x: auto; padding: 10px 2px 16px; scroll-snap-type: x proximity; scrollbar-width: none; }
+.tl-track::-webkit-scrollbar { display: none; }
+.tl-item { flex: 0 0 auto; scroll-snap-align: start; width: 118px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px; color: var(--fg); text-align: center; box-shadow: var(--shadow-sm); transition: transform .12s, box-shadow .12s, border-color .12s; }
+.tl-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--accent-soft); text-decoration: none; }
 .tl-item .year { font-size: 1.5rem; font-weight: 700; }
 .tl-item .counts { margin: 6px 0; font-size: .78rem; color: var(--muted); }
 .tl-item .counts b { color: var(--fg); }
 .tl-item.current { outline: 2px solid var(--accent); background: var(--accent-soft); }
-.tl-item .bar { height: 6px; border-radius: 3px; background: #eef0f3; overflow: hidden; margin-top: 8px; }
+.tl-item .bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 8px; }
 .tl-item .bar > i { display: block; height: 100%; background: var(--released); }
 .tl-scroll { display: flex; justify-content: space-between; margin-top: 8px; gap: 10px; }
 .tl-scroll button { flex: 1; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-size: .9rem; cursor: pointer; }
@@ -54,43 +99,39 @@ h2 { margin: 28px 0 10px; }
 .tl-legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 4px 0 12px; vertical-align: -1px; }
 
 /* --- month calendar (year pages) --- */
-.month-nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 16px 0 20px; }
-.month-nav .years { display: flex; gap: 8px; }
-.month-nav .months { display: flex; flex-wrap: wrap; gap: 6px; }
-.month-nav a.year-link { padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-weight: 600; white-space: nowrap; }
+.month-nav { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; margin: 16px 0 20px; }
+.month-nav .years { flex: 0 0 auto; display: flex; gap: 6px; }
+.month-nav .months { flex: 1 1 auto; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; padding-bottom: 2px; }
+.month-nav .months::-webkit-scrollbar { display: none; }
+.month-nav a.year-link { flex: 0 0 auto; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-weight: 600; white-space: nowrap; }
 .month-nav a.year-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 .month-nav .year-link.disabled { opacity: .4; pointer-events: none; }
-.month-nav a.month-link { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--fg); font-size: .85rem; }
+.month-nav a.month-link { flex: 0 0 auto; scroll-snap-align: start; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--fg); font-size: .85rem; white-space: nowrap; }
 .month-nav a.month-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-.month-nav a.month-link.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-.show-all-btn { padding: 6px 12px; border: 1px dashed var(--line); border-radius: 999px; background: transparent; color: var(--muted); font-size: .85rem; cursor: pointer; font-family: inherit; }
-.show-all-btn:hover { border-color: var(--accent); color: var(--accent); }
-body.show-all .show-all-btn { border-style: solid; color: var(--accent); border-color: var(--accent); }
+.month-nav a.month-link.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 
-/* exactly one month is shown; the month links above act as filters.
-   body.show-all (toggle button) reveals every month. */
+/* exactly one month is shown; the month links above act as filters. */
 .month { display: none; }
 .month.active { display: block; }
-body.show-all .month { display: block; }
 
-.month h3 { margin: 0 0 2px; }
+.month h3 { margin: 0 0 2px; font-size: 1.3rem; font-weight: 700; }
 .month .mstats { color: var(--muted); font-size: .85rem; margin: 0 0 10px; }
-.month .mstats .rel { color: var(--released); }
-.month .mstats .upc { color: var(--upcoming); }
-.month .mstats .tba { color: var(--tba); }
+.month .mstats .rel { color: var(--released); font-weight: 700; }
+.month .mstats .upc { color: var(--upcoming); font-weight: 700; }
+.month .mstats .tba { color: var(--tba); font-weight: 700; }
 
 .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 26px; }
 .cal-header { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); text-align: center; padding: 4px 0; }
-.day-cell { position: relative; min-height: 96px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 6px; overflow: hidden; }
+.day-cell { position: relative; min-height: 96px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 6px; overflow: hidden; transition: border-color .12s, box-shadow .12s; }
 .day-cell.empty { background: transparent; border-color: transparent; }
 .day-cell.today { outline: 2px solid var(--accent); }
-.day-num { display: inline-block; font-size: .78rem; font-weight: 600; color: var(--muted); padding: 1px 6px; border-radius: 999px; }
+.day-cell.has-games:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+.day-num { display: inline-flex; align-items: center; font-size: .8rem; font-weight: 700; color: var(--muted); padding: 1px 7px; border-radius: 999px; }
 .day-cell.has-games .day-num { background: var(--accent-soft); color: var(--accent); }
-.day-cell.today .day-num { background: var(--accent); color: #fff; }
-.day-cell .games { list-style: none; margin: 4px 0 0; padding: 0; font-size: .7rem; max-height: 72px; overflow-y: auto; }
-.day-cell .games li { padding: 2px 0; border-top: 1px dashed var(--line); }
+.day-cell.today .day-num { background: var(--accent); color: var(--accent-ink); }
+.day-cell .games { list-style: none; margin: 5px 0 0; padding: 0; font-size: .72rem; max-height: 70px; overflow-y: auto; scrollbar-width: thin; }
+.day-cell .games li { padding: 3px 0; border-top: 1px dashed var(--line); line-height: 1.35; }
 .day-cell .games li:first-child { border-top: none; }
-.day-cell .games .plats { display: block; color: var(--muted); }
 
 /* calendars: exactly one .month.active is displayed; see .month rules above */
 
@@ -102,11 +143,45 @@ body.show-all .month { display: block; }
 .count-dot.d4 { background: #46b574; }
 .count-dot.d5 { background: #209254; }
 .count-dot.d6 { background: #0f6638; }
+html[data-theme="arcade"] .count-dot.d1 { background: #d1fae5; }
+html[data-theme="arcade"] .count-dot.d2 { background: #a7f3d0; }
+html[data-theme="arcade"] .count-dot.d3 { background: #34d399; }
+html[data-theme="arcade"] .count-dot.d4 { background: #10b981; }
+html[data-theme="arcade"] .count-dot.d5 { background: #059669; }
+html[data-theme="arcade"] .count-dot.d6 { background: #065f46; }
+html[data-theme="void"] .count-dot.d1 { background: #1f1a4a; }
+html[data-theme="void"] .count-dot.d2 { background: #5b21b6; }
+html[data-theme="void"] .count-dot.d3 { background: #9333ea; }
+html[data-theme="void"] .count-dot.d4 { background: #c026d3; }
+html[data-theme="void"] .count-dot.d5 { background: #e11d48; }
+html[data-theme="void"] .count-dot.d6 { background: #f43f5e; }
+html[data-theme="void"] .day-cell.today,
+html[data-theme="void"] .tl-item.current,
+html[data-theme="void"] .month-nav a.month-link.active { box-shadow: 0 0 0 2px var(--accent), 0 0 18px rgba(34, 211, 238, .5); }
+html[data-theme="void"] .day-cell.today,
+html[data-theme="void"] .tl-item.current { outline: none; }
 
 /* --- platform brand icons (Bootstrap Icons), merged per family --- */
 .platform-icons { margin-left: 6px; white-space: nowrap; }
-.platform-icons i.bi { font-size: .78rem; color: #4b5563; margin-left: 3px; cursor: help; }
+.platform-icons i.bi { font-size: .78rem; color: var(--icon); margin-left: 3px; cursor: help; }
 .platform-icons .plat-txt { font-size: .7rem; color: var(--tba); }
+
+/* "N titles" chip shown on small screens instead of the inline game list */
+.day-more { display: none; }
+
+/* day detail modal (used on small screens) */
+.day-modal { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.day-modal[hidden] { display: none; }
+.day-modal-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, .55); }
+.day-modal-panel { position: relative; width: min(560px, 100%); max-height: 82vh; overflow-y: auto; background: var(--card); border-radius: 14px; padding: 22px 24px; box-shadow: 0 24px 60px rgba(0, 0, 0, .3); }
+.day-modal-close { position: absolute; top: 10px; right: 12px; font-size: 1.4rem; line-height: 1; border: none; background: none; color: var(--muted); cursor: pointer; padding: 6px; }
+.day-modal-close:hover { color: var(--fg); }
+.day-modal-panel h4 { margin: 0 0 14px; font-size: 1.25rem; font-weight: 700; padding-right: 28px; }
+.day-modal-list { list-style: none; margin: 0; padding: 0; }
+.day-modal-list li { padding: 8px 2px; border-top: 1px solid var(--line); font-size: .95rem; }
+.day-modal-list li:first-child { border-top: none; }
+.day-modal-list .platform-icons i.bi { font-size: 1rem; }
+body.modal-open { overflow: hidden; }
 
 /* --- stats page --- */
 .filter-row { display: flex; align-items: center; gap: 8px; margin: 12px 0 4px; }
@@ -116,8 +191,11 @@ body.show-all .month { display: block; }
 .note { color: var(--muted); font-size: .82rem; }
 @media (max-width: 720px) {
   .calendar { gap: 4px; }
-  .day-cell { min-height: 74px; padding: 4px; }
-  .day-cell .games { max-height: 56px; }
+  .day-cell { min-height: 74px; padding: 5px; }
+  .day-cell.has-games { cursor: pointer; }
+  .day-cell.has-games:hover { border-color: var(--accent); }
+  .day-cell .games { display: none; }
+  .day-more { display: block; margin-top: 4px; font-size: .72rem; font-weight: 700; color: var(--accent); line-height: 1.2; }
   .site-header { flex-direction: column; align-items: flex-start; }
 }
 `;
@@ -159,11 +237,13 @@ function renderPage({ title, description, body, currentYear, activeNav, path = "
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>${STYLES}</style>
 <script>document.documentElement.className += ' js';</script>
+<script>(function(){var t;try{t=localStorage.getItem('gc-theme')}catch(e){t=null}if(t==='arcade'||t==='void'){document.documentElement.setAttribute('data-theme',t);}else if(t==='paper'){document.documentElement.removeAttribute('data-theme');}})();</script>
 </head>
 <body>
 <header class="site-header">
-  <a class="brand" href="index.html">Game Calendar</a>
+  <a class="brand" href="index.html">Game Calendar<small>Release schedule</small></a>
   <nav>${nav("index.html", "Years")}${nav("stats.html", "Stats")}</nav>
+  <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch theme"><i class="bi bi-palette" aria-hidden="true"></i><span id="theme-label"></span></button>
 </header>
 <main>
 ${body}
@@ -171,6 +251,38 @@ ${body}
 <footer>
   <p>Game release schedule scraped from <a href="https://www.gameinformer.com">Game Informer</a>${currentYear ? `, current year ${currentYear}` : ""}. Generated pages are static &mdash; share any URL directly.</p>
 </footer>
+<script>
+(function () {
+  var btn = document.getElementById('theme-toggle');
+  var label = document.getElementById('theme-label');
+  if (!btn) return;
+  var THEMES = [
+    { id: 'paper',  label: 'Paper',  icon: 'bi-file-earmark-text' },
+    { id: 'arcade', label: 'Arcade', icon: 'bi-controller' },
+    { id: 'void',   label: 'Void',   icon: 'bi-moon-stars' }
+  ];
+  function current() {
+    var attr = document.documentElement.getAttribute('data-theme');
+    for (var i = 0; i < THEMES.length; i++) if (THEMES[i].id === attr) return THEMES[i];
+    return THEMES[0]; // paper default
+  }
+  function render() {
+    label.textContent = current().label + ' ▾';
+  }
+  btn.addEventListener('click', function () {
+    var idx = 0;
+    var c = current();
+    for (var i = 0; i < THEMES.length; i++) if (THEMES[i].id === c.id) idx = i;
+    var next = THEMES[(idx + 1) % THEMES.length];
+    if (next.id === 'paper') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', next.id);
+    try { localStorage.setItem('gc-theme', next.id); } catch (e) {}
+    render();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 't') { btn.click(); } });
+  render();
+})();
+</script>
 </body>
 </html>
 `;

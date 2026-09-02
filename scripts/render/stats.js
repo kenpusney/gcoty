@@ -48,12 +48,12 @@ function renderStatsPage(allStats, currentYear) {
 <h2>Games per year</h2>
 <div id="chart-trend" class="chart"></div>
 
-<h2>Released games per month (calendar heatmap)</h2>
+<h2>Released games per month</h2>
 <div class="filter-row">
   <label for="hm-year">Year:</label>
   <select id="hm-year">${yearOptionsHtml}</select>
 </div>
-<div id="chart-monthly" class="chart chart-sm"></div>
+<div id="chart-monthly" class="chart"></div>
 
 <h2>Top platforms by games released</h2>
 <div id="chart-platforms" class="chart"></div>
@@ -64,62 +64,93 @@ function renderStatsPage(allStats, currentYear) {
 (function () {
   var D = window.__GC;
   if (!window.echarts) return;
-  var releasedColor = '#16a34a';
-  var upcomingColor = '#f59e0b';
-
-  var trend = echarts.init(document.getElementById('chart-trend'));
-  trend.setOption({
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-    legend: { data: ['Released', 'Upcoming'] },
-    grid: { left: 40, right: 20, top: 40, bottom: 40 },
-    xAxis: { type: 'category', data: D.years.map(function (y) { return y.year; }) },
-    yAxis: { type: 'value', minInterval: 1 },
-    series: [
-      { name: 'Released', type: 'bar', stack: 't', itemStyle: { color: releasedColor }, data: D.years.map(function (y) { return y.released; }) },
-      { name: 'Upcoming', type: 'bar', stack: 't', itemStyle: { color: upcomingColor }, data: D.years.map(function (y) { return y.upcoming; }) }
-    ]
-  });
-
-  var monthly = echarts.init(document.getElementById('chart-monthly'));
+  var MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var hmYear = document.getElementById('hm-year');
-  function pad2js(n) { return n < 10 ? '0' + n : '' + n; }
-  function renderHeatmap(key) {
-    var counts = key === 'all' ? D.sumByMonth : (D.byMonthReleased[key] || null);
-    if (!counts) return;
-    var yearNum = key === 'all' ? D.currentYear : Number(key);
-    var maxV = 1;
-    counts.forEach(function (c) { if (c > maxV) maxV = c; });
-    monthly.setOption({
-      tooltip: {
-        formatter: function (p) { return p.value[0] + ': <b>' + p.value[1] + '</b> released'; }
-      },
-      visualMap: { min: 0, max: maxV, calculable: true, orient: 'horizontal', left: 'center', top: 8, inRange: { color: ['#f0fdf4', '#4ade80', '#15803d'] } },
-      calendar: { range: [yearNum + '-01-01', yearNum + '-12-31'], cellSize: ['auto', 26], itemStyle: { borderWidth: 2, borderColor: '#fff' }, yearLabel: { show: false }, monthLabel: { nameMap: 'en' }, dayLabel: { show: false } },
-      series: [{
-        type: 'heatmap',
-        coordinateSystem: 'calendar',
-        data: counts.map(function (c, i) { return [yearNum + '-' + pad2js(i + 1) + '-15', c]; })
-      }]
-    }, true);
+  var state = { monthKey: hmYear ? hmYear.value : 'all' };
+  var charts = {};
+
+  function cssInt(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function axisColors() {
+    return {
+      label: cssInt('--muted'),
+      line: cssInt('--line'),
+      split: 'transparent',
+      autoBg: 'transparent'
+    };
   }
-  renderHeatmap(hmYear.value);
-  hmYear.addEventListener('change', function () { renderHeatmap(hmYear.value); });
+  function buildTrend(releasedColor, upcomingColor, axis) {
+    return {
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+      legend: { data: ['Released', 'Upcoming'], textStyle: { color: cssInt('--muted') } },
+      grid: { left: 40, right: 20, top: 40, bottom: 40 },
+      xAxis: { type: 'category', data: D.years.map(function (y) { return y.year; }), axisLabel: { color: axis.label }, axisLine: { lineStyle: { color: axis.line } } },
+      yAxis: { type: 'value', minInterval: 1, axisLabel: { color: axis.label }, splitLine: { lineStyle: { color: axis.line } } },
+      series: [
+        { name: 'Released', type: 'bar', stack: 't', itemStyle: { color: releasedColor }, data: D.years.map(function (y) { return y.released; }) },
+        { name: 'Upcoming', type: 'bar', stack: 't', itemStyle: { color: upcomingColor }, data: D.years.map(function (y) { return y.upcoming; }) }
+      ]
+    };
+  }
+  function buildMonthly(releasedColor, axis) {
+    var counts = state.monthKey === 'all' ? D.sumByMonth : (D.byMonthReleased[state.monthKey] || null);
+    if (!counts) counts = D.sumByMonth;
+    return {
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+      grid: { left: 44, right: 20, top: 34, bottom: 30 },
+      xAxis: { type: 'category', data: MONTH_ABBR, axisLabel: { color: axis.label }, axisLine: { lineStyle: { color: axis.line } } },
+      yAxis: { type: 'value', minInterval: 1, axisLabel: { color: axis.label }, splitLine: { lineStyle: { color: axis.line } } },
+      series: [{
+        name: 'Released',
+        type: 'bar',
+        data: counts,
+        itemStyle: { color: releasedColor, borderRadius: [3, 3, 0, 0] },
+        barMaxWidth: 34,
+        label: { show: true, position: 'top', fontSize: 10, color: axis.label }
+      }]
+    };
+  }
+  function buildPlats(releasedColor, upcomingColor, axis) {
+    var names = D.platforms.map(function (p) { return p.name; }).reverse();
+    return {
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+      legend: { data: ['Released', 'Not yet released'], textStyle: { color: cssInt('--muted') } },
+      grid: { left: 140, right: 40, top: 40, bottom: 30 },
+      xAxis: { type: 'value', minInterval: 1, axisLabel: { color: axis.label }, splitLine: { lineStyle: { color: axis.line } } },
+      yAxis: { type: 'category', data: names, axisLabel: { color: axis.label }, splitLine: { show: false } },
+      series: [
+        { name: 'Released', type: 'bar', stack: 'p', itemStyle: { color: releasedColor }, data: D.platforms.map(function (p) { return p.released; }).reverse() },
+        { name: 'Not yet released', type: 'bar', stack: 'p', itemStyle: { color: upcomingColor }, data: D.platforms.map(function (p) { return p.count - p.released; }).reverse() }
+      ]
+    };
+  }
+  function render() {
+    ['trend', 'monthly', 'plats'].forEach(function (k) { if (charts[k]) { charts[k].dispose(); charts[k] = null; } });
+    // per-theme fallbacks until CSS vars apply (paper root is <html> without attr)
+    var releasedColor = cssInt('--released') || '#1e7f4d';
+    var upcomingColor = cssInt('--upcoming') || '#ad6d0a';
+    var accent = cssInt('--accent') || '#1e4fd6';
+    var axis = axisColors();
 
-  var names = D.platforms.map(function (p) { return p.name; }).reverse();
-  var plats = echarts.init(document.getElementById('chart-platforms'));
-  plats.setOption({
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-    legend: { data: ['Released', 'Not yet released'] },
-    grid: { left: 140, right: 40, top: 40, bottom: 30 },
-    xAxis: { type: 'value', minInterval: 1 },
-    yAxis: { type: 'category', data: names },
-    series: [
-      { name: 'Released', type: 'bar', stack: 'p', itemStyle: { color: releasedColor }, data: D.platforms.map(function (p) { return p.released; }).reverse() },
-      { name: 'Not yet released', type: 'bar', stack: 'p', itemStyle: { color: upcomingColor }, data: D.platforms.map(function (p) { return p.count - p.released; }).reverse() }
-    ]
+    charts.trend = echarts.init(document.getElementById('chart-trend'));
+    charts.trend.setOption(buildTrend(releasedColor, upcomingColor, axis));
+    charts.monthly = echarts.init(document.getElementById('chart-monthly'));
+    charts.monthly.setOption(buildMonthly(releasedColor, axis));
+    charts.plats = echarts.init(document.getElementById('chart-platforms'));
+    charts.plats.setOption(buildPlats(releasedColor, upcomingColor, axis));
+  }
+  render();
+
+  hmYear && hmYear.addEventListener('change', function () {
+    state.monthKey = hmYear.value;
+    // keep monthly in sync; rebuild just that chart cheaply
+    var released = cssInt('--released') || '#1e7f4d';
+    if (charts.monthly) charts.monthly.setOption(buildMonthly(released, axisColors()), true);
   });
+  window.addEventListener('resize', function () { for (var k in charts) if (charts[k]) charts[k].resize(); });
 
-  window.addEventListener('resize', function () { trend.resize(); monthly.resize(); plats.resize(); });
+  // Rebuild charts when the user switches theme via the header (CSS vars change).
+  var mo = new MutationObserver(function () { render(); });
+  mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 })();
 </script>
 `;

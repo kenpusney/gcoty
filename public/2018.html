@@ -18,32 +18,76 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
+/* ---------- Theme tokens ----------
+   Pages carry <body data-theme="...">. Three themes are supported:
+   paper  (default) warm paper newsprint
+   void   deep-space neon / arcade cabinet
+   arcade light, game-media clean
+   Common tokens let components (cards, fields, charts, icons, rays) re-skin via vars. */
+
 :root {
-  --fg: #1f2430; --muted: #6b7280; --line: #e5e7eb; --bg: #fafafa;
-  --accent: #2563eb; --accent-soft: #dbeafe;
-  --released: #16a34a; --upcoming: #f59e0b; --tba: #9ca3af;
-  --card: #ffffff;
+  --fg: #26241f; --muted: #6f695c; --line: #e6e0d2; --bg: #f6f2ea;
+  --accent: #1e4fd6; --accent2: #9333ea; --accent-soft: #e2eaf9; --accent-ink: #ffffff;
+  --card: #fffdf8; --card2: #f1ebdd;
+  --released: #1e7f4d; --upcoming: #ad6d0a; --tba: #99907e;
+  --icon: #57534e; --ring: var(--accent);
+  --header: rgba(253, 251, 245, .86); --neon: #389e0d;
+  --shadow-sm: 0 1px 2px rgba(80, 66, 30, .06), 0 3px 8px rgba(80, 66, 30, .05);
+  --shadow-md: 0 10px 26px rgba(80, 66, 30, .12);
+}
+
+html[data-theme="arcade"] {
+  --bg: radial-gradient(circle at 12% -10%, #eef2ff, transparent 38%), #f6f7fb;
+  --fg: #151a2b; --muted: #5a6177; --line: #e0e4ef; --card: #ffffff; --card2: #eef1f9;
+  --accent: #4f46e5; --accent2: #ec4899; --accent-soft: #e0e7ff; --accent-ink: #ffffff;
+  --released: #059669; --upcoming: #d97706; --tba: #94a3b8;
+  --icon: #46506e; --ring: var(--accent);
+  --header: rgba(255, 255, 255, .88); --neon: #10b981;
+  --shadow-sm: 0 1px 2px rgba(30, 41, 59, .05), 0 3px 10px rgba(30, 41, 59, .07);
+  --shadow-md: 0 12px 30px rgba(30, 41, 59, .16);
+}
+
+html[data-theme="void"] {
+  color-scheme: dark;
+  --bg: radial-gradient(circle at 20% -10%, #4c1d95 0%, #312e81 30%, #0f0d22 80%);
+  --fg: #efeefc; --muted: #9aa3d4; --line: #2c2f5e;
+  --card: rgba(31, 28, 84, .5); --card2: rgba(55, 48, 130, .38);
+  --accent: #e879f9; --accent2: #22d3ee; --accent-soft: rgba(217, 70, 239, .18); --accent-ink: #22062e;
+  --released: #34d399; --upcoming: #fbbf24; --tba: #7982b6;
+  --icon: #cdd3f7; --ring: #22d3ee;
+  --header: rgba(17, 14, 46, .8); --neon: #22d3ee;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .35), 0 4px 14px rgba(0, 0, 0, .4);
+  --shadow-md: 0 14px 40px rgba(0, 0, 0, .5);
 }
 * { box-sizing: border-box; }
-body { margin: 0; font-family: "Newsreader", Georgia, "Times New Roman", serif; color: var(--fg); background: var(--bg); line-height: 1.45; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font-family: "Newsreader", Georgia, "Times New Roman", serif; color: var(--fg); background: var(--bg); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent-soft); }
 a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
 
-.site-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 20px; background: var(--card); border-bottom: 1px solid var(--line); }
-.site-header .brand { font-weight: 700; font-size: 1.1rem; color: var(--fg); }
-.site-header nav { display: flex; gap: 14px; }
+.site-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: var(--header); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.site-header .brand { font-weight: 800; font-size: 1.15rem; letter-spacing: .01em; color: var(--fg); }
+.site-header .brand small { display: block; font-size: .62rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.site-header nav { display: flex; gap: 16px; }
 .site-header nav a { color: var(--muted); }
-.site-header nav a.active { color: var(--accent); font-weight: 600; }
+.site-header nav a:hover { color: var(--fg); text-decoration: none; }
+.site-header nav a.active { color: var(--accent); font-weight: 700; }
+.theme-toggle { display: inline-flex; align-items: center; gap: 7px; flex: 0 0 auto; margin-left: 2px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--fg); font-family: inherit; font-size: .8rem; font-weight: 600; cursor: pointer; transition: border-color .12s, color .12s, box-shadow .12s; }
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); box-shadow: var(--shadow-sm); }
+.theme-toggle > i.bi { font-size: .9rem; color: var(--accent); }
+html[data-theme="void"] .theme-toggle { border-color: var(--line); }
 
-main { max-width: 1080px; margin: 0 auto; padding: 24px 20px 48px; }
-footer { max-width: 1080px; margin: 0 auto; padding: 12px 20px 32px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); }
-h1 { margin: 8px 0 4px; }
-h2 { margin: 28px 0 10px; }
-.sub { color: var(--muted); margin: 0 0 18px; }
+main { max-width: 1080px; margin: 0 auto; padding: 28px 20px 56px; }
+footer { max-width: 1080px; margin: 0 auto; padding: 16px 20px 36px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); }
+h1 { margin: 6px 0 6px; font-size: 2.15rem; font-weight: 800; line-height: 1.15; letter-spacing: -.01em; }
+h2 { margin: 34px 0 12px; font-size: 1.45rem; font-weight: 700; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.sub { color: var(--muted); margin: 0 0 18px; max-width: 66ch; }
 
 /* --- overview cards --- */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 18px 0 26px; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; box-shadow: var(--shadow-sm); }
 .card .num { font-size: 1.7rem; font-weight: 700; line-height: 1.1; }
 .card .lbl { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: .04em; }
 .card.released .num { color: var(--released); }
@@ -53,14 +97,15 @@ h2 { margin: 28px 0 10px; }
 
 /* --- year timeline (index.html) --- */
 .tl-wrap { position: relative; margin: 26px 0; }
-.tl-track { display: flex; gap: 14px; overflow-x: auto; padding: 10px 2px 16px; scroll-snap-type: x proximity; scrollbar-width: thin; }
-.tl-item { flex: 0 0 auto; scroll-snap-align: start; width: 118px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px; color: var(--fg); text-align: center; transition: transform .12s, box-shadow .12s; }
-.tl-item:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,.08); text-decoration: none; }
+.tl-track { display: flex; gap: 14px; overflow-x: auto; padding: 10px 2px 16px; scroll-snap-type: x proximity; scrollbar-width: none; }
+.tl-track::-webkit-scrollbar { display: none; }
+.tl-item { flex: 0 0 auto; scroll-snap-align: start; width: 118px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px; color: var(--fg); text-align: center; box-shadow: var(--shadow-sm); transition: transform .12s, box-shadow .12s, border-color .12s; }
+.tl-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--accent-soft); text-decoration: none; }
 .tl-item .year { font-size: 1.5rem; font-weight: 700; }
 .tl-item .counts { margin: 6px 0; font-size: .78rem; color: var(--muted); }
 .tl-item .counts b { color: var(--fg); }
 .tl-item.current { outline: 2px solid var(--accent); background: var(--accent-soft); }
-.tl-item .bar { height: 6px; border-radius: 3px; background: #eef0f3; overflow: hidden; margin-top: 8px; }
+.tl-item .bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 8px; }
 .tl-item .bar > i { display: block; height: 100%; background: var(--released); }
 .tl-scroll { display: flex; justify-content: space-between; margin-top: 8px; gap: 10px; }
 .tl-scroll button { flex: 1; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-size: .9rem; cursor: pointer; }
@@ -69,43 +114,39 @@ h2 { margin: 28px 0 10px; }
 .tl-legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 4px 0 12px; vertical-align: -1px; }
 
 /* --- month calendar (year pages) --- */
-.month-nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 16px 0 20px; }
-.month-nav .years { display: flex; gap: 8px; }
-.month-nav .months { display: flex; flex-wrap: wrap; gap: 6px; }
-.month-nav a.year-link { padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-weight: 600; white-space: nowrap; }
+.month-nav { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; margin: 16px 0 20px; }
+.month-nav .years { flex: 0 0 auto; display: flex; gap: 6px; }
+.month-nav .months { flex: 1 1 auto; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; padding-bottom: 2px; }
+.month-nav .months::-webkit-scrollbar { display: none; }
+.month-nav a.year-link { flex: 0 0 auto; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-weight: 600; white-space: nowrap; }
 .month-nav a.year-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 .month-nav .year-link.disabled { opacity: .4; pointer-events: none; }
-.month-nav a.month-link { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--fg); font-size: .85rem; }
+.month-nav a.month-link { flex: 0 0 auto; scroll-snap-align: start; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--fg); font-size: .85rem; white-space: nowrap; }
 .month-nav a.month-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-.month-nav a.month-link.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-.show-all-btn { padding: 6px 12px; border: 1px dashed var(--line); border-radius: 999px; background: transparent; color: var(--muted); font-size: .85rem; cursor: pointer; font-family: inherit; }
-.show-all-btn:hover { border-color: var(--accent); color: var(--accent); }
-body.show-all .show-all-btn { border-style: solid; color: var(--accent); border-color: var(--accent); }
+.month-nav a.month-link.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 
-/* exactly one month is shown; the month links above act as filters.
-   body.show-all (toggle button) reveals every month. */
+/* exactly one month is shown; the month links above act as filters. */
 .month { display: none; }
 .month.active { display: block; }
-body.show-all .month { display: block; }
 
-.month h3 { margin: 0 0 2px; }
+.month h3 { margin: 0 0 2px; font-size: 1.3rem; font-weight: 700; }
 .month .mstats { color: var(--muted); font-size: .85rem; margin: 0 0 10px; }
-.month .mstats .rel { color: var(--released); }
-.month .mstats .upc { color: var(--upcoming); }
-.month .mstats .tba { color: var(--tba); }
+.month .mstats .rel { color: var(--released); font-weight: 700; }
+.month .mstats .upc { color: var(--upcoming); font-weight: 700; }
+.month .mstats .tba { color: var(--tba); font-weight: 700; }
 
 .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 26px; }
 .cal-header { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); text-align: center; padding: 4px 0; }
-.day-cell { position: relative; min-height: 96px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 6px; overflow: hidden; }
+.day-cell { position: relative; min-height: 96px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 6px; overflow: hidden; transition: border-color .12s, box-shadow .12s; }
 .day-cell.empty { background: transparent; border-color: transparent; }
 .day-cell.today { outline: 2px solid var(--accent); }
-.day-num { display: inline-block; font-size: .78rem; font-weight: 600; color: var(--muted); padding: 1px 6px; border-radius: 999px; }
+.day-cell.has-games:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+.day-num { display: inline-flex; align-items: center; font-size: .8rem; font-weight: 700; color: var(--muted); padding: 1px 7px; border-radius: 999px; }
 .day-cell.has-games .day-num { background: var(--accent-soft); color: var(--accent); }
-.day-cell.today .day-num { background: var(--accent); color: #fff; }
-.day-cell .games { list-style: none; margin: 4px 0 0; padding: 0; font-size: .7rem; max-height: 72px; overflow-y: auto; }
-.day-cell .games li { padding: 2px 0; border-top: 1px dashed var(--line); }
+.day-cell.today .day-num { background: var(--accent); color: var(--accent-ink); }
+.day-cell .games { list-style: none; margin: 5px 0 0; padding: 0; font-size: .72rem; max-height: 70px; overflow-y: auto; scrollbar-width: thin; }
+.day-cell .games li { padding: 3px 0; border-top: 1px dashed var(--line); line-height: 1.35; }
 .day-cell .games li:first-child { border-top: none; }
-.day-cell .games .plats { display: block; color: var(--muted); }
 
 /* calendars: exactly one .month.active is displayed; see .month rules above */
 
@@ -117,11 +158,45 @@ body.show-all .month { display: block; }
 .count-dot.d4 { background: #46b574; }
 .count-dot.d5 { background: #209254; }
 .count-dot.d6 { background: #0f6638; }
+html[data-theme="arcade"] .count-dot.d1 { background: #d1fae5; }
+html[data-theme="arcade"] .count-dot.d2 { background: #a7f3d0; }
+html[data-theme="arcade"] .count-dot.d3 { background: #34d399; }
+html[data-theme="arcade"] .count-dot.d4 { background: #10b981; }
+html[data-theme="arcade"] .count-dot.d5 { background: #059669; }
+html[data-theme="arcade"] .count-dot.d6 { background: #065f46; }
+html[data-theme="void"] .count-dot.d1 { background: #1f1a4a; }
+html[data-theme="void"] .count-dot.d2 { background: #5b21b6; }
+html[data-theme="void"] .count-dot.d3 { background: #9333ea; }
+html[data-theme="void"] .count-dot.d4 { background: #c026d3; }
+html[data-theme="void"] .count-dot.d5 { background: #e11d48; }
+html[data-theme="void"] .count-dot.d6 { background: #f43f5e; }
+html[data-theme="void"] .day-cell.today,
+html[data-theme="void"] .tl-item.current,
+html[data-theme="void"] .month-nav a.month-link.active { box-shadow: 0 0 0 2px var(--accent), 0 0 18px rgba(34, 211, 238, .5); }
+html[data-theme="void"] .day-cell.today,
+html[data-theme="void"] .tl-item.current { outline: none; }
 
 /* --- platform brand icons (Bootstrap Icons), merged per family --- */
 .platform-icons { margin-left: 6px; white-space: nowrap; }
-.platform-icons i.bi { font-size: .78rem; color: #4b5563; margin-left: 3px; cursor: help; }
+.platform-icons i.bi { font-size: .78rem; color: var(--icon); margin-left: 3px; cursor: help; }
 .platform-icons .plat-txt { font-size: .7rem; color: var(--tba); }
+
+/* "N titles" chip shown on small screens instead of the inline game list */
+.day-more { display: none; }
+
+/* day detail modal (used on small screens) */
+.day-modal { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.day-modal[hidden] { display: none; }
+.day-modal-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, .55); }
+.day-modal-panel { position: relative; width: min(560px, 100%); max-height: 82vh; overflow-y: auto; background: var(--card); border-radius: 14px; padding: 22px 24px; box-shadow: 0 24px 60px rgba(0, 0, 0, .3); }
+.day-modal-close { position: absolute; top: 10px; right: 12px; font-size: 1.4rem; line-height: 1; border: none; background: none; color: var(--muted); cursor: pointer; padding: 6px; }
+.day-modal-close:hover { color: var(--fg); }
+.day-modal-panel h4 { margin: 0 0 14px; font-size: 1.25rem; font-weight: 700; padding-right: 28px; }
+.day-modal-list { list-style: none; margin: 0; padding: 0; }
+.day-modal-list li { padding: 8px 2px; border-top: 1px solid var(--line); font-size: .95rem; }
+.day-modal-list li:first-child { border-top: none; }
+.day-modal-list .platform-icons i.bi { font-size: 1rem; }
+body.modal-open { overflow: hidden; }
 
 /* --- stats page --- */
 .filter-row { display: flex; align-items: center; gap: 8px; margin: 12px 0 4px; }
@@ -131,17 +206,22 @@ body.show-all .month { display: block; }
 .note { color: var(--muted); font-size: .82rem; }
 @media (max-width: 720px) {
   .calendar { gap: 4px; }
-  .day-cell { min-height: 74px; padding: 4px; }
-  .day-cell .games { max-height: 56px; }
+  .day-cell { min-height: 74px; padding: 5px; }
+  .day-cell.has-games { cursor: pointer; }
+  .day-cell.has-games:hover { border-color: var(--accent); }
+  .day-cell .games { display: none; }
+  .day-more { display: block; margin-top: 4px; font-size: .72rem; font-weight: 700; color: var(--accent); line-height: 1.2; }
   .site-header { flex-direction: column; align-items: flex-start; }
 }
 </style>
 <script>document.documentElement.className += ' js';</script>
+<script>(function(){var t;try{t=localStorage.getItem('gc-theme')}catch(e){t=null}if(t==='arcade'||t==='void'){document.documentElement.setAttribute('data-theme',t);}else if(t==='paper'){document.documentElement.removeAttribute('data-theme');}})();</script>
 </head>
 <body>
 <header class="site-header">
-  <a class="brand" href="index.html">Game Calendar</a>
+  <a class="brand" href="index.html">Game Calendar<small>Release schedule</small></a>
   <nav><a href="index.html">Years</a><a href="stats.html">Stats</a></nav>
+  <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch theme"><i class="bi bi-palette" aria-hidden="true"></i><span id="theme-label"></span></button>
 </header>
 <main>
 
@@ -152,1167 +232,1309 @@ body.show-all .month { display: block; }
   <span class="years"><a class="year-link prev" href="2017.html">&#8249; 2017</a></span>
   <span class="months"><a class="month-link" href="#january">January</a><a class="month-link" href="#february">February</a><a class="month-link" href="#march">March</a><a class="month-link" href="#april">April</a><a class="month-link" href="#may">May</a><a class="month-link" href="#june">June</a><a class="month-link" href="#july">July</a><a class="month-link" href="#august">August</a><a class="month-link" href="#september">September</a><a class="month-link" href="#october">October</a><a class="month-link" href="#november">November</a><a class="month-link" href="#december">December</a></span>
   <span class="years"><a class="year-link next" href="2019.html">2019 &#8250;</a></span>
-  <button type="button" class="show-all-btn" id="show-all">Show all months</button>
 </nav>
 <noscript><p class="note">JavaScript is needed to switch months; the default month (January) is shown below.</p></noscript>
 
 <section class="month active" id="january" data-month="1">
     <h3>January</h3>
     <p class="mstats"><span class="rel">14 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-1-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-1-1" data-label="January 1">
       <span class="day-num">1</span>
       
-    </div><div class="day-cell" data-date="2018-1-2">
+    </div><div class="day-cell" data-date="2018-1-2" data-label="January 2">
       <span class="day-num">2</span>
       
-    </div><div class="day-cell" data-date="2018-1-3">
+    </div><div class="day-cell" data-date="2018-1-3" data-label="January 3">
       <span class="day-num">3</span>
       
-    </div><div class="day-cell" data-date="2018-1-4">
+    </div><div class="day-cell" data-date="2018-1-4" data-label="January 4">
       <span class="day-num">4</span>
       
-    </div><div class="day-cell" data-date="2018-1-5">
+    </div><div class="day-cell" data-date="2018-1-5" data-label="January 5">
       <span class="day-num">5</span>
       
-    </div><div class="day-cell" data-date="2018-1-6">
+    </div><div class="day-cell" data-date="2018-1-6" data-label="January 6">
       <span class="day-num">6</span>
       
-    </div><div class="day-cell" data-date="2018-1-7">
+    </div><div class="day-cell" data-date="2018-1-7" data-label="January 7">
       <span class="day-num">7</span>
       
-    </div><div class="day-cell" data-date="2018-1-8">
+    </div><div class="day-cell" data-date="2018-1-8" data-label="January 8">
       <span class="day-num">8</span>
       
-    </div><div class="day-cell" data-date="2018-1-9">
+    </div><div class="day-cell" data-date="2018-1-9" data-label="January 9">
       <span class="day-num">9</span>
       
-    </div><div class="day-cell" data-date="2018-1-10">
+    </div><div class="day-cell" data-date="2018-1-10" data-label="January 10">
       <span class="day-num">10</span>
       
-    </div><div class="day-cell has-games" data-date="2018-1-11">
+    </div><div class="day-cell has-games" data-date="2018-1-11" data-label="January 11">
       <span class="day-num">11<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>The Escapists 2<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-1-12">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-1-12" data-label="January 12">
       <span class="day-num">12</span>
       
-    </div><div class="day-cell" data-date="2018-1-13">
+    </div><div class="day-cell" data-date="2018-1-13" data-label="January 13">
       <span class="day-num">13</span>
       
-    </div><div class="day-cell" data-date="2018-1-14">
+    </div><div class="day-cell" data-date="2018-1-14" data-label="January 14">
       <span class="day-num">14</span>
       
-    </div><div class="day-cell" data-date="2018-1-15">
+    </div><div class="day-cell" data-date="2018-1-15" data-label="January 15">
       <span class="day-num">15</span>
       
-    </div><div class="day-cell has-games" data-date="2018-1-16">
+    </div><div class="day-cell has-games" data-date="2018-1-16" data-label="January 16">
       <span class="day-num">16<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Street Fighter V: Arcade Edition<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Forged Battalion<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-1-17">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-1-17" data-label="January 17">
       <span class="day-num">17</span>
       
-    </div><div class="day-cell" data-date="2018-1-18">
+    </div><div class="day-cell" data-date="2018-1-18" data-label="January 18">
       <span class="day-num">18</span>
       
-    </div><div class="day-cell has-games" data-date="2018-1-19">
+    </div><div class="day-cell has-games" data-date="2018-1-19" data-label="January 19">
       <span class="day-num">19<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Digimon Story: Cyber Sleuth - Hacker's Memory<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4, PlayStation Vita"></i></span></li><li>Kirby Battle<span class="platform-icons"><i class="bi bi-nintendo-switch" title="3DS"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-1-20">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-1-20" data-label="January 20">
       <span class="day-num">20</span>
       
-    </div><div class="day-cell" data-date="2018-1-21">
+    </div><div class="day-cell" data-date="2018-1-21" data-label="January 21">
       <span class="day-num">21</span>
       
-    </div><div class="day-cell" data-date="2018-1-22">
+    </div><div class="day-cell" data-date="2018-1-22" data-label="January 22">
       <span class="day-num">22</span>
       
-    </div><div class="day-cell has-games" data-date="2018-1-23">
+    </div><div class="day-cell has-games" data-date="2018-1-23" data-label="January 23">
       <span class="day-num">23<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Lost Sphear<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>The Inpatient<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation VR"></i></span></li><li>Iconoclasts<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4, PlayStation Vita"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>My Time at Portia<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-1-24">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-1-24" data-label="January 24">
       <span class="day-num">24</span>
       
-    </div><div class="day-cell has-games" data-date="2018-1-25">
+    </div><div class="day-cell has-games" data-date="2018-1-25" data-label="January 25">
       <span class="day-num">25<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Celeste<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Dust and Salt<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-1-26">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-1-26" data-label="January 26">
       <span class="day-num">26<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Dragon Ball FighterZ<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Monster Hunter: World<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-1-27">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-1-27" data-label="January 27">
       <span class="day-num">27</span>
       
-    </div><div class="day-cell" data-date="2018-1-28">
+    </div><div class="day-cell" data-date="2018-1-28" data-label="January 28">
       <span class="day-num">28</span>
       
-    </div><div class="day-cell" data-date="2018-1-29">
+    </div><div class="day-cell" data-date="2018-1-29" data-label="January 29">
       <span class="day-num">29</span>
       
-    </div><div class="day-cell has-games" data-date="2018-1-30">
+    </div><div class="day-cell has-games" data-date="2018-1-30" data-label="January 30">
       <span class="day-num">30<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Dissidia Final Fantasy NT<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-1-31">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-1-31" data-label="January 31">
       <span class="day-num">31</span>
       
     </div></div>
   </section><section class="month" id="february" data-month="2">
     <h3>February</h3>
     <p class="mstats"><span class="rel">44 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell has-games" data-date="2018-2-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell has-games" data-date="2018-2-1" data-label="February 1">
       <span class="day-num">1<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Batallion 1944<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li><li>Final Fantasy XII: The Zodiac Age<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li><li>Night In The Woods<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Steamworld Dig<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-2-2">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-2-2" data-label="February 2">
       <span class="day-num">2<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>UFC 3<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-2-3">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-2-3" data-label="February 3">
       <span class="day-num">3</span>
       
-    </div><div class="day-cell" data-date="2018-2-4">
+    </div><div class="day-cell" data-date="2018-2-4" data-label="February 4">
       <span class="day-num">4</span>
       
-    </div><div class="day-cell" data-date="2018-2-5">
+    </div><div class="day-cell" data-date="2018-2-5" data-label="February 5">
       <span class="day-num">5</span>
       
-    </div><div class="day-cell has-games" data-date="2018-2-6">
+    </div><div class="day-cell has-games" data-date="2018-2-6" data-label="February 6">
       <span class="day-num">6<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Shadow of the Colossus<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-2-7">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-2-7" data-label="February 7">
       <span class="day-num">7<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Little Triangle<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Samsara<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-2-8">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-2-8" data-label="February 8">
       <span class="day-num">8<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>ACA NeoGeo Blazing Star<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Bleed 2<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Starpoint Gemini Warlords<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Civilization VI: Rise and Fall<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-2-9">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-2-9" data-label="February 9">
       <span class="day-num">9<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Dragon Quest Builders<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Overdriven Reloaded: Special Edition<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>The Seven Deadly Sins: Knights of Britannia<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Under Night In-Birth Exe: Late[st]<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4, PlayStation 3, PlayStation Vita"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-2-10">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-2-10" data-label="February 10">
       <span class="day-num">10</span>
       
-    </div><div class="day-cell" data-date="2018-2-11">
+    </div><div class="day-cell" data-date="2018-2-11" data-label="February 11">
       <span class="day-num">11</span>
       
-    </div><div class="day-cell has-games" data-date="2018-2-12">
+    </div><div class="day-cell has-games" data-date="2018-2-12" data-label="February 12">
       <span class="day-num">12<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Monster Energy Supercross: Special Edition<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-2-13">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-2-13" data-label="February 13">
       <span class="day-num">13<span class="count-dot d6" title="8 games"></span></span>
       <ul class="games"><li>Dynasty Warriors 9<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>The Fall 2: Unbound<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Kingdom Come: Deliverance<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Owlboy<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Crossing Souls<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Radiant Historia: Perfect Chronology<span class="platform-icons"><i class="bi bi-nintendo-switch" title="3DS"></i></span></li><li>Monster Energy Supercross: The Official Videogame<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>The Longest Five Minutes<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-playstation" title="PlayStation Vita"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-2-14">
+      <span class="day-more" aria-hidden="true">8 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-2-14" data-label="February 14">
       <span class="day-num">14</span>
       
-    </div><div class="day-cell has-games" data-date="2018-2-15">
+    </div><div class="day-cell has-games" data-date="2018-2-15" data-label="February 15">
       <span class="day-num">15<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Secret of Mana<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4, PlayStation Vita"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-2-16">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-2-16" data-label="February 16">
       <span class="day-num">16<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Bayonetta 1 + 2 Collection<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Fe<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-2-17">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-2-17" data-label="February 17">
       <span class="day-num">17</span>
       
-    </div><div class="day-cell has-games" data-date="2018-2-18">
+    </div><div class="day-cell has-games" data-date="2018-2-18" data-label="February 18">
       <span class="day-num">18<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Long Gone Days<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-2-19">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-2-19" data-label="February 19">
       <span class="day-num">19<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>The Station<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-2-20">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-2-20" data-label="February 20">
       <span class="day-num">20<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Metal Gear Survive<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Age of Empires: Definitive Edition<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li><li>Xenon Valkyrie+<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-2-21">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-2-21" data-label="February 21">
       <span class="day-num">21</span>
       
-    </div><div class="day-cell has-games" data-date="2018-2-22">
+    </div><div class="day-cell has-games" data-date="2018-2-22" data-label="February 22">
       <span class="day-num">22<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Pac-Man Championship Edition 2 Plus<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Stellaris: Apocalypse<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-2-23">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-2-23" data-label="February 23">
       <span class="day-num">23<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Past Cure<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Yume Nikki: Dream Diary<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li><li>Sword Art Online: Fatal Bullet<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-2-24">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-2-24" data-label="February 24">
       <span class="day-num">24</span>
       
-    </div><div class="day-cell" data-date="2018-2-25">
+    </div><div class="day-cell" data-date="2018-2-25" data-label="February 25">
       <span class="day-num">25</span>
       
-    </div><div class="day-cell has-games" data-date="2018-2-26">
+    </div><div class="day-cell has-games" data-date="2018-2-26" data-label="February 26">
       <span class="day-num">26<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Gravel<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-2-27">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-2-27" data-label="February 27">
       <span class="day-num">27<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>De Blob 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Immortal Redneck<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Payday 2<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Riftstar Raiders<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-2-28">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-2-28" data-label="February 28">
       <span class="day-num">28<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Darkest Dungeon<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
     </div></div>
   </section><section class="month" id="march" data-month="3">
     <h3>March</h3>
     <p class="mstats"><span class="rel">23 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-3-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-3-1" data-label="March 1">
       <span class="day-num">1</span>
       
-    </div><div class="day-cell has-games" data-date="2018-3-2">
+    </div><div class="day-cell has-games" data-date="2018-3-2" data-label="March 2">
       <span class="day-num">2<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Pit People<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-3-3">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-3-3" data-label="March 3">
       <span class="day-num">3</span>
       
-    </div><div class="day-cell" data-date="2018-3-4">
+    </div><div class="day-cell" data-date="2018-3-4" data-label="March 4">
       <span class="day-num">4</span>
       
-    </div><div class="day-cell" data-date="2018-3-5">
+    </div><div class="day-cell" data-date="2018-3-5" data-label="March 5">
       <span class="day-num">5</span>
       
-    </div><div class="day-cell has-games" data-date="2018-3-6">
+    </div><div class="day-cell has-games" data-date="2018-3-6" data-label="March 6">
       <span class="day-num">6<span class="count-dot d5" title="5 games"></span></span>
       <ul class="games"><li>Bravo Team<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation VR"></i></span></li><li>Final Fantasy XV: Royal Edition<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Frantics<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Scribblenauts Showdown<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Fear Effect Sedna<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-3-7">
+      <span class="day-more" aria-hidden="true">5 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-3-7" data-label="March 7">
       <span class="day-num">7</span>
       
-    </div><div class="day-cell" data-date="2018-3-8">
+    </div><div class="day-cell" data-date="2018-3-8" data-label="March 8">
       <span class="day-num">8</span>
       
-    </div><div class="day-cell" data-date="2018-3-9">
+    </div><div class="day-cell" data-date="2018-3-9" data-label="March 9">
       <span class="day-num">9</span>
       
-    </div><div class="day-cell" data-date="2018-3-10">
+    </div><div class="day-cell" data-date="2018-3-10" data-label="March 10">
       <span class="day-num">10</span>
       
-    </div><div class="day-cell" data-date="2018-3-11">
+    </div><div class="day-cell" data-date="2018-3-11" data-label="March 11">
       <span class="day-num">11</span>
       
-    </div><div class="day-cell" data-date="2018-3-12">
+    </div><div class="day-cell" data-date="2018-3-12" data-label="March 12">
       <span class="day-num">12</span>
       
-    </div><div class="day-cell has-games" data-date="2018-3-13">
+    </div><div class="day-cell has-games" data-date="2018-3-13" data-label="March 13">
       <span class="day-num">13<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Devil May Cry HD Collection<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Q.U.B.E. 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-3-14">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-3-14" data-label="March 14">
       <span class="day-num">14<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>#WarGames<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-3-15">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-3-15" data-label="March 15">
       <span class="day-num">15</span>
       
-    </div><div class="day-cell has-games" data-date="2018-3-16">
+    </div><div class="day-cell has-games" data-date="2018-3-16" data-label="March 16">
       <span class="day-num">16<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Kirby Star Allies<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Burnout Paradise Remastered<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-3-17">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-3-17" data-label="March 17">
       <span class="day-num">17</span>
       
-    </div><div class="day-cell" data-date="2018-3-18">
+    </div><div class="day-cell" data-date="2018-3-18" data-label="March 18">
       <span class="day-num">18</span>
       
-    </div><div class="day-cell" data-date="2018-3-19">
+    </div><div class="day-cell" data-date="2018-3-19" data-label="March 19">
       <span class="day-num">19</span>
       
-    </div><div class="day-cell has-games" data-date="2018-3-20">
+    </div><div class="day-cell has-games" data-date="2018-3-20" data-label="March 20">
       <span class="day-num">20<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Assassin's Creed Rogue: Remastered<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Attack on Titan 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Sea of Thieves<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Titan Quest<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-3-21">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-3-21" data-label="March 21">
       <span class="day-num">21</span>
       
-    </div><div class="day-cell" data-date="2018-3-22">
+    </div><div class="day-cell" data-date="2018-3-22" data-label="March 22">
       <span class="day-num">22</span>
       
-    </div><div class="day-cell has-games" data-date="2018-3-23">
+    </div><div class="day-cell has-games" data-date="2018-3-23" data-label="March 23">
       <span class="day-num">23<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>A Way Out<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Detective Pikachu<span class="platform-icons"><i class="bi bi-nintendo-switch" title="3DS"></i></span></li><li>Ni No Kuni II: Revenant Kingdom<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Pure Farming 2018<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-3-24">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-3-24" data-label="March 24">
       <span class="day-num">24</span>
       
-    </div><div class="day-cell" data-date="2018-3-25">
+    </div><div class="day-cell" data-date="2018-3-25" data-label="March 25">
       <span class="day-num">25</span>
       
-    </div><div class="day-cell" data-date="2018-3-26">
+    </div><div class="day-cell" data-date="2018-3-26" data-label="March 26">
       <span class="day-num">26</span>
       
-    </div><div class="day-cell has-games" data-date="2018-3-27">
+    </div><div class="day-cell has-games" data-date="2018-3-27" data-label="March 27">
       <span class="day-num">27<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Atelier Lydie &amp; Suelle: The Alchemists and the Mysterious Paintings<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Far Cry 5<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>MLB The Show 18<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-3-28">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-3-28" data-label="March 28">
       <span class="day-num">28</span>
       
-    </div><div class="day-cell" data-date="2018-3-29">
+    </div><div class="day-cell" data-date="2018-3-29" data-label="March 29">
       <span class="day-num">29</span>
       
-    </div><div class="day-cell has-games" data-date="2018-3-30">
+    </div><div class="day-cell has-games" data-date="2018-3-30" data-label="March 30">
       <span class="day-num">30<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Agony<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-3-31">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-3-31" data-label="March 31">
       <span class="day-num">31</span>
       
     </div></div>
   </section><section class="month" id="april" data-month="4">
     <h3>April</h3>
     <p class="mstats"><span class="rel">28 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell" data-date="2018-4-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell" data-date="2018-4-1" data-label="April 1">
       <span class="day-num">1</span>
       
-    </div><div class="day-cell" data-date="2018-4-2">
+    </div><div class="day-cell" data-date="2018-4-2" data-label="April 2">
       <span class="day-num">2</span>
       
-    </div><div class="day-cell" data-date="2018-4-3">
+    </div><div class="day-cell" data-date="2018-4-3" data-label="April 3">
       <span class="day-num">3</span>
       
-    </div><div class="day-cell has-games" data-date="2018-4-4">
+    </div><div class="day-cell has-games" data-date="2018-4-4" data-label="April 4">
       <span class="day-num">4<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Impact Winter<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-4-5">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-4-5" data-label="April 5">
       <span class="day-num">5</span>
       
-    </div><div class="day-cell has-games" data-date="2018-4-6">
+    </div><div class="day-cell has-games" data-date="2018-4-6" data-label="April 6">
       <span class="day-num">6<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Enigmatis 3: The Shadow of Karkhala<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-4-7">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-4-7" data-label="April 7">
       <span class="day-num">7</span>
       
-    </div><div class="day-cell" data-date="2018-4-8">
+    </div><div class="day-cell" data-date="2018-4-8" data-label="April 8">
       <span class="day-num">8</span>
       
-    </div><div class="day-cell" data-date="2018-4-9">
+    </div><div class="day-cell" data-date="2018-4-9" data-label="April 9">
       <span class="day-num">9</span>
       
-    </div><div class="day-cell has-games" data-date="2018-4-10">
+    </div><div class="day-cell has-games" data-date="2018-4-10" data-label="April 10">
       <span class="day-num">10<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Extinction<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Masters of Anima<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Owlboy<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Super Daryl Deluxe<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-4-11">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-4-11" data-label="April 11">
       <span class="day-num">11</span>
       
-    </div><div class="day-cell" data-date="2018-4-12">
+    </div><div class="day-cell" data-date="2018-4-12" data-label="April 12">
       <span class="day-num">12</span>
       
-    </div><div class="day-cell" data-date="2018-4-13">
+    </div><div class="day-cell" data-date="2018-4-13" data-label="April 13">
       <span class="day-num">13</span>
       
-    </div><div class="day-cell" data-date="2018-4-14">
+    </div><div class="day-cell" data-date="2018-4-14" data-label="April 14">
       <span class="day-num">14</span>
       
-    </div><div class="day-cell" data-date="2018-4-15">
+    </div><div class="day-cell" data-date="2018-4-15" data-label="April 15">
       <span class="day-num">15</span>
       
-    </div><div class="day-cell" data-date="2018-4-16">
+    </div><div class="day-cell" data-date="2018-4-16" data-label="April 16">
       <span class="day-num">16</span>
       
-    </div><div class="day-cell has-games" data-date="2018-4-17">
+    </div><div class="day-cell has-games" data-date="2018-4-17" data-label="April 17">
       <span class="day-num">17<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Casey Powell Lacross 18<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Gunhouse<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Yakuza 6: The Song of Life<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-4-18">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-4-18" data-label="April 18">
       <span class="day-num">18</span>
       
-    </div><div class="day-cell has-games" data-date="2018-4-19">
+    </div><div class="day-cell has-games" data-date="2018-4-19" data-label="April 19">
       <span class="day-num">19<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Metal Max Xeno<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4, PlayStation Vita"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-4-20">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-4-20" data-label="April 20">
       <span class="day-num">20<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>God of War<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Nintendo Labo Variety Kit<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Nintendo Labo Robot Kit<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Phantom Trigger<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-4-21">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-4-21" data-label="April 21">
       <span class="day-num">21</span>
       
-    </div><div class="day-cell" data-date="2018-4-22">
+    </div><div class="day-cell" data-date="2018-4-22" data-label="April 22">
       <span class="day-num">22</span>
       
-    </div><div class="day-cell" data-date="2018-4-23">
+    </div><div class="day-cell" data-date="2018-4-23" data-label="April 23">
       <span class="day-num">23</span>
       
-    </div><div class="day-cell has-games" data-date="2018-4-24">
+    </div><div class="day-cell has-games" data-date="2018-4-24" data-label="April 24">
       <span class="day-num">24<span class="count-dot d6" title="6 games"></span></span>
       <ul class="games"><li>Adventure Time: Pirates of the Enchiridion<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Dead Secret<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>The Invisible Hours<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Just in TIme Incorporated<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>South Park: The Fractured But Whole<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>The Sword of Ditto<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-4-25">
+      <span class="day-more" aria-hidden="true">6 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-4-25" data-label="April 25">
       <span class="day-num">25<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Emily Wants to Play Too<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Runestone Keeper<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-4-26">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-4-26" data-label="April 26">
       <span class="day-num">26<span class="count-dot d5" title="5 games"></span></span>
       <ul class="games"><li>Agatha Knife<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>DragoDino<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Late Shift<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Light Fall<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Saturday Morning RPG<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-4-27">
+      <span class="day-more" aria-hidden="true">5 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-4-27" data-label="April 27">
       <span class="day-num">27<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Korgan<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-4-28">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-4-28" data-label="April 28">
       <span class="day-num">28</span>
       
-    </div><div class="day-cell" data-date="2018-4-29">
+    </div><div class="day-cell" data-date="2018-4-29" data-label="April 29">
       <span class="day-num">29</span>
       
-    </div><div class="day-cell" data-date="2018-4-30">
+    </div><div class="day-cell" data-date="2018-4-30" data-label="April 30">
       <span class="day-num">30</span>
       
     </div></div>
   </section><section class="month" id="may" data-month="5">
     <h3>May</h3>
     <p class="mstats"><span class="rel">48 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell has-games" data-date="2018-5-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell has-games" data-date="2018-5-1" data-label="May 1">
       <span class="day-num">1<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Battlezone Gold Edition<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Outbreak: The Nightmare Chronicles<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Super Mega Baseball 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Killing Floor: Incursion<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation VR"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-5-2">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-5-2" data-label="May 2">
       <span class="day-num">2<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Coffee Crisis<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-5-3">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-5-3" data-label="May 3">
       <span class="day-num">3<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Total War Saga: Thrones of Britannia<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-5-4">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-5-4" data-label="May 4">
       <span class="day-num">4<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>City of Brass<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Donkey Kong Country: Tropical Freeze<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-5-5">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-5-5" data-label="May 5">
       <span class="day-num">5</span>
       
-    </div><div class="day-cell" data-date="2018-5-6">
+    </div><div class="day-cell" data-date="2018-5-6" data-label="May 6">
       <span class="day-num">6</span>
       
-    </div><div class="day-cell" data-date="2018-5-7">
+    </div><div class="day-cell" data-date="2018-5-7" data-label="May 7">
       <span class="day-num">7</span>
       
-    </div><div class="day-cell has-games" data-date="2018-5-8">
+    </div><div class="day-cell has-games" data-date="2018-5-8" data-label="May 8">
       <span class="day-num">8<span class="count-dot d6" title="8 games"></span></span>
       <ul class="games"><li>Conan Exiles<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Destiny 2: Warmind<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Last Encounter<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li><li>Megadimension Neptunia VIIR<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Pillars of Eternity II: Deadfire<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li><li>Raging Justice<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Tacoma<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>AO International Tennis<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-5-9">
+      <span class="day-more" aria-hidden="true">8 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-5-9" data-label="May 9">
       <span class="day-num">9<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Subaeria<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-5-10">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-5-10" data-label="May 10">
       <span class="day-num">10<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Immortal Redneck<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Laser League<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-5-11">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-5-11" data-label="May 11">
       <span class="day-num">11<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>One Piece: Pirate Warriors 3<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Warhammer 40,000: Inquisitor - Martyr<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-5-12">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-5-12" data-label="May 12">
       <span class="day-num">12</span>
       
-    </div><div class="day-cell" data-date="2018-5-13">
+    </div><div class="day-cell" data-date="2018-5-13" data-label="May 13">
       <span class="day-num">13</span>
       
-    </div><div class="day-cell" data-date="2018-5-14">
+    </div><div class="day-cell" data-date="2018-5-14" data-label="May 14">
       <span class="day-num">14</span>
       
-    </div><div class="day-cell has-games" data-date="2018-5-15">
+    </div><div class="day-cell has-games" data-date="2018-5-15" data-label="May 15">
       <span class="day-num">15<span class="count-dot d6" title="6 games"></span></span>
       <ul class="games"><li>Battle Chasers Nightwar<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Dragon's Crown Pro<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Horizon Chase Turbo<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Little Witch Academia: Chamber of Time<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Omensight<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Shin Megami Tensei: Strange Journey Redux<span class="platform-icons"><i class="bi bi-nintendo-switch" title="3DS"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-5-16">
+      <span class="day-more" aria-hidden="true">6 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-5-16" data-label="May 16">
       <span class="day-num">16</span>
       
-    </div><div class="day-cell has-games" data-date="2018-5-17">
+    </div><div class="day-cell has-games" data-date="2018-5-17" data-label="May 17">
       <span class="day-num">17<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Far: Lone Sails<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li><li>Fox N Forest<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Worlds Adrift<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-5-18">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-5-18" data-label="May 18">
       <span class="day-num">18<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Hyrule Warriors: Definitive Edition<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Little Nightmares: Complete Edition<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>State of Decay 2<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-5-19">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-5-19" data-label="May 19">
       <span class="day-num">19</span>
       
-    </div><div class="day-cell" data-date="2018-5-20">
+    </div><div class="day-cell" data-date="2018-5-20" data-label="May 20">
       <span class="day-num">20</span>
       
-    </div><div class="day-cell" data-date="2018-5-21">
+    </div><div class="day-cell" data-date="2018-5-21" data-label="May 21">
       <span class="day-num">21</span>
       
-    </div><div class="day-cell has-games" data-date="2018-5-22">
+    </div><div class="day-cell has-games" data-date="2018-5-22" data-label="May 22">
       <span class="day-num">22<span class="count-dot d5" title="5 games"></span></span>
       <ul class="games"><li>Ancestors Legacy<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Mega Man Legacy Collection<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Runner 3<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Space Hulk: Deathwing - Enhanced Edition<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Tennis World Tour<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-5-23">
+      <span class="day-more" aria-hidden="true">5 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-5-23" data-label="May 23">
       <span class="day-num">23</span>
       
-    </div><div class="day-cell has-games" data-date="2018-5-24">
+    </div><div class="day-cell has-games" data-date="2018-5-24" data-label="May 24">
       <span class="day-num">24<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Dillon's Dead-Heat Breakers<span class="platform-icons"><i class="bi bi-nintendo-switch" title="3DS"></i></span></li><li>Bloodstained: Curse of the Moon<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4, PlayStation Vita"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch, 3DS"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-5-25">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-5-25" data-label="May 25">
       <span class="day-num">25<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Dark Souls Remastered<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Detroit: Become Human<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-5-26">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-5-26" data-label="May 26">
       <span class="day-num">26</span>
       
-    </div><div class="day-cell" data-date="2018-5-27">
+    </div><div class="day-cell" data-date="2018-5-27" data-label="May 27">
       <span class="day-num">27</span>
       
-    </div><div class="day-cell" data-date="2018-5-28">
+    </div><div class="day-cell" data-date="2018-5-28" data-label="May 28">
       <span class="day-num">28</span>
       
-    </div><div class="day-cell has-games" data-date="2018-5-29">
+    </div><div class="day-cell has-games" data-date="2018-5-29" data-label="May 29">
       <span class="day-num">29<span class="count-dot d6" title="6 games"></span></span>
       <ul class="games"><li>Agony<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Everspace<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Legend of Kay Anniversary<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Moonlighter<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Sega Mega Drive Classics<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Street Fighter 30th Anniversary Collection<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-5-30">
+      <span class="day-more" aria-hidden="true">6 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-5-30" data-label="May 30">
       <span class="day-num">30</span>
       
-    </div><div class="day-cell" data-date="2018-5-31">
+    </div><div class="day-cell" data-date="2018-5-31" data-label="May 31">
       <span class="day-num">31</span>
       
     </div></div>
   </section><section class="month" id="june" data-month="6">
     <h3>June</h3>
     <p class="mstats"><span class="rel">29 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-6-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-6-1" data-label="June 1">
       <span class="day-num">1</span>
       
-    </div><div class="day-cell" data-date="2018-6-2">
+    </div><div class="day-cell" data-date="2018-6-2" data-label="June 2">
       <span class="day-num">2</span>
       
-    </div><div class="day-cell" data-date="2018-6-3">
+    </div><div class="day-cell" data-date="2018-6-3" data-label="June 3">
       <span class="day-num">3</span>
       
-    </div><div class="day-cell" data-date="2018-6-4">
+    </div><div class="day-cell" data-date="2018-6-4" data-label="June 4">
       <span class="day-num">4</span>
       
-    </div><div class="day-cell has-games" data-date="2018-6-5">
+    </div><div class="day-cell has-games" data-date="2018-6-5" data-label="June 5">
       <span class="day-num">5<span class="count-dot d5" title="5 games"></span></span>
       <ul class="games"><li>BlazBlue: Cross Tag Battle<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>The Elder Scrolls Online: Summerset<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Onrush<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Shaq Fu: A Legend Reborn<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Vampyr<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-6-6">
+      <span class="day-more" aria-hidden="true">5 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-6-6" data-label="June 6">
       <span class="day-num">6</span>
       
-    </div><div class="day-cell has-games" data-date="2018-6-7">
+    </div><div class="day-cell has-games" data-date="2018-6-7" data-label="June 7">
       <span class="day-num">7<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>MotoGP 18<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Flashback: Remastered Edition<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-6-8">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-6-8" data-label="June 8">
       <span class="day-num">8<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Sushi Striker: The Way of Sushido<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch, 3DS"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-6-9">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-6-9" data-label="June 9">
       <span class="day-num">9<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Unravel Two<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-6-10">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-6-10" data-label="June 10">
       <span class="day-num">10<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Fallout Shelter<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-6-11">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-6-11" data-label="June 11">
       <span class="day-num">11</span>
       
-    </div><div class="day-cell has-games" data-date="2018-6-12">
+    </div><div class="day-cell has-games" data-date="2018-6-12" data-label="June 12">
       <span class="day-num">12<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Fortnite<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Hollow Knight<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Super Bomberman R<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Jurassic World Evolution<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-6-13">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-6-13" data-label="June 13">
       <span class="day-num">13</span>
       
-    </div><div class="day-cell has-games" data-date="2018-6-14">
+    </div><div class="day-cell has-games" data-date="2018-6-14" data-label="June 14">
       <span class="day-num">14<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>R.B.I. Baseball 18<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-6-15">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-6-15" data-label="June 15">
       <span class="day-num">15<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Lego: The Incredibles<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-6-16">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-6-16" data-label="June 16">
       <span class="day-num">16</span>
       
-    </div><div class="day-cell" data-date="2018-6-17">
+    </div><div class="day-cell" data-date="2018-6-17" data-label="June 17">
       <span class="day-num">17</span>
       
-    </div><div class="day-cell" data-date="2018-6-18">
+    </div><div class="day-cell" data-date="2018-6-18" data-label="June 18">
       <span class="day-num">18</span>
       
-    </div><div class="day-cell has-games" data-date="2018-6-19">
+    </div><div class="day-cell has-games" data-date="2018-6-19" data-label="June 19">
       <span class="day-num">19<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>The Lost Child<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4, PlayStation Vita"></i><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-6-20">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-6-20" data-label="June 20">
       <span class="day-num">20</span>
       
-    </div><div class="day-cell" data-date="2018-6-21">
+    </div><div class="day-cell" data-date="2018-6-21" data-label="June 21">
       <span class="day-num">21</span>
       
-    </div><div class="day-cell has-games" data-date="2018-6-22">
+    </div><div class="day-cell has-games" data-date="2018-6-22" data-label="June 22">
       <span class="day-num">22<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Mario Tennis Aces<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>New Gundam Breaker<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-6-23">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-6-23" data-label="June 23">
       <span class="day-num">23</span>
       
-    </div><div class="day-cell" data-date="2018-6-24">
+    </div><div class="day-cell" data-date="2018-6-24" data-label="June 24">
       <span class="day-num">24</span>
       
-    </div><div class="day-cell" data-date="2018-6-25">
+    </div><div class="day-cell" data-date="2018-6-25" data-label="June 25">
       <span class="day-num">25</span>
       
-    </div><div class="day-cell has-games" data-date="2018-6-26">
+    </div><div class="day-cell has-games" data-date="2018-6-26" data-label="June 26">
       <span class="day-num">26<span class="count-dot d6" title="7 games"></span></span>
       <ul class="games"><li>De Blob Remastered<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Nier: Automata Become As Gods Edition<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>The Awesome Adventures of Captain Spirit<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Far Cry 3 Classic Edition<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Lumines Remastered<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Ys VIII: Lacrimosa of Dana<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Crash Bandicoot N.Sane Trilogy<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-6-27">
+      <span class="day-more" aria-hidden="true">7 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-6-27" data-label="June 27">
       <span class="day-num">27</span>
       
-    </div><div class="day-cell has-games" data-date="2018-6-28">
+    </div><div class="day-cell has-games" data-date="2018-6-28" data-label="June 28">
       <span class="day-num">28<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Fighting EX Layer<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-6-29">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-6-29" data-label="June 29">
       <span class="day-num">29<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>The Crew 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Wolfenstein II: The New Colossus<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-6-30">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-6-30" data-label="June 30">
       <span class="day-num">30</span>
       
     </div></div>
   </section><section class="month" id="july" data-month="7">
     <h3>July</h3>
     <p class="mstats"><span class="rel">27 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell" data-date="2018-7-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell" data-date="2018-7-1" data-label="July 1">
       <span class="day-num">1</span>
       
-    </div><div class="day-cell" data-date="2018-7-2">
+    </div><div class="day-cell" data-date="2018-7-2" data-label="July 2">
       <span class="day-num">2</span>
       
-    </div><div class="day-cell has-games" data-date="2018-7-3">
+    </div><div class="day-cell has-games" data-date="2018-7-3" data-label="July 3">
       <span class="day-num">3<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Red Faction: Guerrilla Remastered<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-7-4">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-7-4" data-label="July 4">
       <span class="day-num">4</span>
       
-    </div><div class="day-cell has-games" data-date="2018-7-5">
+    </div><div class="day-cell has-games" data-date="2018-7-5" data-label="July 5">
       <span class="day-num">5<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Mushroom Wars 2<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Warhammer 40,000: Inquisitor - Martyr<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-7-6">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-7-6" data-label="July 6">
       <span class="day-num">6</span>
       
-    </div><div class="day-cell" data-date="2018-7-7">
+    </div><div class="day-cell" data-date="2018-7-7" data-label="July 7">
       <span class="day-num">7</span>
       
-    </div><div class="day-cell" data-date="2018-7-8">
+    </div><div class="day-cell" data-date="2018-7-8" data-label="July 8">
       <span class="day-num">8</span>
       
-    </div><div class="day-cell" data-date="2018-7-9">
+    </div><div class="day-cell" data-date="2018-7-9" data-label="July 9">
       <span class="day-num">9</span>
       
-    </div><div class="day-cell has-games" data-date="2018-7-10">
+    </div><div class="day-cell has-games" data-date="2018-7-10" data-label="July 10">
       <span class="day-num">10<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>20XX<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>MXGP Pro<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Shining Resonance Refrain<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-7-11">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-7-11" data-label="July 11">
       <span class="day-num">11<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>20XX<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-7-12">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-7-12" data-label="July 12">
       <span class="day-num">12</span>
       
-    </div><div class="day-cell has-games" data-date="2018-7-13">
+    </div><div class="day-cell has-games" data-date="2018-7-13" data-label="July 13">
       <span class="day-num">13<span class="count-dot d5" title="5 games"></span></span>
       <ul class="games"><li>Captain Toad: Treasure Tracker<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch, 3DS"></i></span></li><li>Earthfall<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Hotel Transylvania 3: Monsters Overboard<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Octopath Traveler<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Danger Zone 2<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-7-14">
+      <span class="day-more" aria-hidden="true">5 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-7-14" data-label="July 14">
       <span class="day-num">14</span>
       
-    </div><div class="day-cell" data-date="2018-7-15">
+    </div><div class="day-cell" data-date="2018-7-15" data-label="July 15">
       <span class="day-num">15</span>
       
-    </div><div class="day-cell" data-date="2018-7-16">
+    </div><div class="day-cell" data-date="2018-7-16" data-label="July 16">
       <span class="day-num">16</span>
       
-    </div><div class="day-cell has-games" data-date="2018-7-17">
+    </div><div class="day-cell has-games" data-date="2018-7-17" data-label="July 17">
       <span class="day-num">17<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Adventure Time: Pirates of the Enchiridion<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Hand of Fate 2<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Sonic Mania Plus<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Mothergunship<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-7-18">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-7-18" data-label="July 18">
       <span class="day-num">18</span>
       
-    </div><div class="day-cell has-games" data-date="2018-7-19">
+    </div><div class="day-cell has-games" data-date="2018-7-19" data-label="July 19">
       <span class="day-num">19<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Pool Panic<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-7-20">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-7-20" data-label="July 20">
       <span class="day-num">20</span>
       
-    </div><div class="day-cell" data-date="2018-7-21">
+    </div><div class="day-cell" data-date="2018-7-21" data-label="July 21">
       <span class="day-num">21</span>
       
-    </div><div class="day-cell" data-date="2018-7-22">
+    </div><div class="day-cell" data-date="2018-7-22" data-label="July 22">
       <span class="day-num">22</span>
       
-    </div><div class="day-cell" data-date="2018-7-23">
+    </div><div class="day-cell" data-date="2018-7-23" data-label="July 23">
       <span class="day-num">23</span>
       
-    </div><div class="day-cell has-games" data-date="2018-7-24">
+    </div><div class="day-cell has-games" data-date="2018-7-24" data-label="July 24">
       <span class="day-num">24<span class="count-dot d5" title="5 games"></span></span>
       <ul class="games"><li>The Banner Saga 3<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Mega Man X Legacy Collection 1<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Mega Man X Legacy Collection 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>No Man's Sky<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Train Sim World<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-7-25">
+      <span class="day-more" aria-hidden="true">5 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-7-25" data-label="July 25">
       <span class="day-num">25<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Ys: Memories of Celceta<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-7-26">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-7-26" data-label="July 26">
       <span class="day-num">26<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Sleep Tight<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-7-27">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-7-27" data-label="July 27">
       <span class="day-num">27</span>
       
-    </div><div class="day-cell" data-date="2018-7-28">
+    </div><div class="day-cell" data-date="2018-7-28" data-label="July 28">
       <span class="day-num">28</span>
       
-    </div><div class="day-cell" data-date="2018-7-29">
+    </div><div class="day-cell" data-date="2018-7-29" data-label="July 29">
       <span class="day-num">29</span>
       
-    </div><div class="day-cell" data-date="2018-7-30">
+    </div><div class="day-cell" data-date="2018-7-30" data-label="July 30">
       <span class="day-num">30</span>
       
-    </div><div class="day-cell has-games" data-date="2018-7-31">
+    </div><div class="day-cell has-games" data-date="2018-7-31" data-label="July 31">
       <span class="day-num">31<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Code of Princess EX<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Titan Quest<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Chasm<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
     </div></div>
   </section><section class="month" id="august" data-month="8">
     <h3>August</h3>
     <p class="mstats"><span class="rel">34 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell has-games" data-date="2018-8-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell has-games" data-date="2018-8-1" data-label="August 1">
       <span class="day-num">1<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Yakuza 0<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-8-2">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-8-2" data-label="August 2">
       <span class="day-num">2<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Iconoclasts<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Salt &amp; Sanctuary<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-8-3">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-8-3" data-label="August 3">
       <span class="day-num">3<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>WarioWare Gold<span class="platform-icons"><i class="bi bi-nintendo-switch" title="3DS"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-8-4">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-8-4" data-label="August 4">
       <span class="day-num">4</span>
       
-    </div><div class="day-cell" data-date="2018-8-5">
+    </div><div class="day-cell" data-date="2018-8-5" data-label="August 5">
       <span class="day-num">5</span>
       
-    </div><div class="day-cell" data-date="2018-8-6">
+    </div><div class="day-cell" data-date="2018-8-6" data-label="August 6">
       <span class="day-num">6</span>
       
-    </div><div class="day-cell has-games" data-date="2018-8-7">
+    </div><div class="day-cell has-games" data-date="2018-8-7" data-label="August 7">
       <span class="day-num">7<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Overcooked 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Dead Cells<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-8-8">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-8-8" data-label="August 8">
       <span class="day-num">8</span>
       
-    </div><div class="day-cell has-games" data-date="2018-8-9">
+    </div><div class="day-cell has-games" data-date="2018-8-9" data-label="August 9">
       <span class="day-num">9<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Okami HD<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Minit<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Monster Hunter World<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-8-10">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-8-10" data-label="August 10">
       <span class="day-num">10<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Madden NFL 19<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>We Happy Few<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-8-11">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-8-11" data-label="August 11">
       <span class="day-num">11</span>
       
-    </div><div class="day-cell" data-date="2018-8-12">
+    </div><div class="day-cell" data-date="2018-8-12" data-label="August 12">
       <span class="day-num">12</span>
       
-    </div><div class="day-cell" data-date="2018-8-13">
+    </div><div class="day-cell" data-date="2018-8-13" data-label="August 13">
       <span class="day-num">13</span>
       
-    </div><div class="day-cell has-games" data-date="2018-8-14">
+    </div><div class="day-cell has-games" data-date="2018-8-14" data-label="August 14">
       <span class="day-num">14<span class="count-dot d5" title="5 games"></span></span>
       <ul class="games"><li>Death's Gambit<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Phantom Doctrine<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>The Walking Dead: The Final Season Episode 1<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>World of Warcraft: Battle for Azeroth<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li><li>Cosmic Star Heroine<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-8-15">
+      <span class="day-more" aria-hidden="true">5 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-8-15" data-label="August 15">
       <span class="day-num">15</span>
       
-    </div><div class="day-cell" data-date="2018-8-16">
+    </div><div class="day-cell" data-date="2018-8-16" data-label="August 16">
       <span class="day-num">16</span>
       
-    </div><div class="day-cell" data-date="2018-8-17">
+    </div><div class="day-cell" data-date="2018-8-17" data-label="August 17">
       <span class="day-num">17</span>
       
-    </div><div class="day-cell" data-date="2018-8-18">
+    </div><div class="day-cell" data-date="2018-8-18" data-label="August 18">
       <span class="day-num">18</span>
       
-    </div><div class="day-cell" data-date="2018-8-19">
+    </div><div class="day-cell" data-date="2018-8-19" data-label="August 19">
       <span class="day-num">19</span>
       
-    </div><div class="day-cell" data-date="2018-8-20">
+    </div><div class="day-cell" data-date="2018-8-20" data-label="August 20">
       <span class="day-num">20</span>
       
-    </div><div class="day-cell has-games" data-date="2018-8-21">
+    </div><div class="day-cell has-games" data-date="2018-8-21" data-label="August 21">
       <span class="day-num">21<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Shenmue I &amp; II<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Guacamelee 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-8-22">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-8-22" data-label="August 22">
       <span class="day-num">22</span>
       
-    </div><div class="day-cell" data-date="2018-8-23">
+    </div><div class="day-cell" data-date="2018-8-23" data-label="August 23">
       <span class="day-num">23</span>
       
-    </div><div class="day-cell has-games" data-date="2018-8-24">
+    </div><div class="day-cell has-games" data-date="2018-8-24" data-label="August 24">
       <span class="day-num">24<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>F1 2018<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-8-25">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-8-25" data-label="August 25">
       <span class="day-num">25</span>
       
-    </div><div class="day-cell" data-date="2018-8-26">
+    </div><div class="day-cell" data-date="2018-8-26" data-label="August 26">
       <span class="day-num">26</span>
       
-    </div><div class="day-cell" data-date="2018-8-27">
+    </div><div class="day-cell" data-date="2018-8-27" data-label="August 27">
       <span class="day-num">27</span>
       
-    </div><div class="day-cell has-games" data-date="2018-8-28">
+    </div><div class="day-cell has-games" data-date="2018-8-28" data-label="August 28">
       <span class="day-num">28<span class="count-dot d6" title="10 games"></span></span>
       <ul class="games"><li>Firewall: Zero Hour<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation VR"></i></span></li><li>Little Dragon's Cafe<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Monster Hunter Generations Ultimate<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Pro Evolution Soccer 2019<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Yakuza Kiwami 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Strange Brigade<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Blade Strangers<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Donut County<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i><i class="bi bi-apple" title="iOS"></i></span></li><li>De Blob 2 Remasted<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Fire Pro Wrestling World<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-8-29">
+      <span class="day-more" aria-hidden="true">10 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-8-29" data-label="August 29">
       <span class="day-num">29</span>
       
-    </div><div class="day-cell has-games" data-date="2018-8-30">
+    </div><div class="day-cell has-games" data-date="2018-8-30" data-label="August 30">
       <span class="day-num">30<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Freedom Planet<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>The Messenger<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Two Point Hospital<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-8-31">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-8-31" data-label="August 31">
       <span class="day-num">31<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Divinity: Original Sin 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Naruto to Boruto: Shinobi Striker<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
     </div></div>
   </section><section class="month" id="september" data-month="9">
     <h3>September</h3>
     <p class="mstats"><span class="rel">31 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-9-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-9-1" data-label="September 1">
       <span class="day-num">1</span>
       
-    </div><div class="day-cell" data-date="2018-9-2">
+    </div><div class="day-cell" data-date="2018-9-2" data-label="September 2">
       <span class="day-num">2</span>
       
-    </div><div class="day-cell" data-date="2018-9-3">
+    </div><div class="day-cell" data-date="2018-9-3" data-label="September 3">
       <span class="day-num">3</span>
       
-    </div><div class="day-cell has-games" data-date="2018-9-4">
+    </div><div class="day-cell has-games" data-date="2018-9-4" data-label="September 4">
       <span class="day-num">4<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Destiny 2: Forsaken<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Dragon Quest XI: Echoes of an Elusive Age<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-9-5">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-9-5" data-label="September 5">
       <span class="day-num">5</span>
       
-    </div><div class="day-cell has-games" data-date="2018-9-6">
+    </div><div class="day-cell has-games" data-date="2018-9-6" data-label="September 6">
       <span class="day-num">6<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Gone Home<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-9-7">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-9-7" data-label="September 7">
       <span class="day-num">7<span class="count-dot d6" title="6 games"></span></span>
       <ul class="games"><li>Immortal: Unchained<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>NBA 2K19<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>NBA Live 19<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>SNK Heroines: Tag Team Frenzy<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Marvel's Spider-Man<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Yo-kai Watch Blasters: Red Cat Corp and White Dog Squad<span class="platform-icons"><i class="bi bi-nintendo-switch" title="3DS"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-9-8">
+      <span class="day-more" aria-hidden="true">6 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-9-8" data-label="September 8">
       <span class="day-num">8</span>
       
-    </div><div class="day-cell" data-date="2018-9-9">
+    </div><div class="day-cell" data-date="2018-9-9" data-label="September 9">
       <span class="day-num">9</span>
       
-    </div><div class="day-cell has-games" data-date="2018-9-10">
+    </div><div class="day-cell has-games" data-date="2018-9-10" data-label="September 10">
       <span class="day-num">10<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Dust: An Elysian Tail<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-9-11">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-9-11" data-label="September 11">
       <span class="day-num">11</span>
       
-    </div><div class="day-cell" data-date="2018-9-12">
+    </div><div class="day-cell" data-date="2018-9-12" data-label="September 12">
       <span class="day-num">12</span>
       
-    </div><div class="day-cell has-games" data-date="2018-9-13">
+    </div><div class="day-cell has-games" data-date="2018-9-13" data-label="September 13">
       <span class="day-num">13<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Frozen Synapse<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li><li>Final Fantasy XV: Pocket Edition<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-9-14">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-9-14" data-label="September 14">
       <span class="day-num">14<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Nintendo Labo Vehicle Kit<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>NHL 19<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Shadow of the Tomb Raider<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Black Clover: Quartet Knights<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-9-15">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-9-15" data-label="September 15">
       <span class="day-num">15</span>
       
-    </div><div class="day-cell" data-date="2018-9-16">
+    </div><div class="day-cell" data-date="2018-9-16" data-label="September 16">
       <span class="day-num">16</span>
       
-    </div><div class="day-cell" data-date="2018-9-17">
+    </div><div class="day-cell" data-date="2018-9-17" data-label="September 17">
       <span class="day-num">17</span>
       
-    </div><div class="day-cell has-games" data-date="2018-9-18">
+    </div><div class="day-cell has-games" data-date="2018-9-18" data-label="September 18">
       <span class="day-num">18<span class="count-dot d5" title="5 games"></span></span>
       <ul class="games"><li>Capcom Beat 'Em Up Bundle<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Labyrinth of Refrain: Coven of Dusk<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Insurgency: Sandstorm<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li><li>Undertale<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Blind<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation VR"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-9-19">
+      <span class="day-more" aria-hidden="true">5 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-9-19" data-label="September 19">
       <span class="day-num">19</span>
       
-    </div><div class="day-cell has-games" data-date="2018-9-20">
+    </div><div class="day-cell has-games" data-date="2018-9-20" data-label="September 20">
       <span class="day-num">20<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>CrossCode<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-9-21">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-9-21" data-label="September 21">
       <span class="day-num">21<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Xenoblade Chronicles 2: Torna The Golden Country<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-9-22">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-9-22" data-label="September 22">
       <span class="day-num">22</span>
       
-    </div><div class="day-cell" data-date="2018-9-23">
+    </div><div class="day-cell" data-date="2018-9-23" data-label="September 23">
       <span class="day-num">23</span>
       
-    </div><div class="day-cell" data-date="2018-9-24">
+    </div><div class="day-cell" data-date="2018-9-24" data-label="September 24">
       <span class="day-num">24</span>
       
-    </div><div class="day-cell has-games" data-date="2018-9-25">
+    </div><div class="day-cell has-games" data-date="2018-9-25" data-label="September 25">
       <span class="day-num">25<span class="count-dot d5" title="5 games"></span></span>
       <ul class="games"><li>South Park: The Stick of Truth<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>The Walking Dead: The Final Season Episode 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Hollow Knight<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Valkyria Chronicles 4<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Pathfinder: Kingmaker<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-9-26">
+      <span class="day-more" aria-hidden="true">5 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-9-26" data-label="September 26">
       <span class="day-num">26</span>
       
-    </div><div class="day-cell has-games" data-date="2018-9-27">
+    </div><div class="day-cell has-games" data-date="2018-9-27" data-label="September 27">
       <span class="day-num">27<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Life is Strange 2: Episode 1<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-9-28">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-9-28" data-label="September 28">
       <span class="day-num">28<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>FIFA 19<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4, PlayStation 3"></i><i class="bi bi-xbox" title="Xbox One, Xbox 360"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Dragon Ball FighterZ<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-9-29">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-9-29" data-label="September 29">
       <span class="day-num">29</span>
       
-    </div><div class="day-cell" data-date="2018-9-30">
+    </div><div class="day-cell" data-date="2018-9-30" data-label="September 30">
       <span class="day-num">30</span>
       
     </div></div>
   </section><section class="month" id="october" data-month="10">
     <h3>October</h3>
     <p class="mstats"><span class="rel">24 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-10-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-10-1" data-label="October 1">
       <span class="day-num">1</span>
       
-    </div><div class="day-cell has-games" data-date="2018-10-2">
+    </div><div class="day-cell has-games" data-date="2018-10-2" data-label="October 2">
       <span class="day-num">2<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Astro Bot Rescue Mission<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation VR"></i></span></li><li>Forza Horizon 4<span class="platform-icons"><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Fist of the North Star: Lost Paradise<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Mega Man 11<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-10-3">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-10-3" data-label="October 3">
       <span class="day-num">3</span>
       
-    </div><div class="day-cell" data-date="2018-10-4">
+    </div><div class="day-cell" data-date="2018-10-4" data-label="October 4">
       <span class="day-num">4</span>
       
-    </div><div class="day-cell has-games" data-date="2018-10-5">
+    </div><div class="day-cell has-games" data-date="2018-10-5" data-label="October 5">
       <span class="day-num">5<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Assassin's Creed Odyssey<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Super Mario Party<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-10-6">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-10-6" data-label="October 6">
       <span class="day-num">6</span>
       
-    </div><div class="day-cell" data-date="2018-10-7">
+    </div><div class="day-cell" data-date="2018-10-7" data-label="October 7">
       <span class="day-num">7</span>
       
-    </div><div class="day-cell" data-date="2018-10-8">
+    </div><div class="day-cell" data-date="2018-10-8" data-label="October 8">
       <span class="day-num">8</span>
       
-    </div><div class="day-cell has-games" data-date="2018-10-9">
+    </div><div class="day-cell has-games" data-date="2018-10-9" data-label="October 9">
       <span class="day-num">9<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Disgaea 1 Complete<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>WWE 2K19<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>The Occupation<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Mark of the Ninja: Remastered<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-10-10">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-10-10" data-label="October 10">
       <span class="day-num">10</span>
       
-    </div><div class="day-cell has-games" data-date="2018-10-11">
+    </div><div class="day-cell has-games" data-date="2018-10-11" data-label="October 11">
       <span class="day-num">11<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Child of Light<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-10-12">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-10-12" data-label="October 12">
       <span class="day-num">12<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Luigi's Mansion<span class="platform-icons"><i class="bi bi-nintendo-switch" title="3DS"></i></span></li><li>The World Ends With You: Final Remix<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Call of Duty: Black Ops 4<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-10-13">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-10-13" data-label="October 13">
       <span class="day-num">13</span>
       
-    </div><div class="day-cell" data-date="2018-10-14">
+    </div><div class="day-cell" data-date="2018-10-14" data-label="October 14">
       <span class="day-num">14</span>
       
-    </div><div class="day-cell" data-date="2018-10-15">
+    </div><div class="day-cell" data-date="2018-10-15" data-label="October 15">
       <span class="day-num">15</span>
       
-    </div><div class="day-cell has-games" data-date="2018-10-16">
+    </div><div class="day-cell has-games" data-date="2018-10-16" data-label="October 16">
       <span class="day-num">16<span class="count-dot d4" title="4 games"></span></span>
       <ul class="games"><li>Lego DC Super Villains<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Starlink: Battle for Atlas<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Warriors Orochi 4<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>For Honor: Marching Fire<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-10-17">
+      <span class="day-more" aria-hidden="true">4 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-10-17" data-label="October 17">
       <span class="day-num">17</span>
       
-    </div><div class="day-cell" data-date="2018-10-18">
+    </div><div class="day-cell" data-date="2018-10-18" data-label="October 18">
       <span class="day-num">18</span>
       
-    </div><div class="day-cell has-games" data-date="2018-10-19">
+    </div><div class="day-cell has-games" data-date="2018-10-19" data-label="October 19">
       <span class="day-num">19<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Soulcalibur VI<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Dark Souls Remastered<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-10-20">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-10-20" data-label="October 20">
       <span class="day-num">20</span>
       
-    </div><div class="day-cell" data-date="2018-10-21">
+    </div><div class="day-cell" data-date="2018-10-21" data-label="October 21">
       <span class="day-num">21</span>
       
-    </div><div class="day-cell" data-date="2018-10-22">
+    </div><div class="day-cell" data-date="2018-10-22" data-label="October 22">
       <span class="day-num">22</span>
       
-    </div><div class="day-cell has-games" data-date="2018-10-23">
+    </div><div class="day-cell has-games" data-date="2018-10-23" data-label="October 23">
       <span class="day-num">23<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Just Dance 2019<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One, Xbox 360"></i><i class="bi bi-nintendo-switch" title="Switch, Wii, Wii U"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-10-24">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-10-24" data-label="October 24">
       <span class="day-num">24</span>
       
-    </div><div class="day-cell" data-date="2018-10-25">
+    </div><div class="day-cell" data-date="2018-10-25" data-label="October 25">
       <span class="day-num">25</span>
       
-    </div><div class="day-cell has-games" data-date="2018-10-26">
+    </div><div class="day-cell has-games" data-date="2018-10-26" data-label="October 26">
       <span class="day-num">26<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>My Hero One's Justice<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Red Dead Redemption II<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-10-27">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-10-27" data-label="October 27">
       <span class="day-num">27</span>
       
-    </div><div class="day-cell" data-date="2018-10-28">
+    </div><div class="day-cell" data-date="2018-10-28" data-label="October 28">
       <span class="day-num">28</span>
       
-    </div><div class="day-cell" data-date="2018-10-29">
+    </div><div class="day-cell" data-date="2018-10-29" data-label="October 29">
       <span class="day-num">29</span>
       
-    </div><div class="day-cell has-games" data-date="2018-10-30">
+    </div><div class="day-cell has-games" data-date="2018-10-30" data-label="October 30">
       <span class="day-num">30<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Call of Cthulhu: The Official Video Game<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-10-31">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-10-31" data-label="October 31">
       <span class="day-num">31</span>
       
     </div></div>
   </section><section class="month" id="november" data-month="11">
     <h3>November</h3>
     <p class="mstats"><span class="rel">23 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-11-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-11-1" data-label="November 1">
       <span class="day-num">1</span>
       
-    </div><div class="day-cell has-games" data-date="2018-11-2">
+    </div><div class="day-cell has-games" data-date="2018-11-2" data-label="November 2">
       <span class="day-num">2<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Diablo III: Eternal Collection<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Taiko no Tatsujin: Drum 'n' Fun!<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Taiko no Tatsujin: Drum Session!<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-11-3">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-11-3" data-label="November 3">
       <span class="day-num">3</span>
       
-    </div><div class="day-cell" data-date="2018-11-4">
+    </div><div class="day-cell" data-date="2018-11-4" data-label="November 4">
       <span class="day-num">4</span>
       
-    </div><div class="day-cell" data-date="2018-11-5">
+    </div><div class="day-cell" data-date="2018-11-5" data-label="November 5">
       <span class="day-num">5</span>
       
-    </div><div class="day-cell has-games" data-date="2018-11-6">
+    </div><div class="day-cell has-games" data-date="2018-11-6" data-label="November 6">
       <span class="day-num">6<span class="count-dot d5" title="5 games"></span></span>
       <ul class="games"><li>Déraciné<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation VR"></i></span></li><li>World of Final Fantasy Maxima<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Overkill's The Walking Dead<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>The Forest<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li><li>Monster Boy and the Cursed Kingdom<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-11-7">
+      <span class="day-more" aria-hidden="true">5 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-11-7" data-label="November 7">
       <span class="day-num">7</span>
       
-    </div><div class="day-cell has-games" data-date="2018-11-8">
+    </div><div class="day-cell has-games" data-date="2018-11-8" data-label="November 8">
       <span class="day-num">8<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Ride 3<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Valiant Hearts<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-11-9">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-11-9" data-label="November 9">
       <span class="day-num">9</span>
       
-    </div><div class="day-cell" data-date="2018-11-10">
+    </div><div class="day-cell" data-date="2018-11-10" data-label="November 10">
       <span class="day-num">10</span>
       
-    </div><div class="day-cell" data-date="2018-11-11">
+    </div><div class="day-cell" data-date="2018-11-11" data-label="November 11">
       <span class="day-num">11</span>
       
-    </div><div class="day-cell" data-date="2018-11-12">
+    </div><div class="day-cell" data-date="2018-11-12" data-label="November 12">
       <span class="day-num">12</span>
       
-    </div><div class="day-cell has-games" data-date="2018-11-13">
+    </div><div class="day-cell has-games" data-date="2018-11-13" data-label="November 13">
       <span class="day-num">13<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Hitman 2<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>SNK 40th Anniversary Collection<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Spyro Reignited Trilogy<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-11-14">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-11-14" data-label="November 14">
       <span class="day-num">14<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Fallout 76<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-11-15">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-11-15" data-label="November 15">
       <span class="day-num">15<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Underworld Ascendant<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-11-16">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-11-16" data-label="November 16">
       <span class="day-num">16<span class="count-dot d2" title="2 games"></span></span>
       <ul class="games"><li>Pokémon Let's Go Pikachu/Let's Go Eevee<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li><li>Civilization VI<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-11-17">
+      <span class="day-more" aria-hidden="true">2 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-11-17" data-label="November 17">
       <span class="day-num">17</span>
       
-    </div><div class="day-cell" data-date="2018-11-18">
+    </div><div class="day-cell" data-date="2018-11-18" data-label="November 18">
       <span class="day-num">18</span>
       
-    </div><div class="day-cell" data-date="2018-11-19">
+    </div><div class="day-cell" data-date="2018-11-19" data-label="November 19">
       <span class="day-num">19</span>
       
-    </div><div class="day-cell has-games" data-date="2018-11-20">
+    </div><div class="day-cell has-games" data-date="2018-11-20" data-label="November 20">
       <span class="day-num">20<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Battlefield V<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Wreckfest<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i></span></li><li>Warframe<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-11-21">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-11-21" data-label="November 21">
       <span class="day-num">21</span>
       
-    </div><div class="day-cell" data-date="2018-11-22">
+    </div><div class="day-cell" data-date="2018-11-22" data-label="November 22">
       <span class="day-num">22</span>
       
-    </div><div class="day-cell" data-date="2018-11-23">
+    </div><div class="day-cell" data-date="2018-11-23" data-label="November 23">
       <span class="day-num">23</span>
       
-    </div><div class="day-cell" data-date="2018-11-24">
+    </div><div class="day-cell" data-date="2018-11-24" data-label="November 24">
       <span class="day-num">24</span>
       
-    </div><div class="day-cell" data-date="2018-11-25">
+    </div><div class="day-cell" data-date="2018-11-25" data-label="November 25">
       <span class="day-num">25</span>
       
-    </div><div class="day-cell" data-date="2018-11-26">
+    </div><div class="day-cell" data-date="2018-11-26" data-label="November 26">
       <span class="day-num">26</span>
       
-    </div><div class="day-cell has-games" data-date="2018-11-27">
+    </div><div class="day-cell has-games" data-date="2018-11-27" data-label="November 27">
       <span class="day-num">27<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Darksiders III<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-11-28">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-11-28" data-label="November 28">
       <span class="day-num">28<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Artifact<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-11-29">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-11-29" data-label="November 29">
       <span class="day-num">29</span>
       
-    </div><div class="day-cell has-games" data-date="2018-11-30">
+    </div><div class="day-cell has-games" data-date="2018-11-30" data-label="November 30">
       <span class="day-num">30<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Katamari Damacy Reroll<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
     </div></div>
   </section><section class="month" id="december" data-month="12">
     <h3>December</h3>
     <p class="mstats"><span class="rel">7 released</span> <span class="upc">0 upcoming</span></p>
-    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-12-1">
+    <div class="calendar"><div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell" data-date="2018-12-1" data-label="December 1">
       <span class="day-num">1</span>
       
-    </div><div class="day-cell" data-date="2018-12-2">
+    </div><div class="day-cell" data-date="2018-12-2" data-label="December 2">
       <span class="day-num">2</span>
       
-    </div><div class="day-cell" data-date="2018-12-3">
+    </div><div class="day-cell" data-date="2018-12-3" data-label="December 3">
       <span class="day-num">3</span>
       
-    </div><div class="day-cell has-games" data-date="2018-12-4">
+    </div><div class="day-cell has-games" data-date="2018-12-4" data-label="December 4">
       <span class="day-num">4<span class="count-dot d3" title="3 games"></span></span>
       <ul class="games"><li>Just Cause 4<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i><i class="bi bi-xbox" title="Xbox One"></i><i class="bi bi-pc-display" title="PC"></i></span></li><li>Persona 3: Dancing in Moonlight<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4, PlayStation Vita"></i></span></li><li>Persona 5: Dancing in Starlight<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4, PlayStation Vita"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-12-5">
+      <span class="day-more" aria-hidden="true">3 titles &nearr;</span>
+    </div><div class="day-cell" data-date="2018-12-5" data-label="December 5">
       <span class="day-num">5</span>
       
-    </div><div class="day-cell" data-date="2018-12-6">
+    </div><div class="day-cell" data-date="2018-12-6" data-label="December 6">
       <span class="day-num">6</span>
       
-    </div><div class="day-cell has-games" data-date="2018-12-7">
+    </div><div class="day-cell has-games" data-date="2018-12-7" data-label="December 7">
       <span class="day-num">7<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Super Smash Bros. Ultimate<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-12-8">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-12-8" data-label="December 8">
       <span class="day-num">8</span>
       
-    </div><div class="day-cell" data-date="2018-12-9">
+    </div><div class="day-cell" data-date="2018-12-9" data-label="December 9">
       <span class="day-num">9</span>
       
-    </div><div class="day-cell" data-date="2018-12-10">
+    </div><div class="day-cell" data-date="2018-12-10" data-label="December 10">
       <span class="day-num">10</span>
       
-    </div><div class="day-cell has-games" data-date="2018-12-11">
+    </div><div class="day-cell has-games" data-date="2018-12-11" data-label="December 11">
       <span class="day-num">11<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Earth Defense Force 5<span class="platform-icons"><i class="bi bi-playstation" title="PlayStation 4"></i></span></li></ul>
-    </div><div class="day-cell has-games" data-date="2018-12-12">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell has-games" data-date="2018-12-12" data-label="December 12">
       <span class="day-num">12<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Insurgency: Sandstorm<span class="platform-icons"><i class="bi bi-pc-display" title="PC"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-12-13">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-12-13" data-label="December 13">
       <span class="day-num">13</span>
       
-    </div><div class="day-cell" data-date="2018-12-14">
+    </div><div class="day-cell" data-date="2018-12-14" data-label="December 14">
       <span class="day-num">14</span>
       
-    </div><div class="day-cell" data-date="2018-12-15">
+    </div><div class="day-cell" data-date="2018-12-15" data-label="December 15">
       <span class="day-num">15</span>
       
-    </div><div class="day-cell" data-date="2018-12-16">
+    </div><div class="day-cell" data-date="2018-12-16" data-label="December 16">
       <span class="day-num">16</span>
       
-    </div><div class="day-cell has-games" data-date="2018-12-17">
+    </div><div class="day-cell has-games" data-date="2018-12-17" data-label="December 17">
       <span class="day-num">17<span class="count-dot d1" title="1 game"></span></span>
       <ul class="games"><li>Firewatch<span class="platform-icons"><i class="bi bi-nintendo-switch" title="Switch"></i></span></li></ul>
-    </div><div class="day-cell" data-date="2018-12-18">
+      <span class="day-more" aria-hidden="true">1 title &nearr;</span>
+    </div><div class="day-cell" data-date="2018-12-18" data-label="December 18">
       <span class="day-num">18</span>
       
-    </div><div class="day-cell" data-date="2018-12-19">
+    </div><div class="day-cell" data-date="2018-12-19" data-label="December 19">
       <span class="day-num">19</span>
       
-    </div><div class="day-cell" data-date="2018-12-20">
+    </div><div class="day-cell" data-date="2018-12-20" data-label="December 20">
       <span class="day-num">20</span>
       
-    </div><div class="day-cell" data-date="2018-12-21">
+    </div><div class="day-cell" data-date="2018-12-21" data-label="December 21">
       <span class="day-num">21</span>
       
-    </div><div class="day-cell" data-date="2018-12-22">
+    </div><div class="day-cell" data-date="2018-12-22" data-label="December 22">
       <span class="day-num">22</span>
       
-    </div><div class="day-cell" data-date="2018-12-23">
+    </div><div class="day-cell" data-date="2018-12-23" data-label="December 23">
       <span class="day-num">23</span>
       
-    </div><div class="day-cell" data-date="2018-12-24">
+    </div><div class="day-cell" data-date="2018-12-24" data-label="December 24">
       <span class="day-num">24</span>
       
-    </div><div class="day-cell" data-date="2018-12-25">
+    </div><div class="day-cell" data-date="2018-12-25" data-label="December 25">
       <span class="day-num">25</span>
       
-    </div><div class="day-cell" data-date="2018-12-26">
+    </div><div class="day-cell" data-date="2018-12-26" data-label="December 26">
       <span class="day-num">26</span>
       
-    </div><div class="day-cell" data-date="2018-12-27">
+    </div><div class="day-cell" data-date="2018-12-27" data-label="December 27">
       <span class="day-num">27</span>
       
-    </div><div class="day-cell" data-date="2018-12-28">
+    </div><div class="day-cell" data-date="2018-12-28" data-label="December 28">
       <span class="day-num">28</span>
       
-    </div><div class="day-cell" data-date="2018-12-29">
+    </div><div class="day-cell" data-date="2018-12-29" data-label="December 29">
       <span class="day-num">29</span>
       
-    </div><div class="day-cell" data-date="2018-12-30">
+    </div><div class="day-cell" data-date="2018-12-30" data-label="December 30">
       <span class="day-num">30</span>
       
-    </div><div class="day-cell" data-date="2018-12-31">
+    </div><div class="day-cell" data-date="2018-12-31" data-label="December 31">
       <span class="day-num">31</span>
       
     </div></div>
   </section>
+
+<div class="day-modal" id="day-modal" hidden>
+  <div class="day-modal-backdrop" data-day-close></div>
+  <div class="day-modal-panel" role="dialog" aria-modal="true" aria-labelledby="day-modal-title">
+    <button type="button" class="day-modal-close" data-day-close aria-label="Close">&times;</button>
+    <h4 id="day-modal-title"></h4>
+    <ul class="day-modal-list" id="day-modal-list"></ul>
+  </div>
+</div>
 
 <script>
 (function () {
   var months = ["january","february","march","april","may","june","july","august","september","october","november","december"];
   var pageYear = 2018;
   function activate(name) {
-    document.body.classList.remove('show-all');
     months.forEach(function (m) {
       var s = document.getElementById(m);
       if (s) s.classList.toggle('active', m === name);
     });
     var navs = document.querySelectorAll('.month-nav a.month-link');
     navs.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + name); });
+    var active = document.querySelector('.month-nav a.month-link.active');
+    if (active) active.scrollIntoView({ block: 'nearest', inline: 'center' });
   }
   function fromHash() {
     var h = (location.hash || '').replace('#', '').toLowerCase();
@@ -1327,14 +1549,38 @@ body.show-all .month { display: block; }
   var cell = document.querySelector('.day-cell[data-date="' + todayKey + '"]');
   if (cell) cell.classList.add('today');
 
-  var showAllBtn = document.getElementById('show-all');
-  if (showAllBtn) showAllBtn.addEventListener('click', function () {
-    document.body.classList.toggle('show-all');
-  });
   window.addEventListener('hashchange', function () {
     var h = fromHash();
     if (h) activate(h);
   });
+
+  // Mobile: tapping a day with games opens its release list in a modal.
+  var modal = document.getElementById('day-modal');
+  var modalTitle = document.getElementById('day-modal-title');
+  var modalList = document.getElementById('day-modal-list');
+  var mqMobile = window.matchMedia('(max-width: 720px)');
+  function openDay(dCell) {
+    if (!dCell) return;
+    modalTitle.textContent = dCell.getAttribute('data-label');
+    modalList.innerHTML = dCell.querySelector('.games').innerHTML;
+    modal.hidden = false;
+    document.body.classList.add('modal-open');
+  }
+  function closeDay() {
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+  }
+  if (modal) {
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-day-close]')) { closeDay(); return; }
+      if (!mqMobile.matches) return;
+      var dCell = e.target.closest ? e.target.closest('.day-cell.has-games') : null;
+      if (dCell && !e.target.closest('a')) openDay(dCell);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeDay();
+    });
+  }
 })();
 </script>
 
@@ -1342,5 +1588,37 @@ body.show-all .month { display: block; }
 <footer>
   <p>Game release schedule scraped from <a href="https://www.gameinformer.com">Game Informer</a>, current year 2026. Generated pages are static &mdash; share any URL directly.</p>
 </footer>
+<script>
+(function () {
+  var btn = document.getElementById('theme-toggle');
+  var label = document.getElementById('theme-label');
+  if (!btn) return;
+  var THEMES = [
+    { id: 'paper',  label: 'Paper',  icon: 'bi-file-earmark-text' },
+    { id: 'arcade', label: 'Arcade', icon: 'bi-controller' },
+    { id: 'void',   label: 'Void',   icon: 'bi-moon-stars' }
+  ];
+  function current() {
+    var attr = document.documentElement.getAttribute('data-theme');
+    for (var i = 0; i < THEMES.length; i++) if (THEMES[i].id === attr) return THEMES[i];
+    return THEMES[0]; // paper default
+  }
+  function render() {
+    label.textContent = current().label + ' ▾';
+  }
+  btn.addEventListener('click', function () {
+    var idx = 0;
+    var c = current();
+    for (var i = 0; i < THEMES.length; i++) if (THEMES[i].id === c.id) idx = i;
+    var next = THEMES[(idx + 1) % THEMES.length];
+    if (next.id === 'paper') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', next.id);
+    try { localStorage.setItem('gc-theme', next.id); } catch (e) {}
+    render();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 't') { btn.click(); } });
+  render();
+})();
+</script>
 </body>
 </html>
