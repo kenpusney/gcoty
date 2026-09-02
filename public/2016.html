@@ -15,7 +15,7 @@
 <title>Game Calendar 2016</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;0,6..72,900;1,6..72,400&family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@400;500;600;700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
 /* ---------- Theme tokens ----------
@@ -61,7 +61,40 @@ html[data-theme="void"] {
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; font-family: "Newsreader", Georgia, "Times New Roman", serif; color: var(--fg); background: var(--bg); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+/* ---------- Typography & surface identity per theme ---------- */
+:root {
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "Newsreader", Georgia, "Times New Roman", serif;
+  --heading-style: normal; --heading-weigh: 900; --heading-ls: -0.01em; --heading-caps: none;
+  --lm-size: 1.15rem; --lm-ls: .01em;
+  --radius-card: 10px; --radius-pill: 999px; --radius-btn: 8px;
+  --pixel-edge: 0; --glow: 0;
+}
+html[data-theme="arcade"] {
+  --font-display: "Silkscreen", ui-monospace, "Courier New", monospace;
+  --font-body: "Pixelify Sans", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --heading-style: normal; --heading-weigh: 700; --heading-ls: 0; --heading-caps: uppercase;
+  --lm-size: 1.05rem; --lm-ls: .04em; --lm-caps: uppercase;
+  --radius-card: 2px; --radius-pill: 2px; --radius-btn: 2px;
+  --pixel-edge: 1; --glow: 0;
+}
+html[data-theme="void"] {
+  --font-display: "Orbitron", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Rajdhani", "Segoe UI", system-ui, sans-serif;
+  --heading-style: normal; --heading-weigh: 800; --heading-ls: .06em; --heading-caps: uppercase;
+  --lm-size: 1.05rem; --lm-ls: .3em; --lm-caps: uppercase;
+  --radius-card: 14px; --radius-pill: 999px; --radius-btn: 999px;
+  --pixel-edge: 0; --glow: 1;
+}
+body { margin: 0; font-family: var(--font-body); color: var(--fg); background: var(--bg); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+h1, .entry-title { font-family: var(--font-display); font-weight: var(--heading-weigh); letter-spacing: var(--heading-ls); text-transform: var(--heading-caps); font-variant-numeric: tabular-nums; }
+h2 { font-family: var(--font-display); font-weight: var(--heading-weigh); letter-spacing: var(--heading-ls); text-transform: var(--heading-caps); }
+h2::after, .month h3::after { content: none; }
+.site-header .brand { font-family: var(--font-display); }
+.site-header .brand small { font-family: inherit; letter-spacing: .2em; }
+.tl-item .year, .day-num, .cal-header, .month h3, .card .num, .month-nav a.month-link.active { font-family: var(--font-display); }
+
 ::selection { background: var(--accent-soft); }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 2px; }
@@ -81,8 +114,8 @@ html[data-theme="void"] .theme-toggle { border-color: var(--line); }
 
 main { max-width: 1080px; margin: 0 auto; padding: 28px 20px 56px; }
 footer { max-width: 1080px; margin: 0 auto; padding: 16px 20px 36px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); }
-h1 { margin: 6px 0 6px; font-size: 2.15rem; font-weight: 800; line-height: 1.15; letter-spacing: -.01em; }
-h2 { margin: 34px 0 12px; font-size: 1.45rem; font-weight: 700; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+h1 { margin: 6px 0 6px; font-size: 2.15rem; font-weight: var(--heading-weigh); line-height: 1.15; letter-spacing: var(--heading-ls); }
+h2 { margin: 34px 0 12px; font-size: 1.45rem; font-weight: var(--heading-weigh); padding-bottom: 8px; border-bottom: 1px solid var(--line); letter-spacing: var(--heading-ls); }
 .sub { color: var(--muted); margin: 0 0 18px; max-width: 66ch; }
 
 /* --- overview cards --- */
@@ -213,6 +246,39 @@ body.modal-open { overflow: hidden; }
   .day-more { display: block; margin-top: 4px; font-size: .72rem; font-weight: 700; color: var(--accent); line-height: 1.2; }
   .site-header { flex-direction: column; align-items: flex-start; }
 }
+
+/* ---------- Surface identity (final shape pass so it always wins) ---------- */
+.card, .tl-item, .day-cell, .day-modal-panel { border-radius: var(--radius-card); }
+.month-nav a.year-link, .theme-toggle, .filter-row select, .show-all-pill, .tl-scroll button { border-radius: var(--radius-btn); }
+.month-nav a.month-link, .count-dot, .day-num, .site-header .brand small, .tl-legend .dot { border-radius: var(--radius-pill); }
+
+.card, .tl-item, .day-cell, .day-modal-panel { border-radius: var(--radius-card); }
+.month-nav a.year-link, .theme-toggle, .filter-row select, .tl-scroll button { border-radius: var(--radius-btn); }
+.month-nav a.month-link, .count-dot, .day-num, .site-header .brand small, .tl-legend .dot { border-radius: var(--radius-pill); }
+
+/* ===== Arcade — pixel / retro-console surface ===== */
+html[data-theme="arcade"] { color-scheme: light; }
+html[data-theme="arcade"] .card,
+html[data-theme="arcade"] .tl-item { box-shadow: 4px 4px 0 var(--shadow-color, rgba(60, 40, 140, .24)); }
+html[data-theme="arcade"] .card:hover,
+html[data-theme="arcade"] .tl-item:hover { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 var(--shadow-color, rgba(60, 40, 140, .22)); transition: transform .04s linear, box-shadow .04s linear; }
+html[data-theme="arcade"] .day-cell.empty { background-image: radial-gradient(currentColor 1px, transparent 1px); background-size: 14px 14px; color: rgba(90, 70, 200, .08); }
+html[data-theme="arcade"] .day-num { font-size: .86rem; }
+html[data-theme="arcade"] .site-header { border-bottom-width: 2px; }
+
+/* ===== Void — cyber neon surface ===== */
+html[data-theme="void"] h1,
+html[data-theme="void"] h2,
+html[data-theme="void"] .tl-item .year,
+html[data-theme="void"] .card .num { text-shadow: 0 0 14px rgba(34, 211, 238, .5), 0 0 3px rgba(232, 121, 249, .4); }
+html[data-theme="void"] .card,
+html[data-theme="void"] .tl-item,
+html[data-theme="void"] .day-cell { background-image: linear-gradient(rgba(255, 255, 255, .03), rgba(255, 255, 255, 0)); border: 1px solid rgba(150, 140, 255, .25); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), var(--shadow-md); }
+html[data-theme="void"] .month-nav a.month-link { border-color: rgba(124, 128, 220, .35); }
+html[data-theme="void"] a { text-decoration-color: rgba(34, 211, 238, .55); text-underline-offset: 3px; }
+html[data-theme="void"] body { background-image: repeating-linear-gradient(0deg, rgba(8, 6, 26, .12) 0 1px, transparent 1px 3px); }
+html[data-theme="void"] .day-cell.today .day-num { box-shadow: 0 0 12px var(--accent2); }
+
 </style>
 <script>document.documentElement.className += ' js';</script>
 <script>(function(){var t;try{t=localStorage.getItem('gc-theme')}catch(e){t=null}if(t==='arcade'||t==='void'){document.documentElement.setAttribute('data-theme',t);}else if(t==='paper'){document.documentElement.removeAttribute('data-theme');}})();</script>
