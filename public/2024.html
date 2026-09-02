@@ -312,6 +312,24 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
   #share-overlay .panel { padding: 14px; }
 }
 
+/* ===== offscreen share poster (portrait) ===== */
+.share-poster { position: fixed; top: 0; left: -20000px; width: 736px; max-height: none; padding: 30px 34px 26px; box-sizing: border-box;
+  background: var(--bg); color: var(--fg); font-family: var(--font-body, Georgia, serif); }
+.share-poster .sp-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  border-bottom: 3px double var(--line, #ccc); padding-bottom: 10px; }
+.share-poster .sp-kicker { font-family: var(--font-display, Georgia, serif); font-weight: 800; font-size: 26px; color: var(--fg); }
+.share-poster .sp-date { font-family: var(--font-display, Georgia, serif); font-weight: 700; font-size: 18px; color: var(--muted, #777); }
+.share-poster .sp-list { margin: 12px 0 0; padding: 0; }
+.share-poster .sp-list li { list-style: none; padding: 7px 0; border-top: 1px dashed var(--line, #ccc); font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; }
+.share-poster .sp-list li:first-child { border-top: none; }
+.share-poster .sp-list a { color: var(--fg); text-decoration: none; }
+.share-poster .sp-list .platform-icons i.bi { font-size: 14px; margin-left: 6px; color: var(--icon, #555); }
+.share-poster .sp-list .platform-icons .plat-txt { color: var(--muted); font-size: 12px; margin-left: 6px; }
+.share-poster .sp-foot { display: flex; align-items: flex-end; justify-content: space-between; margin-top: 18px; border-top: 1px solid var(--line, #ccc); padding-top: 10px;
+  color: var(--muted, #777); font-size: 11px; }
+.share-poster .sp-qr { width: 108px; height: 108px; background: #fff; padding: 4px; }
+
+
 </style>
 <script>document.documentElement.className += ' js';</script>
 <script>(function(){function sysDark(){return window.matchMedia('(prefers-color-scheme: dark)').matches;}function resolve(t){if(t==='paper'||t==='arcade'||t==='void')return t;return sysDark()?'void':'paper';}var t;try{t=localStorage.getItem('gc-theme')}catch(e){t=null}var want=resolve(t);if(want==='paper'){document.documentElement.removeAttribute('data-theme');}else{document.documentElement.setAttribute('data-theme',want);}})();</script>
@@ -2775,257 +2793,154 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
 <script>
 (function () {
   var YEAR = 2024;
-  var BASE = "https://kimleo.net/gcoty";
+  var MBASE = "https://kimleo.net/gcoty";
   var MONTHS = ["january","february","march","april","may","june","july","august","september","october","november","december"];
-  var qrLib = null;     // lazy qrcode-generator
-  var overlay = null;   // preview <div> created on first use
 
-  // ---------- small css helpers loaded per theme ----------
+  var qrLib = null, h2i = null, fontEmbed = null;
+  var overlay = null;
+
   function cssVar(name) {
-    var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-    return v && v !== 'transparent' ? v : null;
+    return (getComputedStyle(document.documentElement).getPropertyValue(name) || '').trim();
   }
-  function pick(pairs, fallback) {
-    for (var i = 0; i < pairs.length; i++) if (pairs[i]) return pairs[i];
-    return fallback;
-  }
-  function theme() { return document.documentElement.getAttribute('data-theme') || 'paper'; }
+  function nodeOf(el) { return el && el.closest ? el.closest('.day-cell') : (el || null); }
+  function byDate(ds) { return document.querySelector('.day-cell[data-date="' + ds + '"]'); }
+  function monthId(m) { return MONTHS[m - 1]; }
+  function shareUrl(m) { return MBASE + '/' + YEAR + '.html#' + monthId(m); }
+  function postLabel() { return MBASE.replace(/^https?:\/\//, '') + '/' + YEAR + '.html#'; }
 
-  // ---------- gather a day's releases from the visible DOM ----------
-  function monthName(m) { return MONTHS[m - 1]; }
-  function shareUrl(m) { return BASE + '/' + YEAR + '.html#' + monthName(m); }
-  function readGames(list) {
-    var out = [];
-    if (!list) return out;
-    list.querySelectorAll('li').forEach(function (li) {
-      var a = li.querySelector('a');
-      var title = (a ? a.textContent : li.textContent || '').trim();
-      var plats = [];
-      li.querySelectorAll('.platform-icons i.bi, .platform-icons .plat-txt').forEach(function (el) {
-        var t = el.getAttribute('title');
-        if (t) plats.push(t.trim());
-        else if (el.textContent) plats.push(el.textContent.trim());
-      });
-      var href = a ? a.getAttribute('href') : null;
-      if (title) out.push({ title: title, platforms: plats, href: href });
-    });
-    return out;
-  }
+  // ---------- poster (a DOM tree we then render via html-to-image) ----------
+  function buildPoster(dCell) {
+    var label = dCell.getAttribute('data-label') || '';
+    var month = parseInt(dCell.getAttribute('data-month') || '1', 10) || 1;
 
-  function cellNode(el) {
-    var c = el && el.closest ? el.closest('.day-cell') : null;
-    return c;
-  }
-  function byDate(ds) {
-    return document.querySelector('.day-cell[data-date="' + ds + '"]');
-  }
-
-  // ---------- canvas painting ----------
-  function loadFonts() {
-    try {
-      if (document.fonts && document.fonts.ready) return document.fonts.ready.then(function(){});
-    } catch (e) { /* no-op */ }
-    return Promise.resolve();
-  }
-  function roundRect(ctx, x, y, w, h, r) {
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.arcTo(x + w, y, x + w, y + h, r);
-    ctx.arcTo(x + w, y + h, x, y + h, r);
-    ctx.arcTo(x, y + h, x, y, r);
-    ctx.arcTo(x, y, x + w, y, r);
-    ctx.closePath();
-  }
-  function draw(dCell) {
-    var label = (dCell.getAttribute('data-label') || '') + ', ' + YEAR;
-    var games = readGames(dCell.querySelector('.games'));
-    var m = parseInt(dCell.getAttribute('data-month'), 10) ||
-            parseInt((dCell.closest && dCell.closest('section.month') ?
-                      dCell.closest('section.month').getAttribute('data-month') : '0'), 10) || 1;
-    var url = shareUrl(m);
-
-    var W = 840, H = 560, pad = 56;
-    var canvas = document.createElement('canvas');
-    canvas.width = W; canvas.height = H;
-    var ctx = canvas.getContext('2d');
-
-    // theme tokens
-    var accent = pick([cssVar('--accent')], '#1e4fd6');
-    var accent2 = pick([cssVar('--accent2')], accent);
-    var bg = cssVar('--bg');
-    var card = cssVar('--card') || '#ffffff';
-    var fg = cssVar('--fg') || '#1f2430';
-    var muted = cssVar('--muted') || '#6b7280';
-    var fdl = cssVar('--font-display');
-    var fbody = cssVar('--font-body');
-    var isDark = theme() === 'void';
-    // decide flat bg (radial-gradient string can't be used directly)
-    function solidBg() {
-      if (isDark) return '#171238';
-      return typeof bg === 'string' && bg.indexOf('#') >= 0 ? (bg.match(/#[0-9a-f]{3,8}/i) || [])[bg.match(/#[0-9a-f]{3,8}/i).length - 1] || '#f6f0e4' : '#f6f0e4';
+    var host = document.createElement('div');
+    host.className = 'share-poster';
+    host.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') || 'paper');
+    host.setAttribute('data-label', (label || 'day').toLowerCase());
+    host.innerHTML =
+      '<header class="sp-head"><span class="sp-kicker">Game Calendar</span>' +
+      '<span class="sp-date">' + escape(label) + '</span></header>' +
+      '<ul class="sp-list"></ul>' +
+      '<footer class="sp-foot"><span>source: Game Informer</span></footer>';
+    // reuse real games markup (titles full width, platform icons via .bi)
+    var srcList = dCell.querySelector('.games');
+    var ul = host.querySelector('.sp-list');
+    if (srcList) {
+      srcList.querySelectorAll('li').forEach(function (li) { ul.appendChild(li.cloneNode(true)); });
     }
-    function flatColor(hexLike) {
-      var m2 = /(#[0-9a-f]{6}|#[0-9a-f]{3})/i.exec(hexLike || '');
-      return m2 ? m2[1] : (isDark ? '#f2f0ff' : '#26241f');
-    }
-    var baseSolid = solidBg();
-    var fgSolid = fg.match(/#/) ? flatColor(fg) : fg;
-    var accentSolid = flatColor(accent);
-
-    // paper
-    ctx.fillStyle = baseSolid;
-    ctx.fillRect(0, 0, W, H);
-    // header band using accent solid (not white)
-    ctx.save();
-    if (isDark) {
-      var g = ctx.createLinearGradient(0, 0, W, 0);
-      g.addColorStop(0, '#4c1d95');
-      g.addColorStop(1, '#1e1b57');
-      ctx.fillStyle = g;
-    } else {
-      ctx.fillStyle = flatColor(card);
-    }
-    ctx.fillRect(0, 0, W, 120);
-    ctx.restore();
-
-    ctx.fillStyle = accentSolid;
-    ctx.fillRect(0, 120, W, 4);
-
-    // title
-    var titleFont = (fdl ? '"' + fdl.split(',')[0].replace(/"/g, '') + '", sans-serif' : 'Georgia, serif');
-    ctx.fillStyle = fgSolid;
-    ctx.textBaseline = 'middle';
-    ctx.textAlign = 'left';
-    ctx.font = '700 34px ' + titleFont;
-    ctx.fillText('Game Calendar', pad, 34);
-    ctx.font = '600 22px ' + titleFont;
-    ctx.fillStyle = isDark ? '#cbd0ff' : '#5b5f6b';
-    ctx.fillText(label, pad, 74);
-
-    // rows
-    var y = 170;
-    var maxRows = 9;
-    var shown = games.slice(0, maxRows);
-    ctx.textBaseline = 'alphabetic';
-    ctx.font = ('500 20px ' + (fbody ? '"' + fbody.split(',')[0].replace(/"/g, '') + '", sans-serif' : '"Segoe UI", sans-serif'));
-    for (var i = 0; i < shown.length; i++) {
-      if (y >= H - 130) break;
-      var g = shown[i];
-      ctx.fillStyle = fgSolid;
-      var platSuff = g.platforms && g.platforms.length ? '  ·  ' + g.platforms.join(', ') : '';
-      // clamp width to avoid overflow behind QR
-      var t = g.title + platSuff;
-      var maxW = W - pad * 2 - 190;
-      var tw = ctx.measureText(t).width;
-      if (tw > maxW) {
-        var cut = '';
-        var k = g.title.length;
-        while (ctx.measureText(g.title.slice(0, k) + '…').width > maxW && k > 0) k--;
-        t = (k > 0 ? g.title.slice(0, k) + '…' : g.title.slice(0, 30)) + (platSuff ? '· ' + g.platforms[0] : '');
-      }
-      ctx.fillText(t, pad, y);
-      y += 40;
-      if (y > H - 150) break;
-    }
-
-    // bottom row meta
-    ctx.save();
-    ctx.textAlign = 'right';
-    ctx.font = '500 14px ' + titleFont;
-    ctx.fillStyle = muted;
-    var host = BASE.slice(BASE.indexOf('//') + 2); // strip scheme without regex
-    ctx.fillText(host + '/' + YEAR + '.html#' + monthName(m), W - pad - 190, H - 30);
-    ctx.restore();
-
-    // QR (bottom right) - only if lib loaded
-    if (qrLib) {
-      var q = qrLib(4, 'L');
-      q.addData(url);
-      q.make();
-      var sz = q.getModuleCount(), px = 4, qw = sz * px, qx = W - pad - qw, qy = H - pad - qw;
-      ctx.fillStyle = isDark ? '#fff' : '#1a1a1a';
-      ctx.fillRect(qx, qy, qw, qw);
-      ctx.fillStyle = isDark ? '#171238' : '#ffffff';
-      for (var rr = 0; rr < sz; rr++)
-        for (var cc = 0; cc < sz; cc++)
-          if (q.isDark(rr, cc)) ctx.fillRect(qx + cc * px, qy + rr * px, px, px);
-      // corner caption
-    }
-    return { dataUrl: canvas.toDataURL('image/png'), gamesCount: games.length, url: url };
+    return { host: host, month: month, label: escape(label) };
+  }
+  function escape(t) {
+    return String(t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
-  // ---------- lazy qrcode script ----------
-  function ensureQr() {
-    return new Promise(function (resolve, reject) {
-      if (qrLib) return resolve();
-      if (window['qrcode']) { qrLib = window.qrcode; return resolve(); }
-      var s = document.createElement('script');
-      s.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js";
-      s.onload = function () { qrLib = window.qrcode; resolve(); };
-      s.onerror = reject;
-      document.head.appendChild(s);
-    });
+  function qrImg(url) {
+    if (!qrLib) return null;
+    var q = qrLib(4, 'L');
+    q.addData(url); q.make();
+    var n = q.getModuleCount(); var px = 4; var size = n * px;
+    var cv = document.createElement('canvas');
+    cv.width = size; cv.height = size;
+    var c = cv.getContext('2d');
+    c.fillStyle = '#fff'; c.fillRect(0, 0, size, size);
+    c.fillStyle = '#161336' /* QR modules dark, readable on light box */;
+    for (var r = 0; r < n; r++) for (var col = 0; col < n; col++) if (q.isDark(r, col)) c.fillRect(col * px, r * px, px, px);
+    var img = document.createElement('img');
+    img.className = 'sp-qr';
+    img.alt = url;
+    img.src = cv.toDataURL('image/png');
+    return img;
   }
 
-  function buildPreview(dCell, dataUrl) {
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.id = 'share-overlay';
-      overlay.innerHTML =
-        '<div class="backdrop" data-share-close></div>' +
-        '<div class="panel" role="dialog" aria-modal="true"><button type="button" class="close" data-share-close>×</button>' +
-        '<img alt="Share preview" crossorigin="anonymous">' +
-        '<div class="actions"><a class="download btn">Download PNG</a></div></div>';
-      document.body.appendChild(overlay);
-      overlay.querySelector('[data-share-close="true"]');
-      overlay.addEventListener('click', function (e) {
-        if (e.target && (e.target.hasAttribute('data-share-close') || e.target.closest('[data-share-close]'))) close();
-      });
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-    }
-    var img = overlay.querySelector('img');
-    img.src = dataUrl;
-    var dl = overlay.querySelector('.download');
-    dl.setAttribute('download', 'share-' + (dCell.getAttribute('data-label') || 'day').toLowerCase().replace(/\s+/g, '-') + '.png');
-    dl.href = dataUrl;
-    overlay.style.display = 'flex';
-    document.body.classList.add('modal-open');
-  }
+  // ---------- preview modal ----------
   function close() {
     if (overlay) overlay.style.display = 'none';
     document.body.classList.remove('modal-open');
   }
+  function ensureOverlay() {
+    if (overlay) return overlay;
+    overlay = document.createElement('div');
+    overlay.id = 'share-overlay';
+    overlay.innerHTML =
+      '<div class="backdrop" data-share-close></div>' +
+      '<div class="panel"><button type="button" class="close" data-share-close>×</button>' +
+      '<img class="preview" alt="Share preview">' +
+      '<div class="actions"><a class="download" download="share.png">Download PNG</a></div></div>';
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function (e) {
+      if (e.target && (e.target.closest('[data-share-close]') || e.target.hasAttribute('data-share-close'))) close();
+    });
+    document.addEventListener('keydown', function (k) { if (k.key === 'Escape') close(); });
+    return overlay;
+  }
 
-  function doShare(dCell) {
-    if (!dCell) return;
-    ensureQr().then(function () {
-      return loadFonts();
-    }).then(function () {
-      try {
-        var r = draw(dCell);
-        buildPreview(dCell, r.dataUrl);
-      } catch (e) {
-        console.error('share poster error', e);
-      }
-    }).catch(function () {
-      // offline/ no QR -> still allow poster without QR
-      try {
-        var r2 = draw(dCell);
-        buildPreview(dCell, r2.dataUrl);
-      } catch (e2) { console.error(e2); }
+  function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = src;
+      s.onload = function () { resolve(); }; s.onerror = reject;
+      document.head.appendChild(s);
     });
   }
 
-  // ---------- global click delegation ----------
+  function doShare(dCell) {
+    if (!dCell) return;
+    var month = parseInt(dCell.getAttribute('data-month') || '1', 10) || 1;
+    var url = shareUrl(month);
+    var soon = [];
+    if (!qrLib) soon.push(loadScript("https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js").then(function(){ qrLib = window.qrcode; }));
+    if (!h2i) soon.push(loadScript("https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js").then(function(){ h2i = window.htmlToImage; }));
+
+    Promise.all(soon)
+      .then(function () {
+        var b = buildPoster(dCell);
+        var qr = qrImg(url);
+        if (qr) b.host.querySelector('.sp-foot').appendChild(qr);
+        document.body.appendChild(b.host); // offscreen (CSS left:-99999px, has layout)
+        return (document.fonts && document.fonts.ready) ? document.fonts.ready.then(function(){ return b; }) : Promise.resolve(b);
+      })
+      .then(function (b) {
+        try {
+          var dispF = cssVar('--font-display');
+          var bodyF = cssVar('--font-body');
+          if (document.fonts && document.fonts.load) {
+            if (bodyF) document.fonts.load('600 16px ' + bodyF);
+            if (dispF) document.fonts.load('800 24px ' + dispF);
+            document.fonts.load('600 16px "bootstrap-icons"');
+          }
+          if (document.fonts && document.fonts.ready) return document.fonts.ready.then(function () { return b; });
+        } catch (e) { /* best-effort */ }
+        return Promise.resolve(b);
+      })
+      .then(function (b) {
+        return Promise.resolve(fontEmbed ? fontEmbed : h2i.getFontEmbedCSS(b.host).then(function (css) { fontEmbed = css; return css; }));
+      })
+      .then(function (css) {
+        var host = document.body.querySelector('.share-poster');
+        return h2i.toPng(host, { cacheBust: true, fontEmbedCSS: css, pixelRatio: 2 });
+      })
+      .then(function (dataUrl) {
+        var host = document.body.querySelector('.share-poster');
+        var label = (host && host.getAttribute('data-label')) || 'share';
+        if (host && host.parentNode) host.parentNode.removeChild(host);
+        var o = ensureOverlay();
+        var img = o.querySelector('img.preview');
+        img.src = dataUrl;
+        var dl = o.querySelector('.download');
+        dl.href = dataUrl;
+        dl.setAttribute('download', label.split(' ').join('-').toLowerCase() + '.png');
+        o.style.display = 'flex';
+        document.body.classList.add('modal-open');
+      })
+      .catch(function (err) { console.error('share poster failed', err); });
+  }
+
   document.addEventListener('click', function (e) {
-    var trg = e.target && e.target.closest ? e.target.closest('[data-share-date]') : null;
-    var oc = e.target && e.target.closest ? e.target.closest('[data-share-ovclose]') : null;
-    if (oc) { close(); return; }
-    if (trg) {
+    var shareE = e.target && e.target.closest ? e.target.closest('[data-share-date]') : null;
+    if (shareE) {
       e.preventDefault(); e.stopPropagation();
-      var date = trg.getAttribute('data-share-date');
-      var cell = date ? byDate(date) : cellNode(trg);
-      doShare(cell || trg);
+      var date = shareE.getAttribute('data-share-date');
+      doShare(date ? byDate(date) : nodeOf(shareE));
     }
   });
 })();
