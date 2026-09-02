@@ -281,7 +281,7 @@ html[data-theme="void"] .day-cell.today .day-num { box-shadow: 0 0 12px var(--ac
 
 </style>
 <script>document.documentElement.className += ' js';</script>
-<script>(function(){var t;try{t=localStorage.getItem('gc-theme')}catch(e){t=null}if(t==='arcade'||t==='void'){document.documentElement.setAttribute('data-theme',t);}else if(t==='paper'){document.documentElement.removeAttribute('data-theme');}})();</script>
+<script>(function(){function sysDark(){return window.matchMedia('(prefers-color-scheme: dark)').matches;}function resolve(t){if(t==='paper'||t==='arcade'||t==='void')return t;return sysDark()?'void':'paper';}var t;try{t=localStorage.getItem('gc-theme')}catch(e){t=null}var want=resolve(t);if(want==='paper'){document.documentElement.removeAttribute('data-theme');}else{document.documentElement.setAttribute('data-theme',want);}})();</script>
 </head>
 <body>
 <header class="site-header">
@@ -1715,32 +1715,56 @@ html[data-theme="void"] .day-cell.today .day-num { box-shadow: 0 0 12px var(--ac
   var btn = document.getElementById('theme-toggle');
   var label = document.getElementById('theme-label');
   if (!btn) return;
-  var THEMES = [
-    { id: 'paper',  label: 'Paper',  icon: 'bi-file-earmark-text' },
-    { id: 'arcade', label: 'Arcade', icon: 'bi-controller' },
-    { id: 'void',   label: 'Void',   icon: 'bi-moon-stars' }
+  var CHOICES = [
+    { id: 'paper',  label: 'Paper',   mode: 'light' },
+    { id: 'arcade', label: 'Arcade',  mode: 'light' },
+    { id: 'void',   label: 'Void',    mode: 'dark'  },
+    { id: 'auto',   label: 'Auto',    mode: 'auto'  }
   ];
-  function current() {
-    var attr = document.documentElement.getAttribute('data-theme');
-    for (var i = 0; i < THEMES.length; i++) if (THEMES[i].id === attr) return THEMES[i];
-    return THEMES[0]; // paper default
+  var mqDark = window.matchMedia('(prefers-color-scheme: dark)');
+  function readPref() {
+    var t; try { t = localStorage.getItem('gc-theme'); } catch (e) { t = null; }
+    return t || 'auto';
   }
-  function render() {
-    label.textContent = current().label + ' ▾';
+  function currentChoice() {
+    var t = readPref();
+    for (var i = 0; i < CHOICES.length; i++) if (CHOICES[i].id === t) return CHOICES[i];
+    return CHOICES[3]; // auto
+  }
+  function resolveTheme(choice) {
+    if (choice.mode === 'auto') return mqDark.matches ? 'void' : 'paper';
+    if (choice.id === 'paper') return 'paper';
+    return choice.id; // arcade | void
+  }
+  function apply() {
+    var want = resolveTheme(currentChoice());
+    function dd(a) { document.documentElement.setAttribute('data-theme', a); }
+    if (want === 'paper') document.documentElement.removeAttribute('data-theme');
+    else dd(want);
+    var c = currentChoice();
+    var modeIcon = mqDark.matches ? 'bi-moon' : 'bi-sun';
+    var mood = c.mode === 'auto' ? modeIcon
+              : c.mode === 'dark' ? 'bi-moon'
+              : 'bi-sun';
+    var ic = btn.querySelector('i');
+    if (ic) { ic.className = 'bi ' + mood; }
+    label.textContent = c.label + ' ▾';
+    btn.setAttribute('aria-label', 'Switch theme: currently ' + c.label);
   }
   btn.addEventListener('click', function () {
+    var c = currentChoice();
     var idx = 0;
-    var c = current();
-    for (var i = 0; i < THEMES.length; i++) if (THEMES[i].id === c.id) idx = i;
-    var next = THEMES[(idx + 1) % THEMES.length];
-    if (next.id === 'paper') document.documentElement.removeAttribute('data-theme');
-    else document.documentElement.setAttribute('data-theme', next.id);
+    for (var i = 0; i < CHOICES.length; i++) if (CHOICES[i].id === c.id) idx = i;
+    var next = CHOICES[(idx + 1) % CHOICES.length];
     try { localStorage.setItem('gc-theme', next.id); } catch (e) {}
-    render();
+    apply();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 't') { btn.click(); } });
-  render();
+  // When "Auto", re-resolve on system dark/light changes; a hand-picked style locks it.
+  mqDark.addEventListener('change', function () { if (currentChoice().mode === 'auto') apply(); });
+  apply();
 })();
+
 </script>
 </body>
 </html>
