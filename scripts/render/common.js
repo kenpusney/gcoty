@@ -272,6 +272,31 @@ html[data-theme="void"] .day-modal-list li a { font-weight: 700; }
 /* Scanline stays a fixed veil instead of replacing the body neon gradient */
 html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none; background-image: repeating-linear-gradient(0deg, rgba(8, 6, 26, .10) 0 1px, transparent 1px 3px); }
 
+/* ===== share-day button + preview overlay ===== */
+.day-head { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+.day-head .share-day { margin-left: 2px; }
+.share-day { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 0; border: none; background: none; color: var(--icon); font-size: .82rem; line-height: 1; border-radius: 6px; cursor: pointer; flex: 0 0 auto; }
+.day-cell .share-day:hover, .share-day:hover { color: var(--accent); background: var(--accent-soft); }
+
+.day-modal-head { display: flex; align-items: flex-start; gap: 8px; padding-right: 2px; }
+.day-modal-head h4 { margin: 0 0 12px; flex: 1 1 auto; padding-right: 0; }
+.day-modal-actions { display: inline-flex; gap: 4px; align-items: center; flex: 0 0 auto; }
+.day-modal-close { position: static; font-size: 1.1rem; padding: 2px 7px; }
+
+#share-overlay { position: fixed; inset: 0; z-index: 130; display: none; align-items: center; justify-content: center; padding: 16px; }
+#share-overlay .backdrop { position: absolute; inset: 0; background: rgba(9, 7, 24, .62); }
+#share-overlay .panel { position: relative; background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: var(--radius-card); box-shadow: var(--shadow-md); padding: 18px; width: min(680px, 100%); max-height: 92vh; overflow: auto; }
+#share-overlay .panel img { display: block; width: 100%; border-radius: 6px; }
+#share-overlay .close { position: absolute; top: 6px; right: 8px; font-size: 1.35rem; line-height: 1; border: none; background: none; color: var(--muted); cursor: pointer; padding: 4px 6px; border-radius: 6px; }
+#share-overlay .close:hover { color: var(--fg); background: var(--accent-soft); }
+#share-overlay .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
+#share-overlay .download { display: inline-block; padding: 9px 18px; background: var(--accent); color: var(--accent-ink); border-radius: var(--radius-btn); font-family: var(--font-display); font-weight: 600; text-decoration: none; }
+#share-overlay .download:hover { text-decoration: none; filter: brightness(1.06); }
+@media (max-width: 720px) {
+  .day-cell .share-day { display: none; }
+  #share-overlay .panel { padding: 14px; }
+}
+
 `;
 
 function escapeHtml(s) {

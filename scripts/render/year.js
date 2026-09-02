@@ -9,6 +9,7 @@
 const { renderPage, escapeHtml } = require("./common");
 const { MONTH_NAMES, monthLabel, daysInMonth } = require("../dates");
 const { groupByFamily } = require("../platforms");
+const { makeShareClient } = require("./share-client");
 
 const MONTH_IDS = [
   "january", "february", "march", "april", "may", "june",
@@ -60,8 +61,13 @@ function renderMonthCalendar(year, month, dayGroups, monthStats, active) {
   for (let d = 1; d <= numDays; d++) {
     const list = dayGroups[`${month}-${d}`] || [];
     const has = list.length > 0;
-    cells += `<div class="day-cell${has ? " has-games" : ""}" data-date="${year}-${month}-${d}" data-label="${monthLabel(month)} ${d}">
-      <span class="day-num">${d}${countDot(list.length)}</span>
+    cells += `<div class="day-cell${has ? " has-games" : ""}" data-date="${year}-${month}-${d}" data-label="${monthLabel(month)} ${d}" data-month="${month}">
+      <span class="day-head">
+        <span class="day-num">${d}${countDot(list.length)}</span>
+        ${has
+          ? `<button type="button" class="share-day bi bi-share" data-share-date="${year}-${month}-${d}" aria-label="Share releases for ${monthLabel(month)} ${d}"></button>`
+          : ""}
+      </span>
       ${has
         ? `<ul class="games">${list.map(gameListItem).join("")}</ul>
       <span class="day-more" aria-hidden="true">${list.length} title${list.length > 1 ? "s" : ""} &nearr;</span>`
@@ -87,9 +93,10 @@ function renderMonthCalendar(year, month, dayGroups, monthStats, active) {
  * @param {number} [opts.prevYear] previous year (undefined at the earliest year)
  * @param {number} [opts.nextYear] next year (undefined at the latest year)
  */
-function renderYearPage({ year, entries, stats, currentYear, prevYear, nextYear }) {
+function renderYearPage({ year, entries, stats, currentYear, prevYear, nextYear, base = "https://kimleo.net/gcoty" }) {
   const dayGroups = groupByDay(entries);
   const defaultMonth = year === currentYear ? new Date().getMonth() + 1 : 1;
+  const shareScript = makeShareClient({ base, pageYear: year });
 
   const monthLinks = MONTH_IDS.map((id, i) => `<a class="month-link" href="#${id}">${MONTH_NAMES[i]}</a>`).join("");
   const prevLink = prevYear
@@ -116,11 +123,18 @@ function renderYearPage({ year, entries, stats, currentYear, prevYear, nextYear 
 
 ${monthsHtml}
 
+${shareScript}
+
 <div class="day-modal" id="day-modal" hidden>
   <div class="day-modal-backdrop" data-day-close></div>
   <div class="day-modal-panel" role="dialog" aria-modal="true" aria-labelledby="day-modal-title">
-    <button type="button" class="day-modal-close" data-day-close aria-label="Close">&times;</button>
-    <h4 id="day-modal-title"></h4>
+    <div class="day-modal-head">
+      <h4 id="day-modal-title"></h4>
+      <span class="day-modal-actions">
+        <button type="button" class="share-day bi bi-share" id="modal-share" aria-label="Share these releases"></button>
+        <button type="button" class="day-modal-close" data-day-close aria-label="Close">&times;</button>
+      </span>
+    </div>
     <ul class="day-modal-list" id="day-modal-list"></ul>
   </div>
 </div>
@@ -166,6 +180,8 @@ ${monthsHtml}
     if (!dCell) return;
     modalTitle.textContent = dCell.getAttribute('data-label');
     modalList.innerHTML = dCell.querySelector('.games').innerHTML;
+    var sh = document.getElementById('modal-share');
+    if (sh) sh.setAttribute('data-share-date', dCell.getAttribute('data-date'));
     modal.hidden = false;
     document.body.classList.add('modal-open');
   }
