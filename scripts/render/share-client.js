@@ -1,19 +1,15 @@
-// Per-day share poster — main loop convert real DOM to PNG (html-to-image).
-// Unlike an earlier hand-drawn-canvas version, this captures the actual page
-// markup, so themes / webfonts / Bootstrap Icons / autowrap are rendered by
-// the engine and stay pixel-accurate.
+// Per-day share poster — canvas, drawn with the REAL typefaces/glyphs.
 //
-// Client flow:
-//   1) click a [data-share-date] (desktop button or modal header button)
-//   2) lazily load html-to-image + qrcode-generator (CDN), wait for webfonts
-//   3) build an offscreen portrait .share-poster using the real day's list,
-//      draw its QR from BOOTSTRAP? no — from the provided lib into an <img>
-//   4) toPng(poster, {fontEmbedCSS}); show a preview modal, allow Download PNG
+// Rationale: html-to-image was blank in this environment (cross-origin sheet
+// + serialization), so we go back to a controlled canvas. Instead of drawing
+// cartoon logos, each platform icon is rendered with its actual
+// "bootstrap-icons" glyph (char code resolved from the loaded stylesheet) and
+// the poster type uses the theme's real display/body fonts. All colours read
+// the active theme tokens, so the PNG mirrors the chosen theme.
 
+// CDN:<script>lazy
 const QR_CDN =
   "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js";
-const H2I_CDN =
-  "https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js";
 
 function makeShareClient({ base, pageYear }) {
   const MONTHS = [
@@ -22,83 +18,249 @@ function makeShareClient({ base, pageYear }) {
   ];
   const MBASE = String(base).replace(/\/+$/, "");
   const YEAR = Number(pageYear);
-  const MONTHS_JSON = JSON.stringify(MONTHS);
-  const MBASE_JSON = JSON.stringify(MBASE);
 
   return `<script>
 (function () {
+  var MONTHS = ${JSON.stringify(MONTHS)};
+  var MBASE = ${JSON.stringify(MBASE)};
   var YEAR = ${YEAR};
-  var MBASE = ${MBASE_JSON};
-  var MONTHS = ${MONTHS_JSON};
+  var qrLib = null, overlay = null, iconCodes = {};
+  var DARK = (document.documentElement.getAttribute('data-theme') || '') === 'void';
 
-  var qrLib = null, h2i = null, fontEmbed = null;
-  var overlay = null;
-
-  function cssVar(name) {
-    return (getComputedStyle(document.documentElement).getPropertyValue(name) || '').trim();
-  }
-  function nodeOf(el) { return el && el.closest ? el.closest('.day-cell') : (el || null); }
+  function cssVar(n) { return (getComputedStyle(document.documentElement).getPropertyValue(n) || '').trim(); }
   function byDate(ds) { return document.querySelector('.day-cell[data-date="' + ds + '"]'); }
+  function nodeOf(el) { return el && el.closest ? el.closest('.day-cell') : el; }
+  function esc(s) { return String(s == null ? '' : s); }
   function monthId(m) { return MONTHS[m - 1]; }
   function shareUrl(m) { return MBASE + '/' + YEAR + '.html#' + monthId(m); }
-  function postLabel() { return MBASE.replace(/^https?:\\/\\//, '') + '/' + YEAR + '.html#'; }
 
-  // ---------- poster (a DOM tree we then render via html-to-image) ----------
-  function buildPoster(dCell) {
-    var label = dCell.getAttribute('data-label') || '';
-    var month = parseInt(dCell.getAttribute('data-month') || '1', 10) || 1;
+  // lightest readable hex from --bg / --card, else default per theme
+  function flatBg() {
+    var bg = cssVar('--bg') || '';
+    var m2 = /#[0-9a-fA-F]{6}/.exec(bg);
+    if (m2) return m2[0];
+    return DARK ? '#181440' : '#f6f0e4';
+  }
+  function firstToken(v, dflt) {
+    if (!v) return dflt;
+    return v.split(',')[0].trim().replace(/["']/g, '');
+  }
+  function qFont(name) { return /\\s/.test(name) ? '"' + name + '"' : name; }
 
-    var host = document.createElement('div');
-    host.className = 'share-poster';
-    host.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') || 'paper');
-    host.setAttribute('data-label', (label || 'day').toLowerCase());
-    host.innerHTML =
-      '<header class="sp-head"><span class="sp-kicker">Game Calendar</span>' +
-      '<span class="sp-date">' + escape(label) + '</span></header>' +
-      '<ul class="sp-list"></ul>' +
-      '<footer class="sp-foot"><span>source: Game Informer</span></footer>';
-    // reuse real games markup (titles full width, platform icons via .bi)
-    var srcList = dCell.querySelector('.games');
-    var ul = host.querySelector('.sp-list');
-    if (srcList) {
-      srcList.querySelectorAll('li').forEach(function (li) { ul.appendChild(li.cloneNode(true)); });
+  // Resolve a Bootstrap icon glyph from the loaded stylesheet (CORS-enabled)
+  // e.g. class "bi-playstation" -> "\\f1xx".
+  function iconCode(cls) {
+    if (iconCodes[cls]) return iconCodes[cls];
+    var css = cls.startsWith('bi-') ? cls : 'bi-' + cls;
+    var out = '';
+    var sheets = (document.styleSheets || []);
+    for (var s = 0; s < sheets.length && !out; s++) {
+      var rules = null;
+      try { rules = sheets[s].cssRules; } catch (e) { rules = null; }
+      if (!rules) continue;
+      for (var r = 0; r < rules.length && !out; r++) {
+        var cs = rules[r];
+        if (cs.selectorText && cs.selectorText.indexOf('.' + css + ':before') >= 0) {
+          var cdel = cs.style.content || '';
+          var md = /\\\\([0-9a-fA-F]{2,6})/.exec(cdel);
+          if (md) out = String.fromCodePoint(parseInt(md[1], 16));
+          else { var mt = cdel.match(/"([^"]+)"/); if (mt) out = mt[1]; }
+        }
+      }
     }
-    return { host: host, month: month, label: escape(label) };
-  }
-  function escape(t) {
-    return String(t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    iconCodes[css] = out;
+    return out;
   }
 
-  function qrImg(url) {
-    if (!qrLib) return null;
-    var q = qrLib(4, 'L');
-    q.addData(url); q.make();
-    var n = q.getModuleCount(); var px = 4; var size = n * px;
+  // Gather one day's rows: title text + platform family classes per li.
+  function readRows(ul) {
+    var rows = [];
+    if (!ul) return rows;
+    ul.querySelectorAll('li').forEach(function (li) {
+      var a = li.querySelector('a');
+      var title = (a ? (a.textContent || '') : (li.textContent || '')).trim();
+      var icons = [];
+      li.querySelectorAll('.platform-icons i.bi').forEach(function (ic) {
+        var m = (/\\bbi-([a-z0-9-]+)/).exec(ic.className || '');
+        if (m) icons.push({ cls: 'bi-' + m[1] });
+      });
+      if (!icons.length) {
+        // no icon resolution: fall back to plain text platforms
+        var txt = (li.querySelector('.platform-icons') || {}).textContent || '';
+        if (txt) icons = [{ text: txt.trim() }];
+      }
+      if (title) rows.push({ title: title, icons: icons });
+    });
+    return rows;
+  }
+
+  // layout title into several lines for a width (word-greedy, single words pass)
+  function wrap(ctx, text, maxW) {
+    var lines = [], line = '';
+    function pushHard(word) {
+      if (ctx.measureText(word).width <= maxW) { lines.push(word); return; }
+      var cur = '';
+      for (var i = 0; i < word.length; i++) {
+        if (ctx.measureText(cur + word[i]).width > maxW) { lines.push(cur); cur = word[i]; }
+        else cur += word[i];
+      }
+      if (cur) lines.push(cur);
+    }
+    var words = String(text == null ? '' : text).split(' ');
+    for (var w = 0; w < words.length; w++) {
+      if (!words[w]) continue;
+      var cand = line ? line + ' ' + words[w] : words[w];
+      if (line && ctx.measureText(cand).width > maxW) {
+        lines.push(line);
+        line = '';
+        pushHard(words[w]);
+      } else { line = cand; }
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  // lazy QR lib
+  function ensureQr() {
+    return new Promise(function (resolve, reject) {
+      if (qrLib) return resolve();
+      if (window.qrcode) { qrLib = window.qrcode; return resolve(); }
+      var s = document.createElement('script');
+      s.src = ${JSON.stringify(QR_CDN)};
+      s.onload = function () { qrLib = window.qrcode; resolve(); };
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  function drawQR(ctx, x, y, url) {
+    var q = qrLib(4, 'L'); q.addData(url); q.make();
+    var p = 6; // quiet-zone cells in px units below given px
+    var px = 3, mods = q.getModuleCount(), side = mods * px + 2 * p;
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(x, y, side, side); // readable on any theme
+    ctx.fillStyle = '#11122b';
+    for (var r = 0; r < mods; r++) for (var c = 0; c < mods; c++)
+      if (q.isDark(r, c)) ctx.fillRect(x + p + c * px, y + p + r * px, px, px);
+  }
+
+  function build(dCell, cb) {
+    var dateLabel = dCell.getAttribute('data-label') || '';
+    var month = parseInt(dCell.getAttribute('data-month') || '1', 10) || 1;
+    var rows = readRows(dCell.querySelector('.games'));
+    var url = shareUrl(month);
+
+    var displayD = firstToken(cssVar('--font-display'), 'Newsreader');
+    var bodyD = firstToken(cssVar('--font-body'), 'Newsreader');
+    var iconF = 'bootstrap-icons';
+
+    var bg = flatBg();
+    var fg = cssVar('--fg') || '#' + (DARK ? 'efeefc' : '26241f');
+    var muted = cssVar('--muted');
+    var accent = (cssVar('--accent') || (DARK ? '#e879f9' : '#1f6f54'));
+    var accent2 = (cssVar('--accent2') || accent);
+
+    var W = 780;             // portrait (taller than wide)
+    var pad = 54;
+    var headerH = 148;       // gradient band + labels
+    var rowTitle = 21.5, rowIcon = 24;
+
+    // measure pass: count lines per row
+    var drawCtx = document.createElement('canvas').getContext('2d');
+    drawCtx.font = '600 16px ' + qFont(bodyD);
+    var linesCount = [];
+    var bodyW = W - pad * 2;
+    rows.forEach(function (row, idx) {
+      linesCount[idx] = wrap(drawCtx, row.title, bodyW).length;
+    });
+
+    var bottomH = 210;
+    var H = headerH + (bodyW > 0 ? 8 : 0) + pad;
+    rows.forEach(function (row, idx) {
+      H += linesCount[idx] * (rowTitle + 2) + rowIcon;
+    });
+    H += bottomH;
+
     var cv = document.createElement('canvas');
-    cv.width = size; cv.height = size;
+    cv.width = W; cv.height = H;
     var c = cv.getContext('2d');
-    c.fillStyle = '#fff'; c.fillRect(0, 0, size, size);
-    c.fillStyle = '#161336' /* QR modules dark, readable on light box */;
-    for (var r = 0; r < n; r++) for (var col = 0; col < n; col++) if (q.isDark(r, col)) c.fillRect(col * px, r * px, px, px);
-    var img = document.createElement('img');
-    img.className = 'sp-qr';
-    img.alt = url;
-    img.src = cv.toDataURL('image/png');
-    return img;
+
+    // base
+    c.fillStyle = bg; c.fillRect(0, 0, W, H);
+    // header accent band
+    var grad = c.createLinearGradient(0, 0, W, 0);
+    grad.addColorStop(0, accent); grad.addColorStop(1, accent2);
+    c.fillStyle = grad; c.fillRect(0, 0, W, 7);
+    c.fillStyle = (DARK ? '#121033' : 'rgba(0,0,0,0)');
+    // kicker/date
+    c.font = '800 34px ' + qFont(displayD) + ', sans-serif';
+    c.fillStyle = fg;
+    c.textBaseline = 'alphabetic';
+    c.fillText('Game Calendar', pad, 48);
+    c.font = '700 22px ' + qFont(bodyD) + ', sans-serif';
+    c.fillStyle = muted;
+    c.fillText(dateLabel + ', ' + YEAR, pad, 84);
+    // underline
+    c.strokeStyle = accent; c.lineWidth = 2; c.beginPath(); c.moveTo(pad, 100); c.lineTo(W - pad, 100); c.stroke();
+
+    // ----- rows -----
+    var y = headerH;
+    var bodyF = '600 16px ' + qFont(bodyD) + ', sans-serif';
+    c.font = bodyF;
+    rows.forEach(function (row, idx) {
+      var lines = wrap(c, row.title, W - pad * 2);
+      var ly = y;
+      lines.forEach(function (ln) { c.fillStyle = fg; c.fillText(ln, pad, ly); ly += rowTitle + 2; });
+      // icons row
+      var ix = pad;
+      c.font = '600 18px ' + qFont(iconF);
+      var okIcons = 0;
+      for (var ii = 0; ii < row.icons.length; ii++) {
+        var ic = row.icons[ii];
+        var glyph;
+        if (ic.text) {
+          c.font = bodyF; c.fillStyle = muted;
+          glyph = ic.text; c.fillText(glyph, ix, ly - 4);
+          var tw = 0; try { tw = c.measureText(glyph).width; } catch (e) {}
+          ix += tw + 10; continue;
+        }
+        glyph = iconCode(ic.cls);
+        if (!glyph) continue;
+        c.fillStyle = accent2;
+        c.fillText(glyph, ix, ly - 3);
+        var gw = 0; try { gw = c.measureText(glyph).width; } catch (e) {}
+        ix += gw + 8;
+        okIcons++;
+      }
+      void okIcons;
+      y = ly + rowIcon;
+    });
+
+    // footer text (left)
+    var fy = H - bottomH + 42;
+    c.font = '500 15px ' + qFont(bodyD) + ', sans-serif';
+    c.fillStyle = muted;
+    c.fillText('Source · Game Informer', pad, fy);
+    c.fillText('gcoty', pad, fy + 22);
+    // divider
+    c.strokeStyle = accent; c.globalAlpha = .35; c.lineWidth = 1;
+    c.beginPath(); c.moveTo(pad, H - bottomH + 8); c.lineTo(W - pad, H - bottomH + 8); c.stroke();
+    c.globalAlpha = 1;
+
+    // QR bottom-right
+    if (qrLib) { drawQR(c, W - pad - 150, H - bottomH + 10, url); }
+    else { c.fillStyle = muted; c.save(); c.translate(W - pad - 110, H - bottomH + 30); c.rotate(-.5); c.fillText('offline QR', 0, 0); c.restore(); }
+
+    return { canvas: cv, dataUrl: cv.toDataURL('image/png'), label: dateLabel, url: url };
   }
 
-  // ---------- preview modal ----------
-  function close() {
-    if (overlay) overlay.style.display = 'none';
-    document.body.classList.remove('modal-open');
-  }
+  // overlay preview + download
   function ensureOverlay() {
     if (overlay) return overlay;
     overlay = document.createElement('div');
     overlay.id = 'share-overlay';
     overlay.innerHTML =
       '<div class="backdrop" data-share-close></div>' +
-      '<div class="panel"><button type="button" class="close" data-share-close>×</button>' +
+      '<div class="panel"><button type="button" class="close" data-share-close>&times;</button>' +
       '<img class="preview" alt="Share preview">' +
       '<div class="actions"><a class="download" download="share.png">Download PNG</a></div></div>';
     document.body.appendChild(overlay);
@@ -108,13 +270,31 @@ function makeShareClient({ base, pageYear }) {
     document.addEventListener('keydown', function (k) { if (k.key === 'Escape') close(); });
     return overlay;
   }
+  function close() { if (overlay) overlay.style.display = 'none'; document.body.classList.remove('modal-open'); }
+  function show(dataUrl, label) {
+    var o = ensureOverlay();
+    o.style.display = 'flex';
+    var img = o.querySelector('img.preview');
+    img.src = dataUrl;
+    var dl = o.querySelector('.download');
+    dl.href = dataUrl;
+    dl.setAttribute('download', (label ? label.split(' ').join('-') : 'share').toLowerCase() + '.png');
+    document.body.classList.add('modal-open');
+  }
 
-  function loadScript(src) {
-    return new Promise(function (resolve, reject) {
-      var s = document.createElement('script');
-      s.src = src;
-      s.onload = function () { resolve(); }; s.onerror = reject;
-      document.head.appendChild(s);
+  function okFont() {
+    return new Promise(function (ok) {
+      var asked = [];
+      function ask(n) { try { if (document.fonts && document.fonts.load) document.fonts.load('600 16px ' + n).then(function(){ ok(); }); else ok(); } catch (e) { ok(); } }
+      var have = new Set();
+      var f = cssVar('--font-display') + ', ' + cssVar('--font-body');
+      f.split(',').forEach(function (t) { var name = t.trim().replace(/["']/g, ''); if (name && !have.has(name)) { have.add(name); asked.push(name); } });
+      if (!asked.length) return ok();
+      var count = asked.length, done = 0, finish = function () { done++; if (done === count) ok(); };
+      asked.forEach(function (n) { try { document.fonts.load('600 16px "' + n.replace(/"/g, '') + '"').then(finish, finish); } catch (e) { finish(); } });
+      try { document.fonts.load('600 16px "bootstrap-icons"'); } catch (e) {}
+      // hard cap
+      setTimeout(ok, 700);
     });
   }
 
@@ -122,61 +302,18 @@ function makeShareClient({ base, pageYear }) {
     if (!dCell) return;
     var month = parseInt(dCell.getAttribute('data-month') || '1', 10) || 1;
     var url = shareUrl(month);
-    var soon = [];
-    if (!qrLib) soon.push(loadScript(${JSON.stringify(QR_CDN)}).then(function(){ qrLib = window.qrcode; }));
-    if (!h2i) soon.push(loadScript(${JSON.stringify(H2I_CDN)}).then(function(){ h2i = window.htmlToImage; }));
-
-    Promise.all(soon)
+    ensureQr()
+      .then(function () { return okFont(); })
       .then(function () {
-        var b = buildPoster(dCell);
-        var qr = qrImg(url);
-        if (qr) b.host.querySelector('.sp-foot').appendChild(qr);
-        document.body.appendChild(b.host); // offscreen (CSS left:-99999px, has layout)
-        return (document.fonts && document.fonts.ready) ? document.fonts.ready.then(function(){ return b; }) : Promise.resolve(b);
-      })
-      .then(function (b) {
-        try {
-          var dispF = cssVar('--font-display');
-          var bodyF = cssVar('--font-body');
-          if (document.fonts && document.fonts.load) {
-            if (bodyF) document.fonts.load('600 16px ' + bodyF);
-            if (dispF) document.fonts.load('800 24px ' + dispF);
-            document.fonts.load('600 16px "bootstrap-icons"');
-          }
-          if (document.fonts && document.fonts.ready) return document.fonts.ready.then(function () { return b; });
-        } catch (e) { /* best-effort */ }
-        return Promise.resolve(b);
-      })
-      .then(function (b) {
-        return Promise.resolve(fontEmbed ? fontEmbed : h2i.getFontEmbedCSS(b.host).then(function (css) { fontEmbed = css; return css; }));
-      })
-      .then(function (css) {
-        var host = document.body.querySelector('.share-poster');
-        return h2i.toPng(host, { cacheBust: true, fontEmbedCSS: css, pixelRatio: 2 });
-      })
-      .then(function (dataUrl) {
-        var host = document.body.querySelector('.share-poster');
-        var label = (host && host.getAttribute('data-label')) || 'share';
-        if (host && host.parentNode) host.parentNode.removeChild(host);
-        var o = ensureOverlay();
-        var img = o.querySelector('img.preview');
-        img.src = dataUrl;
-        var dl = o.querySelector('.download');
-        dl.href = dataUrl;
-        dl.setAttribute('download', label.split(' ').join('-').toLowerCase() + '.png');
-        o.style.display = 'flex';
-        document.body.classList.add('modal-open');
+        var r = build(dCell);
+        show(r.dataUrl, r.label);
       })
       .catch(function (err) { console.error('share poster failed', err); });
   }
 
   document.addEventListener('click', function (e) {
-    var shareE = e.target && e.target.closest ? e.target.closest('[data-share-date]') : null;
-    if (shareE) {
-      e.preventDefault(); e.stopPropagation();
-      var date = shareE.getAttribute('data-share-date');
-      doShare(date ? byDate(date) : nodeOf(shareE));
-    }
+    var trg = e.target && e.target.closest ? e.target.closest('[data-share-date]') : null;
+    if (trg) { e.preventDefault(); e.stopPropagation(); var d = trg.getAttribute('data-share-date'); doShare(d ? byDate(d) : nodeOf(trg)); }
   });
 })();
 </script>`;
