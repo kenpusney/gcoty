@@ -2904,8 +2904,6 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
     c.font = '700 22px ' + qFont(bodyD) + ', sans-serif';
     c.fillStyle = muted;
     c.fillText(dateLabel + ', ' + YEAR, pad, 76);
-    c.font = '800 13px ' + qFont(displayD) + ', sans-serif';
-    c.fillText('K I M L E O   ·   G A M E   C A L E N D A R', pad, 100);
     c.strokeStyle = accent; c.lineWidth = 2; c.beginPath(); c.moveTo(pad, 112); c.lineTo(W - pad, 112); c.stroke();
 
     // pass 2 — paint rows on the computed starts
@@ -2943,7 +2941,7 @@ html[data-theme="void"] body::before { content: ""; position: fixed; inset: 0; z
     c.font = '600 14px ' + qFont(bodyD) + ', sans-serif';
     c.fillStyle = muted;
     var hostDot = MBASE.indexOf('//') >= 0 ? MBASE.slice(MBASE.indexOf('//') + 2) : MBASE;
-    c.fillText(hostDot + ' · Game Informer', pad, fy);
+    c.fillText(hostDot, pad, fy);
     // divider
     c.strokeStyle = accent; c.globalAlpha = .35; c.lineWidth = 1;
     c.beginPath(); c.moveTo(pad, H - bottomH + 8); c.lineTo(W - pad, H - bottomH + 8); c.stroke();
